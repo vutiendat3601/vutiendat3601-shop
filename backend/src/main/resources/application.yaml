@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: vutiendat3601 Shop
+  datasource:
+    url: jdbc:mysql://mysql:3306/shop?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456Aa@
+  # docker:
+  # compose:
+  # file: ./compose.yaml
+  data:
+    rest:
+      base-path: /v1
