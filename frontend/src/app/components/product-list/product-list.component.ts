@@ -47,19 +47,10 @@ export class ProductListComponent implements OnInit {
 
   handleSearchProducts() {
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
-
-    // if we have a different keyword than previous
-    // then set thePageNumber to 1
-
     if (this.previousKeyword != theKeyword) {
       this.page = 1;
     }
-
     this.previousKeyword = theKeyword;
-
-    console.log(`keyword=${theKeyword}, thePageNumber=${this.page}`);
-
-    // now search for the products using keyword
     this.productService
       .searchProductsPaginate(this.page - 1, this.size, theKeyword)
       .subscribe(this.processResult());
@@ -67,7 +58,6 @@ export class ProductListComponent implements OnInit {
 
   handleListProducts() {
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
-
     if (hasCategoryId) {
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
     } else {
@@ -76,12 +66,8 @@ export class ProductListComponent implements OnInit {
     if (this.previousCategoryId != this.currentCategoryId) {
       this.page = 1;
     }
-
     this.previousCategoryId = this.currentCategoryId;
 
-    console.log(
-      `currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.page}`
-    );
     this.productService
       .getProductListPaginate(this.page - 1, this.size, this.currentCategoryId)
       .subscribe(this.processResult());
@@ -103,16 +89,12 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    console.log(`Adding to cart: ${product.name}, ${product.unitPrice}`);
-
-    // TODO ... do the real work
-    const theCartItem = new CartItem(
+    const cartItem = new CartItem(
       product.id!,
       product.name!,
       product.imageUrl!,
       product.unitPrice!
     );
-
-    this.cartService.addToCart(theCartItem);
+    this.cartService.addToCart(cartItem);
   }
 }

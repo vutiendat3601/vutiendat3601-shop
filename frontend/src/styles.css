@@ -832,9 +832,13 @@ footer ul li a {
 }
 
 footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: #232324;
   z-index: 1;
-  position: relative;
+  /* position: relative; */
   text-align: center
 }
 
@@ -1033,7 +1037,7 @@ footer ul li {
   }
 
   .main-content.page-m {
-    padding: 10% 0 !important
+    padding: 30% 10% 5%;
   }
 
   .header-mobile .navbar-mobile {
