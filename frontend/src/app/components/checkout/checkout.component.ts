@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Country } from '../../models/country';
 import { Order } from '../../models/order';
 import { State } from '../../models/state';
-import { CartService } from '../../services/cart-service.service';
+import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { OrderItem } from '../../models/order-item';
 import { Purchase } from '../../models/purchase';
