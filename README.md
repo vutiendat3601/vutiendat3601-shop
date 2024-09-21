@@ -19,3 +19,11 @@ $ git checkout -b feature/\<jiraTicket\>
   \$ cd backend
   - Run command:
   \$ ./mvnw spring-boot:run
+### Start Frontend:
+ - Go to backend directory:
+  \$ cd frontend
+  - Run command:
+  \$ npm install
+  \$ npm i @angular/cli -g
+  \$ ng serve --host 0.0.0.0
+  
