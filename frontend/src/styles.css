@@ -1,10 +1,10 @@
-/* 
+/*
  * ----------------------------
  * Common CSS
  * ----------------------------
  */
 
-* {
+ * {
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
@@ -137,14 +137,15 @@ aside.menu-sidebar.d-none.d-lg-block.clr {
   box-shadow: -2px 0 4px #0000003b
 }
 
-/* 
+/*
  * ----------------------------
  * Header Desktop Section
  * ----------------------------
  */
 
 .header-desktop {
-  background: #0da8e4;
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  /*background: #232324;*/
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
@@ -152,7 +153,7 @@ aside.menu-sidebar.d-none.d-lg-block.clr {
   top: 0;
   right: 0;
   left: 200px;
-  height: 75px;
+  height: 60px;
   z-index: 3
 }
 
@@ -233,7 +234,7 @@ input.au-input.au-input-xl {
 }
 
 .au-input {
-  line-height: 43px;
+  line-height: 35px;
   border: 1px solid #e5e5e5;
   font-size: 14px;
   color: #666;
@@ -255,16 +256,16 @@ input.au-input.au-input-xl {
   font-size: 22px;
   float: left;
   margin-top: 16px;
-  color: #fff;
+  color: rgb(10, 104, 255);
   margin-left: 15px
 }
 
 .total {
-  background: #205b8d;
-  line-height: 43px;
+  background: rgb(10, 104, 255);
+  line-height: 35px;
   color: #fff;
   border-radius: 30px;
-  border: 1px solid #0da8e4;
+  border: 1px solid #8c949b;
   float: left;
   margin-top: 7px;
   padding-left: 17px
@@ -292,16 +293,18 @@ input.au-input.au-input-xl {
   position: relative;
   right: 0;
   min-width: 95px;
+  padding: 5px 10px;
+  line-height: normal;
   color: #fff;
-  border: 1px solid #205b8d;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
+  border: 1px solid #8c949b;
+  /*-webkit-border-radius: 3px;
+  -moz-border-radius: 3px;*/
   border-radius: 43px;
-  background: #205b8d
+  background: rgb(10, 104, 255);
 }
 
 .au-btn-submit:hover {
-  background: #05143f
+  opacity: 0.9;
 }
 
 .au-btn-submit>i {
@@ -310,14 +313,14 @@ input.au-input.au-input-xl {
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
+ /* -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);*/
   transform: translate(-50%, -50%)
 }
 
-/* 
+/*
  * ----------------------------
  * Left Menu Bar
  * ----------------------------
@@ -391,7 +394,7 @@ input.au-input.au-input-xl {
   color: #0da8e4
 }
 
-/* 
+/*
  * ----------------------------
  * Header Mobile Section
  * ----------------------------
@@ -550,7 +553,7 @@ input.au-input.au-input-xl {
   padding: 10% 15% !important
 }
 
-/* 
+/*
  * ----------------------------
  * Products List
  * ----------------------------
@@ -596,7 +599,7 @@ input.au-input.au-input-xl {
   color: #585858
 }
 
-/* 
+/*
  * ----------------------------
  * Shopping Cart Checkout
  * ----------------------------
@@ -726,7 +729,7 @@ select {
   color: #828482
 }
 
-/* 
+/*
  * ----------------------------
  * Shopping Cart Details
  * ----------------------------
@@ -767,7 +770,7 @@ table.table.table-bordered th {
   margin-left: 5px
 }
 
-/* 
+/*
  * ----------------------------
  * Product Details
  * ----------------------------
@@ -789,7 +792,7 @@ table.table.table-bordered th {
 
 /**/
 
-/* 
+/*
  * ----------------------------
  * Buttons
  * ----------------------------
@@ -821,7 +824,7 @@ a.primary-btn:hover {
   font-weight: bold;
 }
 
-/* 
+/*
  * ----------------------------
  * Footer section
  * ----------------------------
@@ -853,7 +856,7 @@ footer ul li {
   padding: 10px 20px
 }
 
-/* 
+/*
  * ----------------------------
  * Media Queries
  * ----------------------------
@@ -899,7 +902,7 @@ footer ul li {
     font-size: 22px;
     float: left;
     margin-top: 16px;
-    color: #205b8d;
+    color: rgb(10, 104, 255);
     margin-left: 15px
   }
 
@@ -912,7 +915,6 @@ footer ul li {
     display: none
   }
 }
-
 
 @media (max-width:991px) {
   .section-content-p30 {
@@ -1012,7 +1014,7 @@ footer ul li {
     font-size: 22px;
     float: left;
     margin-top: 16px;
-    color: #205b8d;
+    color: rgb(10, 104, 255);
     margin-left: 15px
   }
 
@@ -1024,7 +1026,6 @@ footer ul li {
     justify-content: space-between
   }
 }
-
 
 @media (max-width:767px) {
   .au-input-xl {
@@ -1071,7 +1072,7 @@ footer ul li {
     font-size: 22px;
     float: left;
     margin-top: 16px;
-    color: #205b8d;
+    color: rgb(10, 104, 255);
     margin-left: 15px
   }
 
@@ -1118,7 +1119,7 @@ footer ul li {
     font-size: 18px;
     float: left;
     margin-top: 16px;
-    color: #03a9f4;
+    color: rgb(10, 104, 255);
     margin-left: 15px
   }
 
@@ -1133,11 +1134,11 @@ footer ul li {
   }
 
   .total {
-    background: #205b8d;
+    background: rgb(10, 104, 255);
     line-height: 30px;
     color: #fff;
     border-radius: 30px;
-    border: 1px solid #205b8d;
+    border: 1px solid #8c949b;
     float: left;
     margin-top: 9px;
     padding-left: 12px
@@ -1150,3 +1151,5 @@ footer ul li {
     padding: 8px 0
   }
 }
+
+

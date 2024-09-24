@@ -1,7 +1,7 @@
 <form class="form-header" onsubmit="return false;" method="GET">
-  <input #keywordInp class="au-input au-input-xl" type="text" name="search" placeholder="Search for product ..."
+  <input #keywordInp class="au-input au-input-xl" type="text" name="search" placeholder="Tìm kiếm sản phẩm ..."
     (keyup.enter)="doSearch(keywordInp.value)" />
   <button class="au-btn-submit" type="submit" (click)="doSearch(keywordInp.value)">
-    Search
+    Tìm kiếm
   </button>
 </form>
