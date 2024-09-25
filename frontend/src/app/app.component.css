@@ -15,20 +15,20 @@ ul {
 
 .footer {
     background-color: #24262b;
-    padding-top: 70px;
+    padding-top: 20px;
     position: relative;
 }
 
 .footer-col {
     width: 25%;
-    padding: 0 15px;
+    padding: 0 1px;
 }
 
 .footer-col h4 {
     font-size: 18px;
     color: #fff;
     text-transform: capitalize;
-    margin-bottom: 35px;
+    margin-bottom: 20px;
     font-weight: 500;
     position: relative;
     text-align: left;
@@ -48,7 +48,7 @@ ul {
 .footer-col ul li {
     display: flex;
     flex-direction: row;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .footer-col ul li:last-child {
@@ -72,13 +72,13 @@ ul {
 
 .footer-col .social-links a {
     display: inline-block;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-color: rgba(255, 255, 255, 0.2);
     color: #fff;
-    margin: 0 10px 10px 0;
+    margin: 0 5px 5px 0;
     text-align: center;
-    line-height: 40px;
+    line-height: 30px;
     border-radius: 50%;
     transition: all 0.5s ease;
 }
@@ -103,10 +103,10 @@ ul {
 
 .copyright {
     background-color: #1e1e1e;
-    padding: 20px 0;
+    padding: 10px 0;
     text-align: center;
     color: #bbb;
-    font-size: 14px;
+    font-size: 12px;
     border-top: 1px solid #444;
 }
 
