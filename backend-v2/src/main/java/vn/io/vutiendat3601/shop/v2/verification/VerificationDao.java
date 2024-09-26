@@ -7,10 +7,14 @@ import org.springframework.lang.NonNull;
 
 public interface VerificationDao {
   @NonNull
+  Optional<Verification> selectByCode(@NonNull String code);
+
+  @NonNull
   Optional<Verification> selectByCodeAndType(@NonNull String code, @NonNull VerificationType type);
 
   @NonNull
-  List<Verification> selectAllByUserIdAndTypeAndIsDisabled(long userId, @NonNull VerificationType type, boolean isDisabled);
+  List<Verification> selectAllByUserIdAndTypeAndIsDisabled(
+      long userId, @NonNull VerificationType type, boolean isDisabled);
 
   @NonNull
   Optional<Verification> selectFirstByUserIdAndTypeOrderByCreatedAtDesc(

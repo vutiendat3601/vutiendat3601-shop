@@ -4,7 +4,8 @@ import static vn.io.vutiendat3601.shop.v2.security.SecurityConstant.ROLE_USER;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import vn.io.vutiendat3601.shop.v2.common.ConflictException;
+import vn.io.vutiendat3601.shop.v2.exception.ConflictException;
+import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,20 +15,30 @@ import org.springframework.stereotype.Service;
 public class UserService {
   private final UserDao userDao;
   private final PasswordEncoder passEncoder;
+  private final UserDtoMapper userDtoMapper;
 
   public void createUser(CreateUserRequest createUserReq) {
-    final boolean isExisted = userDao.existsByEmail(createUserReq.email());
+    boolean isExisted =
+        userDao.existsByEmailOrUsername(createUserReq.email(), createUserReq.username());
     if (isExisted) {
-      throw new ConflictException("Email was already taken");
+      throw new ConflictException("Email or username was already taken");
     }
-    final List<String> roles = List.of(ROLE_USER);
+    final List<String> authorities = List.of(ROLE_USER);
     final User user =
         User.builder()
-            .displayName(createUserReq.displayName())
+            .username(createUserReq.username())
             .email(createUserReq.email())
             .hashedPassword(passEncoder.encode(createUserReq.password()))
-            .roles(roles)
+            .authorities(authorities)
             .build();
     userDao.insert(user);
+  }
+
+  public UserDto getUserByUsername(String username) {
+    final User user =
+        userDao
+            .selectByUsername(username)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    return userDtoMapper.apply(user);
   }
 }

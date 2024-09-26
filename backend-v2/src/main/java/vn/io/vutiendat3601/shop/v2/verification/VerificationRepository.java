@@ -16,4 +16,7 @@ public interface VerificationRepository extends JpaRepository<Verification, Long
   @NonNull
   Optional<Verification> findFirstByUserIdAndTypeOrderByCreatedAtDesc(
       long userId, @NonNull VerificationType type);
+
+  @NonNull
+  Optional<Verification> findByCode(@NonNull String code);
 }

@@ -15,7 +15,7 @@ import jakarta.validation.constraints.Pattern;
  *     </ul>
  */
 public record CreateUserRequest(
-    @NotBlank String displayName,
+    @NotBlank String username,
     @Email String email,
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-@$?!#])[A-Za-z0-9@$?!#-]{8,}$")
         String password) {}

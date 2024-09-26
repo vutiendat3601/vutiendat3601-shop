@@ -1,4 +1,4 @@
-package vn.io.vutiendat3601.shop.v2.common;
+package vn.io.vutiendat3601.shop.v2.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
