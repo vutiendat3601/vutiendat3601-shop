@@ -2,14 +2,22 @@ package vn.io.vutiendat3601.shop.v2.verification;
 
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Repository
 public class VerificationJpaDataAccessService implements VerificationDao {
   private final VerificationRepository verifRepo;
+
+  @Override
+  @NonNull
+  public Optional<Verification> selectByCode(@NonNull String code) {
+    return verifRepo.findByCode(code);
+  }
 
   @Override
   @NonNull

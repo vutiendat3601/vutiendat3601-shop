@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
-import jakarta.validation.constraints.NotNull;
-
 @Repository
 @RequiredArgsConstructor
 public class UserJpaDataAccessService implements UserDao {
@@ -24,6 +22,12 @@ public class UserJpaDataAccessService implements UserDao {
     return userRepo.findByEmail(email);
   }
 
+  @Override
+  @NonNull
+  public Optional<User> selectByUsername(@NonNull String username) {
+    return userRepo.findByUsername(username);
+  }
+
   @NonNull
   @Override
   public Optional<User> selectByPhone(@NonNull String phone) {
@@ -36,7 +40,7 @@ public class UserJpaDataAccessService implements UserDao {
   }
 
   @Override
-  public boolean existsByEmail(@NotNull String email) {
-    return userRepo.existsByEmail(email);
+  public boolean existsByEmailOrUsername(@NonNull String email, @NonNull String username) {
+    return userRepo.existsByEmailOrUsername(email, username);
   }
 }

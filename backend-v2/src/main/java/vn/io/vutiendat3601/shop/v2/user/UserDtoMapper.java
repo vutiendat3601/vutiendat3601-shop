@@ -14,7 +14,7 @@ public class UserDtoMapper implements Function<User, UserDto> {
     }
     return new UserDto(
         user.getId(),
-        user.getDisplayName(),
+        user.getUsername(),
         user.getEmail(),
         user.getPhone(),
         user.getIsVerified());

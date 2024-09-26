@@ -1,24 +1,24 @@
 package vn.io.vutiendat3601.shop.v2.notification;
 
-import java.util.HashMap;
-import java.util.Map;
+// import java.util.HashMap;
+// import java.util.Map;
 
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+// import org.springframework.scheduling.annotation.Async;
+// import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
-import software.amazon.awssdk.services.pinpoint.PinpointClient;
-import software.amazon.awssdk.services.pinpoint.model.AddressConfiguration;
-import software.amazon.awssdk.services.pinpoint.model.ChannelType;
-import software.amazon.awssdk.services.pinpoint.model.MessageRequest;
-import software.amazon.awssdk.services.pinpoint.model.MessageResponse;
-import software.amazon.awssdk.services.pinpoint.model.SMSMessage;
-import software.amazon.awssdk.services.pinpoint.model.SendMessagesRequest;
-import software.amazon.awssdk.services.pinpoint.model.SendMessagesResponse;
+// import lombok.RequiredArgsConstructor;
+// import software.amazon.awssdk.services.pinpoint.PinpointClient;
+// import software.amazon.awssdk.services.pinpoint.model.AddressConfiguration;
+// import software.amazon.awssdk.services.pinpoint.model.ChannelType;
+// import software.amazon.awssdk.services.pinpoint.model.MessageRequest;
+// import software.amazon.awssdk.services.pinpoint.model.MessageResponse;
+// import software.amazon.awssdk.services.pinpoint.model.SMSMessage;
+// import software.amazon.awssdk.services.pinpoint.model.SendMessagesRequest;
+// import software.amazon.awssdk.services.pinpoint.model.SendMessagesResponse;
 
-@RequiredArgsConstructor
-@Service
-@Async
+// @RequiredArgsConstructor
+// @Service
+// @Async
 public class SmsAsyncService {
   // private final PinpointClient pinpointClient;
 

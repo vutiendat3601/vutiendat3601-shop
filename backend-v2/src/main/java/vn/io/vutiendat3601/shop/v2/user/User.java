@@ -18,7 +18,7 @@ import org.hibernate.annotations.Type;
 import vn.io.vutiendat3601.shop.v2.common.AuditEntity;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "core")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,8 +30,8 @@ public class User extends AuditEntity {
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "display_name")
-  private String displayName;
+  @Column(name = "username")
+  private String username;
 
   @Column(name = "email")
   private String email;
@@ -47,9 +47,9 @@ public class User extends AuditEntity {
   private Boolean isVerified = false;
 
   @Builder.Default
-  @Column(name = "roles")
+  @Column(name = "authorities")
   @Type(value = ListArrayType.class)
-  private List<String> roles = new ArrayList<>();
+  private List<String> authorities = new ArrayList<>();
 
   public User(Long id) {
     this.id = id;

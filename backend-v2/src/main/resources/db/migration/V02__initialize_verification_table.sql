@@ -1,4 +1,6 @@
-CREATE TABLE verification (
+CREATE SCHEMA common;
+
+CREATE TABLE common.verification (
   id bigserial NOT NULL PRIMARY KEY,
   user_id bigint NOT NULL,
   code varchar(255) UNIQUE NOT NULL,
@@ -15,7 +17,8 @@ CREATE TABLE verification (
   created_by bigint NOT NULL DEFAULT 1,
   updated_by bigint NOT NULL DEFAULT 1
 );
-ALTER TABLE IF EXISTS verification 
+-- Reference users
+ALTER TABLE IF EXISTS common.verification 
 ADD CONSTRAINT fk_verification_user
 FOREIGN KEY (user_id) 
-REFERENCES users(id);
+REFERENCES core.users(id);
