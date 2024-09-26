@@ -2,7 +2,6 @@ package vn.io.vutiendat3601.shop.v2.category;
 
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +21,7 @@ public class CategoryController {
   }
 
   @GetMapping("v2/categories/{id}")
-  public ResponseEntity<Optional<CategoryDto>> getCategoryById(@PathVariable Long id){
+  public ResponseEntity<Optional<CategoryDto>> getCategoryById(@PathVariable Long id) {
     final Optional<CategoryDto> categoryDto = categoryService.getCategoryById(id);
     return ResponseEntity.ok(categoryDto);
   }

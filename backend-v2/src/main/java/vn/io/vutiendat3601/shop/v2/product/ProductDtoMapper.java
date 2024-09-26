@@ -22,7 +22,6 @@ public class ProductDtoMapper implements Function<Product, ProductDto> {
         product.getTags(),
         product.getLikedCount(),
         product.getIsActive(),
-        product.getUnitsInStock()
-       );
+        product.getUnitsInStock());
   }
 }

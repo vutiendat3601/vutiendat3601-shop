@@ -2,10 +2,8 @@ package vn.io.vutiendat3601.shop.v2.product;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.stereotype.Repository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,7 +22,6 @@ public class ProductJpaDataAccessService implements ProductDao {
 
   @Override
   public List<Product> selectAllProduct() {
-   return productRepo.findAll();
+    return productRepo.findAll();
   }
-  
 }

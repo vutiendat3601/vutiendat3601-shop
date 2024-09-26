@@ -25,7 +25,10 @@ public class SecurityConfig {
     "/v2/addresses/provinces/{provinceId}/districts",
     "/v2/addresses/districts/{districtId}/wards",
     "/v2/products",
-    "/v2/categories"
+    "v2/products/{id}",
+    "v2/categories/{categoryId}/products",
+    "/v2/categories",
+    "v2/categories/{id}"
   };
 
   private static final String[] PUBLIC_POST_ROUTES = {"/v2/auth/**"};
