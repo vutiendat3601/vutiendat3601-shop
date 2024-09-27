@@ -35,6 +35,9 @@ public class Product extends AuditEntity {
   @Column(name = "id")
   private Long id;
 
+  @Column(name = "product_no")
+  private String productNo;
+
   @Column(name = "sku")
   private String sku;
 
@@ -58,23 +61,26 @@ public class Product extends AuditEntity {
   @Column(name = "thumbnail")
   private String thumbnail;
 
+  @Builder.Default
   @Column(name = "buyed_count")
-  private Long buyedCount;
+  private Long buyedCount = 0L;
 
   @Builder.Default
   @Type(value = ListArrayType.class)
   @Column(name = "tags")
   private List<String> tags = new ArrayList<>();
 
+  @Builder.Default
   @Column(name = "liked_count")
-  private Long likedCount;
+  private Long likedCount = 0L;
 
   @Builder.Default
   @Column(name = "is_active")
   private Boolean isActive = true;
 
+  @Builder.Default
   @Column(name = "units_in_stock")
-  private Long unitsInStock;
+  private Long unitsInStock = 0L;
 
   @ManyToOne
   @JoinColumn(name = "category_id")
