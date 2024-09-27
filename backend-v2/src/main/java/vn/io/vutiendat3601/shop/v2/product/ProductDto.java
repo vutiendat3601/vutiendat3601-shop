@@ -1,6 +1,7 @@
 package vn.io.vutiendat3601.shop.v2.product;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductDto(
     Long id,
@@ -11,7 +12,7 @@ public record ProductDto(
     BigDecimal unitListedPrice,
     String imageUrl,
     Long buyedCount,
-    String[] tags,
+    List<String> tags,
     Long likedCount,
     Boolean isActive,
     Long unitsInStock) {}
