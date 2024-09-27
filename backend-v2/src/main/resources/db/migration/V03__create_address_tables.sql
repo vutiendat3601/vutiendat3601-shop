@@ -3,8 +3,8 @@ CREATE TABLE common.province (
   "name" varchar(255) NOT NULL,
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
-  created_by bigint NOT NULL DEFAULT 1,
-  updated_by bigint NOT NULL DEFAULT 1
+  created_by bigint NOT NULL DEFAULT 0,
+  updated_by bigint NOT NULL DEFAULT 0
 );
 
 CREATE TABLE common.district (
@@ -13,8 +13,8 @@ CREATE TABLE common.district (
   province_id bigint NOT NULL,
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
-  created_by bigint NOT NULL DEFAULT 1,
-  updated_by bigint NOT NULL DEFAULT 1
+  created_by bigint NOT NULL DEFAULT 0,
+  updated_by bigint NOT NULL DEFAULT 0
 );
 -- Reference province
 ALTER TABLE IF EXISTS common.district 
@@ -28,8 +28,8 @@ CREATE TABLE common.ward (
   district_id bigint NOT NULL,
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
-  created_by bigint NOT NULL DEFAULT 1,
-  updated_by bigint NOT NULL DEFAULT 1
+  created_by bigint NOT NULL DEFAULT 0,
+  updated_by bigint NOT NULL DEFAULT 0
 );
 -- Reference district
 ALTER TABLE IF EXISTS common.ward 
@@ -44,8 +44,8 @@ CREATE TABLE core.address (
   ward_id bigint NOT NULL,
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
-  created_by bigint NOT NULL DEFAULT 1,
-  updated_by bigint NOT NULL DEFAULT 1
+  created_by bigint NOT NULL DEFAULT 0,
+  updated_by bigint NOT NULL DEFAULT 0
 );
 -- Reference customer
 ALTER TABLE IF EXISTS core.address 
@@ -70,6 +70,6 @@ AS SELECT
     a.created_by,
     a.updated_by
    FROM core.address a
-     JOIN common.ward w ON a.ward_id = w.id
-     JOIN common.district d ON w.district_id = d.id
-     JOIN common.province p ON d.province_id = p.id;
+      JOIN common.ward w ON a.ward_id = w.id
+      JOIN common.district d ON w.district_id = d.id
+      JOIN common.province p ON d.province_id = p.id;

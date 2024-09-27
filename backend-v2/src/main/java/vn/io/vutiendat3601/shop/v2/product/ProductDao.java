@@ -10,6 +10,4 @@ public interface ProductDao {
 
   @NonNull
   List<Product> selectByCategoryId(long categoryId);
-
-  List<Product> selectAllProduct();
 }

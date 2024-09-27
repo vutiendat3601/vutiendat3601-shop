@@ -11,8 +11,8 @@ CREATE TABLE core.users (
   authorities varchar(255)[] NOT NULL DEFAULT '{}',
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
-  created_by bigint NOT NULL DEFAULT 1,
-  updated_by bigint NOT NULL DEFAULT 1
+  created_by bigint NOT NULL DEFAULT 0,
+  updated_by bigint NOT NULL DEFAULT 0
 );
 -- INSERT INTO core.users
 -- (id, is_verified, display_name, email, hashed_password, phone, created_at, updated_at)
@@ -25,8 +25,8 @@ CREATE TABLE core.customer (
   phones varchar(32)[] NOT NULL DEFAULT '{}',
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
-  created_by bigint NOT NULL DEFAULT 1,
-  updated_by bigint NOT NULL DEFAULT 1
+  created_by bigint NOT NULL DEFAULT 0,
+  updated_by bigint NOT NULL DEFAULT 0
 );
 -- Reference users
 ALTER TABLE IF EXISTS core.customer 

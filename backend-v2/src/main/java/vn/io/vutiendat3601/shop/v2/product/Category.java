@@ -1,4 +1,4 @@
-package vn.io.vutiendat3601.shop.v2.category;
+package vn.io.vutiendat3601.shop.v2.product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +14,7 @@ import lombok.Setter;
 import vn.io.vutiendat3601.shop.v2.common.AuditEntity;
 
 @Entity
-@Table(name = "category", schema = "bussiness")
+@Table(name = "category", schema = "business")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -28,4 +28,7 @@ public class Category extends AuditEntity {
 
   @Column(name = "name")
   private String name;
+
+  @Column(name = "thumbnail")
+  private String thumbnail;
 }
