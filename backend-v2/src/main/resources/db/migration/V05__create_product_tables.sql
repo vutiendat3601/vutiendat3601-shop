@@ -12,6 +12,7 @@ CREATE TABLE business.category (
 
 CREATE TABLE business.product (
     id bigserial NOT NULL PRIMARY KEY,
+    "product_no" varchar(16) NOT NULL UNIQUE,
     sku varchar(255) UNIQUE NOT NULL,
     slug varchar(1000) UNIQUE NOT NULL,
     "name" varchar(500) NOT NULL,
@@ -22,8 +23,8 @@ CREATE TABLE business.product (
     buyed_count bigint NOT NULL DEFAULT 0,
     tags varchar(150)[] NOT NULL DEFAULT '{}',
     liked_count bigint NOT NULL DEFAULT 0,
-    is_active boolean NOT NULL DEFAULT true,
-    units_in_stock bigint DEFAULT NULL,
+    is_active boolean NOT NULL DEFAULT false,
+    units_in_stock bigint DEFAULT 0,
     category_id bigint NOT NULL,
     "ref" text,
     created_at timestamptz NOT NULL DEFAULT current_timestamp,
