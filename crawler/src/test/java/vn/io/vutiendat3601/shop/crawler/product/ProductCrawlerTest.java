@@ -3,6 +3,9 @@ package vn.io.vutiendat3601.shop.crawler.product;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +21,7 @@ import vn.io.vutiendat3601.shop.crawler.util.StringUtils;
 public class ProductCrawlerTest {
   private static final String PRODUCT_INSERT_START_LINE_SQL =
       """
-INSERT INTO bussiness.product (sku,"name",slug,unit_price,unit_listed_price,thumbnail,units_in_stock,ref,category_id) VALUES
+INSERT INTO bussiness.product (product_no,sku,"name",slug,unit_price,unit_listed_price,thumbnail,units_in_stock,ref,category_id) VALUES
 """;
   private static final Random RANDOM = new Random();
   private static final String PRODUCT_CSS = "[class^=\"styles__ProductItemContainerStyled\"";
@@ -43,9 +46,9 @@ INSERT INTO bussiness.product (sku,"name",slug,unit_price,unit_listed_price,thum
 
   @Test
   void crawlTikiProducts() throws InterruptedException {
-    categoryId = 3L; // modify when run
-    crawlLink = "https://tiki.vn/lam-dep-suc-khoe/c1520"; // modify when run
-    sqlOutFile = "V07__insert_into_product_table_trangdiem.sql"; // modify when run
+    categoryId = 1L; // modify when run
+    crawlLink = "https://tiki.vn/thiet-bi-kts-phu-kien-so/c1815"; // modify when run
+    sqlOutFile = "V07__insert_into_product_table.sql"; // modify when run
 
     final List<Product> products = new LinkedList<>();
     driver.get(crawlLink);
@@ -74,7 +77,8 @@ INSERT INTO bussiness.product (sku,"name",slug,unit_price,unit_listed_price,thum
               priceDiscountPercentStr.isBlank()
                   ? 0D
                   : (Double.parseDouble(priceDiscountPercentStr) / 100D);
-          double listedPrice = price / (1 - priceDiscount);
+          double listedPrice = (long) (price / (1 - priceDiscount));
+          listedPrice = listedPrice - (listedPrice % 1_000);
 
           // thumbnail
           String thumbnail =
@@ -97,10 +101,13 @@ INSERT INTO bussiness.product (sku,"name",slug,unit_price,unit_listed_price,thum
                       .replaceAll(" ", "-")
                       .toLowerCase()
                   + "-"
-                  + StringUtils.makeRandomDigits(10_000);
+                  + StringUtils.makeRandomDigits(8);
+
+          final String productNo = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyyMMdd")) + StringUtils.makeRandomDigits(4);
 
           final Product product =
               Product.builder()
+                  .productNo(productNo)
                   .name(name)
                   .slug(slug)
                   .sku(sku)
@@ -124,10 +131,11 @@ INSERT INTO bussiness.product (sku,"name",slug,unit_price,unit_listed_price,thum
       final int n = products.size();
       for (int i = 0; i < n; i++) {
         final Product product = products.get(i);
-        String pattern = "('%s','%s','%s','%s','%s','%s','%s','%s','%s')";
+        String pattern = "('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')";
         pattern = i == n - 1 ? pattern + ";" : pattern + ",\n";
         final String productSql =
             pattern.formatted(
+                product.getProductNo(),
                 product.getSku(),
                 product.getName().replaceAll("'", "''"),
                 product.getSlug(),
