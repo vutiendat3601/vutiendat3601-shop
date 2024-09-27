@@ -14,8 +14,8 @@ CREATE TABLE common.verification (
   is_disabled boolean NOT NULL DEFAULT false,
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
-  created_by bigint NOT NULL DEFAULT 1,
-  updated_by bigint NOT NULL DEFAULT 1
+  created_by bigint NOT NULL DEFAULT 0,
+  updated_by bigint NOT NULL DEFAULT 0S
 );
 -- Reference users
 ALTER TABLE IF EXISTS common.verification 

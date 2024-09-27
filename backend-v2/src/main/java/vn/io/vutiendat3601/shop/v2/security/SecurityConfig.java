@@ -23,7 +23,12 @@ public class SecurityConfig {
     "/v2/auth/**",
     "/v2/addresses/provinces",
     "/v2/addresses/provinces/{provinceId}/districts",
-    "/v2/addresses/districts/{districtId}/wards"
+    "/v2/addresses/districts/{districtId}/wards",
+    "/v2/products",
+    "/v2/products/**",
+    "/v2/categories/{categoryId}/products",
+    "/v2/categories",
+    "/v2/categories/**"
   };
 
   private static final String[] PUBLIC_POST_ROUTES = {"/v2/auth/**"};
@@ -38,7 +43,7 @@ public class SecurityConfig {
                     .requestMatchers(POST, PUBLIC_POST_ROUTES)
                     .permitAll()
                     .anyRequest()
-                    .authenticated())
+                    .permitAll())
         .csrf(csrf -> csrf.disable())
         .anonymous(anonymous -> anonymous.disable())
         .authenticationManager(authenticationManager)
