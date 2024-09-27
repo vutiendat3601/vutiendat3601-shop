@@ -43,9 +43,9 @@ INSERT INTO bussiness.product (sku,"name",slug,unit_price,unit_listed_price,thum
 
   @Test
   void crawlTikiProducts() throws InterruptedException {
-    categoryId = 1L; // modify when run
-    crawlLink = "https://tiki.vn/thiet-bi-kts-phu-kien-so/c1815"; // modify when run
-    sqlOutFile = "V07__insert_into_product_table.sql"; // modify when run
+    categoryId = 3L; // modify when run
+    crawlLink = "https://tiki.vn/lam-dep-suc-khoe/c1520"; // modify when run
+    sqlOutFile = "V07__insert_into_product_table_trangdiem.sql"; // modify when run
 
     final List<Product> products = new LinkedList<>();
     driver.get(crawlLink);
