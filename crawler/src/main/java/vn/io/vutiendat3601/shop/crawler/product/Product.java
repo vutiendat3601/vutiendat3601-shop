@@ -10,6 +10,8 @@ import lombok.Data;
 public class Product {
   private Long id;
 
+  private String productNo;
+
   private String sku;
 
   private String slug;
