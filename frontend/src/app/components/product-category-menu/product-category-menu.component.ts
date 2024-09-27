@@ -8,6 +8,7 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product-category-menu.component.css',
 })
 export class ProductCategoryMenuComponent implements OnInit {
+  selectedCategoryId: number | null = null;
   productCategories: ProductCategory[] = [];
 
   constructor(private productService: ProductService) {}
@@ -19,5 +20,11 @@ export class ProductCategoryMenuComponent implements OnInit {
     this.productService.getProductCategories().subscribe((data) => {
       this.productCategories = data;
     });
+  }
+  isSelected(categoryId: number): boolean {
+    return this.selectedCategoryId === categoryId;
+  }
+  onCategorySelect(categoryId: number) {
+    this.selectedCategoryId = categoryId;
   }
 }

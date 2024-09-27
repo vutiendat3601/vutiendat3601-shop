@@ -1,12 +1,24 @@
-<div class="menu-sidebar-content js-scrollbar1">
-  <nav class="navbar-sidebar">
-    <ul class="list-unstyled navbar-list">
-      <li *ngFor="let category of productCategories">
-        <a routerLink='/category/{{  category.id }}' routerLinkActive="active-link">{{ category.categoryName }}</a>
-      </li>
-      <!-- <li>
-        <a routerLink="/category/1" routerLinkActive="active-link">Books</a>
-      </li> -->
-    </ul>
-  </nav>
+<div class="category-wrapper">
+  <p class="category-heading">DANH MỤC SẢN PHẨM</p>
+  <ul class="category-list">
+    <li *ngFor="let category of productCategories">
+      <a
+        routerLink="/category/{{ category.id }}"
+        routerLinkActive="active-link"
+        (click)="onCategorySelect(category.id)"
+      >
+        <div class="category-item" [ngClass]="{'selected': isSelected(category.id)}">
+          <div class="category-image">
+            <img
+              class="category-image"
+              src="https://down-vn.img.susercontent.com/file/ec14dd4fc238e676e43be2a911414d4d@resize_w320_nl.webp"
+              alt="Category"
+            />
+          </div>
+          <div class="category-name">{{ category.categoryName }}</div>
+        </div>
+      </a>
+    </li>
+  </ul>
 </div>
+

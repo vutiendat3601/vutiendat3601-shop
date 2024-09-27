@@ -34,8 +34,12 @@ AUTO_INCREMENT = 1;
 INSERT INTO product_category(category_name) VALUES ('Books');
 INSERT INTO product_category(category_name) VALUES ('Coffee Mugs');
 INSERT INTO product_category(category_name) VALUES ('Mouse Pads');
-INSERT INTO product_category(category_name) VALUES ('Luggage Tags');
-
+INSERT INTO product_category(category_name) VALUES ('Automotive');
+INSERT INTO product_category(category_name) VALUES ('Groceries');
+INSERT INTO product_category(category_name) VALUES ('Furniture');
+INSERT INTO product_category(category_name) VALUES ('Sports Equipment');
+INSERT INTO product_category(category_name) VALUES ('Beauty Products');
+INSERT INTO product_category(category_name) VALUES ('Toys & Games');
 -- -----------------------------------------------------
 -- Books
 -- -----------------------------------------------------
