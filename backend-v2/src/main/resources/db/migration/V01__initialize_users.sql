@@ -21,6 +21,7 @@ CREATE TABLE core.users (
 CREATE TABLE core.customer (
   id bigserial NOT NULL PRIMARY KEY,
   user_id bigint UNIQUE NOT NULL,
+  code varchar(255) UNIQUE NOT NULL,
   "name" varchar(255) NOT NULL,
   phones varchar(32)[] NOT NULL DEFAULT '{}',
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
