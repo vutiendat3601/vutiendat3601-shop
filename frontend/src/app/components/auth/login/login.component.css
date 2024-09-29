@@ -110,3 +110,9 @@ input {
   margin-bottom: 20px;
   color: #0095b6;
 }
+
+.error {
+  color: red;
+  font-size: 16px;
+  margin-top: 5px;
+}
