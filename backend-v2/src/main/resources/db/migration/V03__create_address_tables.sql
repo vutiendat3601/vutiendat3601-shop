@@ -39,6 +39,7 @@ REFERENCES common.district(id);
 
 CREATE TABLE core.address (
   id bigserial NOT NULL PRIMARY KEY,
+  code varchar(255) UNIQUE NOT NULL DEFAULT gen_random_uuid(),
   street varchar(500) NOT NULL,
   customer_id bigint NOT NULL,
   ward_id bigint NOT NULL,
@@ -61,10 +62,14 @@ REFERENCES common.ward(id);
 CREATE OR REPLACE VIEW core.v_address_detail
 AS SELECT
     a.id,
+    a.code,
     a.street,
-    d.name AS district,
-    p.name AS province,
-    a.customer_id,
+    d.id AS districtId,
+    d.name AS districtName,
+    p.id AS provinceId,
+    p.name AS provinceName,
+    c.id AS customer_id,
+    c.code AS customer_code,
     a.created_at,
     a.updated_at,
     a.created_by,
@@ -72,4 +77,5 @@ AS SELECT
    FROM core.address a
       JOIN common.ward w ON a.ward_id = w.id
       JOIN common.district d ON w.district_id = d.id
-      JOIN common.province p ON d.province_id = p.id;
+      JOIN common.province p ON d.province_id = p.id
+      JOIN core.customer c ON c.id = a.customer_id;

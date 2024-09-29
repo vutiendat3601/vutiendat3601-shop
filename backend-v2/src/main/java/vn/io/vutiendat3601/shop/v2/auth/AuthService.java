@@ -107,7 +107,7 @@ public class AuthService {
             userDetail.getUsername(),
             userDetail.getName(),
             userDetail.getIsVerified(),
-            userDetail.getCustomerId());
+            userDetail.getCustomerCode());
     final String jwt = jwtService.generateJwt(userAuth, userDetail.getAuthorities());
     return new JwtDto(jwt);
   }

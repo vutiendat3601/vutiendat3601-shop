@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE SCHEMA core;
 
 CREATE TABLE core.users (
@@ -21,7 +22,7 @@ CREATE TABLE core.users (
 CREATE TABLE core.customer (
   id bigserial NOT NULL PRIMARY KEY,
   user_id bigint UNIQUE NOT NULL,
-  code varchar(255) UNIQUE NOT NULL,
+  code varchar(255) UNIQUE NOT NULL DEFAULT gen_random_uuid(),
   "name" varchar(255) NOT NULL,
   phones varchar(32)[] NOT NULL DEFAULT '{}',
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
@@ -49,6 +50,6 @@ AS SELECT u.id,
     u.created_by,
     u.updated_by,
     c.name,
-    c.id AS customer_id
+    c.code AS customer_code
   FROM core.users u
   INNER JOIN core.customer c ON u.id = c.user_id;

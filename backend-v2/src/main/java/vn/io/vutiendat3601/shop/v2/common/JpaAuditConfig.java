@@ -1,5 +1,6 @@
 package vn.io.vutiendat3601.shop.v2.common;
 
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,6 @@ public class JpaAuditConfig {
 
   @Bean
   DateTimeProvider dateTimeProvider() {
-    return () -> Optional.of(ZonedDateTime.now());
+    return () -> Optional.of(ZonedDateTime.now(ZoneOffset.UTC));
   }
 }
