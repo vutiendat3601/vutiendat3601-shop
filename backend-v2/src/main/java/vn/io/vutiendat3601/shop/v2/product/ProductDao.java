@@ -10,4 +10,7 @@ public interface ProductDao {
 
   @NonNull
   List<Product> selectByCategoryId(long categoryId);
+
+  @NonNull
+  Optional<Product> selectByProductNoAndIsActiveTrue(@NonNull String productNo);
 }

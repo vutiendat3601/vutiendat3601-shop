@@ -1,12 +1,12 @@
 package vn.io.vutiendat3601.shop.v2.address;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 import vn.io.vutiendat3601.shop.v2.auth.AuthContext;
 import vn.io.vutiendat3601.shop.v2.common.PageDto;
 import vn.io.vutiendat3601.shop.v2.customer.Customer;
+import vn.io.vutiendat3601.shop.v2.customer.CustomerDao;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
 
 @RequiredArgsConstructor
@@ -17,6 +17,7 @@ public class AddressService {
   private final ProvinceDao provinceDao;
   private final DistrictDao distDao;
   private final WardDao wardDao;
+  private final CustomerDao customerDao;
   private final AuthContext authContext;
 
   private final ProvinceDtoMapper provinceDtoMapper;
@@ -55,7 +56,15 @@ public class AddressService {
     }
     addr.setStreet(createAddrReq.street());
     addr.setWard(new Ward(createAddrReq.wardId()));
-    addr.setCustomer(new Customer(authContext.getUser().customerId()));
+    final String customerCode = authContext.getUser().customerCode();
+    final Customer customer =
+        customerDao
+            .selectByCode(authContext.getUser().customerCode())
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "Customer not found: (code=%s)".formatted(customerCode)));
+    addr.setCustomer(customer);
     addrDao.insert(addr);
   }
 }

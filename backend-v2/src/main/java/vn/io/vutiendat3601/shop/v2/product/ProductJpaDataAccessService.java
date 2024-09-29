@@ -22,4 +22,10 @@ public class ProductJpaDataAccessService implements ProductDao {
   public List<Product> selectByCategoryId(long categoryId) {
     return productRepo.findAllByCategoryId(categoryId);
   }
+
+  @Override
+  @NonNull
+  public Optional<Product> selectByProductNoAndIsActiveTrue(@NonNull String productNo) {
+    return productRepo.findByProductNoAndIsActiveTrue(productNo);
+  }
 }

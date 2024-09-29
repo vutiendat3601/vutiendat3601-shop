@@ -15,4 +15,4 @@ public record ProductDto(
     List<String> tags,
     Long likedCount,
     Boolean isActive,
-    Long unitsInStock) {}
+    Integer unitsInStock) {}

@@ -5,7 +5,7 @@ CREATE TABLE common.verification (
   user_id bigint NOT NULL,
   code varchar(255) UNIQUE NOT NULL,
   expired_at timestamptz NOT NULL,
-  "type" varchar(255) check (type in (
+  "type" varchar(255) CHECK ("type" IN (
     'LOGIN_CODE',
     'PASSWORD_RESET',
     'EMAIL_VERIFICATION',
