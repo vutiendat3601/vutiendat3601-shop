@@ -8,41 +8,37 @@ import { Component } from '@angular/core';
 export class ResetpasswordComponent {
   newPassword: string = '';
   confirmPassword: string = '';
-
-  // Biến để điều khiển hiển thị alert
+  passwordsMatch: boolean = true;
+  confirmPasswordFocused: boolean = false;
   alertVisible: boolean = false;
   alertMessage: string = '';
+  showPassword: boolean = false;
 
-  // Phương thức xác nhận mật khẩu
+  validatePasswordMatch(): void {
+    this.passwordsMatch = this.newPassword === this.confirmPassword;
+  }
+
   onSubmit() {
-    if (this.newPassword.length < 8 || this.newPassword.length > 32) {
-      this.showAlert('Mật khẩu mới phải có độ dài từ 8 đến 32 ký tự.');
-      return;
-    }
-
-    if (this.newPassword !== this.confirmPassword) {
+    if (!this.passwordsMatch) {
       this.showAlert('Mật khẩu xác nhận không khớp.');
       return;
     }
 
-    this.showAlert('Mật khẩu đã được đặt lại thành công!');
+    if (this.newPassword.length < 8 || this.newPassword.length > 32) {
+      this.showAlert('Mật khẩu mới phải có độ dài từ 8 đến 32 ký tự.');
+      return;
+    }
   }
 
-  // Hiển thị thông báo tùy chỉnh
   showAlert(message: string): void {
     this.alertMessage = message;
     this.alertVisible = true;
   }
 
-  // Đóng thông báo
   closeAlert(): void {
     this.alertVisible = false;
   }
 
-  // Biến để lưu trạng thái hiển thị mật khẩu
-  showPassword: boolean = false;
-
-  // Phương thức chuyển đổi hiển thị/ẩn mật khẩu
   togglePassword(inputId: string): void {
     const inputElement = document.getElementById(inputId) as HTMLInputElement;
     const iconElement = inputElement.nextElementSibling as HTMLElement;
@@ -57,4 +53,5 @@ export class ResetpasswordComponent {
       iconElement.classList.add('fa-eye-slash');
     }
   }
+
 }
