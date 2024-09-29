@@ -49,4 +49,5 @@ app:
     password:
       validDurationSecond: 30000
       codeLength: 120
-      
+bussiness:
+  vatPercent: 10

@@ -28,6 +28,9 @@ public class Address {
   @Column(name = "id")
   private Long id;
 
+  @Column(name = "code")
+  private String code;
+
   @Column(name = "street")
   private String street;
 

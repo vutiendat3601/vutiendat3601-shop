@@ -26,7 +26,7 @@ CREATE TABLE business.product (
     tags varchar(150)[] NOT NULL DEFAULT '{}',
     liked_count bigint NOT NULL DEFAULT 0,
     is_active boolean NOT NULL DEFAULT false,
-    units_in_stock bigint DEFAULT 0,
+    units_in_stock int DEFAULT 0,
     category_id bigint NOT NULL,
     "ref" text,
     created_at timestamptz NOT NULL DEFAULT current_timestamp,

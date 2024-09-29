@@ -50,8 +50,8 @@ public class UserDetail extends AuditEntity {
   @Column(name = "is_verified")
   private Boolean isVerified = false;
 
-  @Column(name = "customer_id")
-  private Long customerId;
+  @Column(name = "customer_code")
+  private String customerCode;
 
   @Builder.Default
   @Type(value = ListArrayType.class)
