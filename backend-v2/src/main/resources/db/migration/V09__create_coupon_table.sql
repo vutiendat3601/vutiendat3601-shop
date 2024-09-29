@@ -1,6 +1,7 @@
 CREATE TABLE business.coupon (
   id bigserial NOT NULL PRIMARY KEY,
   code varchar(255) UNIQUE NOT NULL,
+  "name" varchar(255) NOT NULL,
   "description" text,
   discount_ratio decimal NOT NULL DEFAULT 0,
   max_amount decimal NOT NULL DEFAULT 0,

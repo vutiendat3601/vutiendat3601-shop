@@ -1,8 +1,5 @@
 package vn.io.vutiendat3601.shop.v2.coupon;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,18 +44,20 @@ public class Coupon extends AuditEntity {
   @Column(name = "description")
   private String description;
 
+  @Builder.Default
   @Column(name = "discount_ratio")
-  private Double discountRatio;
+  private Double discountRatio = 0D;
 
   @Builder.Default
   @Column(name = "max_amount")
-  private BigDecimal maxAmount = new BigDecimal(0L);
+  private BigDecimal maxAmount = new BigDecimal(0D);
 
   @Column(name = "expired_at")
   private ZonedDateTime expiredAt;
 
+  @Builder.Default
   @Column(name = "quantity")
-  private Integer quantity;
+  private Integer quantity = 0;
 
   @ManyToOne
   @JoinColumn(name = "category_id")

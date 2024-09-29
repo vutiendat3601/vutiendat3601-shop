@@ -1,5 +1,7 @@
 package vn.io.vutiendat3601.shop.v2.order;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -8,64 +10,72 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import vn.io.vutiendat3601.shop.v2.address.Address;
 import vn.io.vutiendat3601.shop.v2.address.AddressDao;
-import vn.io.vutiendat3601.shop.v2.address.AddressDetail;
-import vn.io.vutiendat3601.shop.v2.address.AddressDetailDao;
 import vn.io.vutiendat3601.shop.v2.address.District;
 import vn.io.vutiendat3601.shop.v2.address.Province;
 import vn.io.vutiendat3601.shop.v2.address.Ward;
 import vn.io.vutiendat3601.shop.v2.auth.AuthContext;
 import vn.io.vutiendat3601.shop.v2.auth.UserAuthentication;
-import vn.io.vutiendat3601.shop.v2.business.BusinessConfigurationDao;
 import vn.io.vutiendat3601.shop.v2.coupon.Coupon;
 import vn.io.vutiendat3601.shop.v2.coupon.CouponObjectType;
-import vn.io.vutiendat3601.shop.v2.coupon.CouponService;
 import vn.io.vutiendat3601.shop.v2.coupon.CouponType;
 import vn.io.vutiendat3601.shop.v2.customer.Customer;
 import vn.io.vutiendat3601.shop.v2.customer.CustomerDao;
+import vn.io.vutiendat3601.shop.v2.fee.ProductCouponApplier;
+import vn.io.vutiendat3601.shop.v2.fee.ShippingFeeCalculator;
+import vn.io.vutiendat3601.shop.v2.fee.VatCaclator;
 import vn.io.vutiendat3601.shop.v2.product.Category;
 import vn.io.vutiendat3601.shop.v2.product.Product;
 import vn.io.vutiendat3601.shop.v2.product.ProductDao;
-import vn.io.vutiendat3601.shop.v2.shipping.ShippingFeeConfiguration;
 import vn.io.vutiendat3601.shop.v2.user.User;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
-  private OrderService theTest;
-  @Mock private AuthContext authContext;
-  @Mock private BusinessConfigurationDao businessConfigDao;
-  @Mock private AddressDao addrDao;
-  @Mock private AddressDetailDao addrDetailDao;
-  @Mock private OrderDao orderDao;
-  @Mock private CustomerDao customerDao;
-  @Mock private ProductDao productDao;
-  @Mock private CouponService couponService;
+  @Mock private OrderService theTest;
 
-  private final User USER =
+  @Mock private AuthContext authContext;
+
+  @Mock private AddressDao addrDao;
+
+  @Mock private OrderDao orderDao;
+
+  @Mock private CustomerDao customerDao;
+
+  @Mock private ProductDao productDao;
+
+  @Mock private ProductCouponApplier productCouponApplier;
+
+  @Mock private ShippingFeeCalculator shippingFeeCalculator;
+
+  @Mock private VatCaclator vatCaclator;
+
+  private static final User USER =
       User.builder()
           .username("vutiendat3601")
           .hashedPassword(
               "$2a$12$TWnHv5oKlQ/eBCs70mBOduygxYZqle/15HQCMYta95at34YdD1bIW") // mypassword1234$12Dn
           .authorities(List.of())
           .build();
-  private final Customer CUSTOMER =
+  private static final Customer CUSTOMER =
       Customer.builder()
           .id(1L)
           .code("b1b2c525-c9f5-44f7-b442-d5e68fb0a1ed")
           .name("Dat Vu")
           .user(USER)
           .build();
-  private final Province PROVINCE = Province.builder().id(1L).name("Tỉnh Sơn Tây").build();
+  private static final Province PROVINCE = Province.builder().id(1L).name("Tỉnh Sơn Tây").build();
 
-  private final District DISTRICT =
+  private static final District DISTRICT =
       District.builder().id(1L).name("Huyện Trà Bằng").province(PROVINCE).build();
 
-  private final Ward WARD = Ward.builder().id(1L).name("Trà Xuân").district(DISTRICT).build();
+  private static final Ward WARD =
+      Ward.builder().id(1L).name("Trà Xuân").district(DISTRICT).build();
 
-  private final Address ADDRESS =
+  private static final Address ADDRESS =
       Address.builder()
           .id(1L)
           .code("954756a8-ba85-4e73-bfb0-cb872493e8c3")
@@ -74,16 +84,16 @@ public class OrderServiceTest {
           .ward(WARD)
           .build();
 
-  private final AddressDetail ADDRESS_DETAIL =
-      AddressDetail.builder()
-          .id(ADDRESS.getId())
-          .code(ADDRESS.getCode())
-          .provinceId(PROVINCE.getId())
-          .provinceName(PROVINCE.getName())
-          .districtId(DISTRICT.getId())
-          .districtName(DISTRICT.getName())
-          .street(ADDRESS.getStreet())
-          .build();
+  // private final AddressDetail ADDRESS_DETAIL =
+  //     AddressDetail.builder()
+  //         .id(ADDRESS.getId())
+  //         .code(ADDRESS.getCode())
+  //         .provinceId(PROVINCE.getId())
+  //         .provinceName(PROVINCE.getName())
+  //         .districtId(DISTRICT.getId())
+  //         .districtName(DISTRICT.getName())
+  //         .street(ADDRESS.getStreet())
+  //         .build();
 
   private final UserAuthentication USER_AUTH =
       new UserAuthentication(1L, "vutiendat3601", "Dat Vu", true, CUSTOMER.getCode());
@@ -136,37 +146,37 @@ public class OrderServiceTest {
     theTest =
         new OrderService(
             authContext,
-            businessConfigDao,
             addrDao,
             orderDao,
             customerDao,
             productDao,
-            couponService,
-            addrDetailDao);
-    theTest.setVatFeeRatio(new BigDecimal(10));
-    theTest.setShippingFeeConfiguration(
-        new ShippingFeeConfiguration(List.of(), new BigDecimal(30_000), ""));
+            productCouponApplier,
+            shippingFeeCalculator,
+            vatCaclator);
   }
 
   @Test
   void canCreateOrder() {
     // Given
-    final CreateOrderRequest createOrderReq = CREATE_ORDER_REQ;
+    // final BigDecimal expectedTotalProductAmount = CREATE_ORDER_REQ.items().forEach(null);
     when(authContext.getUser()).thenReturn(USER_AUTH);
     when(customerDao.selectByCode(CUSTOMER.getCode())).thenReturn(Optional.of(CUSTOMER));
     when(addrDao.selectByCodeAndCustomerCode(ADDRESS.getCode(), CUSTOMER.getCode()))
         .thenReturn(Optional.of(ADDRESS));
-    when(addrDetailDao.selectByCodeAndCustomerCode(ADDRESS_DETAIL.getCode(), CUSTOMER.getCode()))
-        .thenReturn(Optional.of(ADDRESS_DETAIL));
     when(productDao.selectByProductNoAndIsActiveTrue(PRODUCT.getProductNo()))
         .thenReturn(Optional.of(PRODUCT));
     when(productDao.selectByProductNoAndIsActiveTrue(PRODUCT1.getProductNo()))
         .thenReturn(Optional.of(PRODUCT1));
-    when(couponService.applyCouponForProductUnitPrice(
-            COUPON_CATEGORY.getCode(), PRODUCT.getProductNo()))
-        .thenReturn(PRODUCT.getUnitPrice().subtract(COUPON_CATEGORY.getMaxAmount()));
 
     // When
-    theTest.createOrder(createOrderReq);
+    theTest.createOrder(CREATE_ORDER_REQ);
+
+    // Then
+    final ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
+    verify(orderDao).insert(orderCaptor.capture());
+    final Order actual = orderCaptor.getValue();
+    assertEquals(2, actual.getNumberOfProducts());
+    assertEquals(ADDRESS, actual.getShippingAddress());
+    assertEquals(OrderStatus.PENDING, actual.getStatus());
   }
 }
