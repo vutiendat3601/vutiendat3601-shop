@@ -34,7 +34,7 @@ public class OrderItem extends AuditEntity {
 
   @Builder.Default
   @Column(name = "quantity")
-  private Integer quantity = 0;
+  private Integer quantity = 1;
 
   @Builder.Default
   @Column(name = "total_amount")

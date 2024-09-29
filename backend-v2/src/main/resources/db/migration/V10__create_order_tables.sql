@@ -1,23 +1,4 @@
-CREATE OR REPLACE FUNCTION business.gen_tracking_number()
-RETURNS TRIGGER AS $$
-DECLARE
-    date_part TEXT;
-    order_part TEXT;
-    random_part TEXT;
-    characters TEXT := 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    i INT;
-BEGIN
-    date_part := to_char(CURRENT_DATE, 'YYYYMMDD');
-    order_part := lpad(NEW.order_id::TEXT, 6, '0');
-    random_part := '';
-    FOR i IN 1..6 LOOP
-        random_part := random_part || substr(characters, floor(1 + random() * length(characters))::int, 1);
-    END LOOP;
-    NEW.tracking_number := date_part || '-' || order_part || '-' || random_part;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
+-- Order ----------------------------------------------------------------
 CREATE TABLE business.orders (
   id bigserial NOT NULL PRIMARY KEY,
   tracking_number varchar(100) UNIQUE NOT NULL,
@@ -64,14 +45,34 @@ ADD CONSTRAINT fk_orders_coupon
 FOREIGN KEY (shipping_fee_coupon_id)
 REFERENCES business.coupon(id);
 -- Tracking number trigger
+CREATE OR REPLACE FUNCTION business.gen_tracking_number()
+RETURNS TRIGGER AS $$
+DECLARE
+    date_part TEXT;
+    order_part TEXT;
+    random_part TEXT;
+    characters TEXT := 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    i INT;
+BEGIN
+    date_part := to_char(CURRENT_DATE, 'YYYYMMDD');
+    order_part := lpad(NEW.id::TEXT, 6, '0');
+    random_part := '';
+    FOR i IN 1..6 LOOP
+        random_part := random_part || substr(characters, floor(1 + random() * length(characters))::int, 1);
+    END LOOP;
+    NEW.tracking_number := date_part || '-' || order_part || '-' || random_part;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 CREATE TRIGGER gen_tracking_number_trigger
 BEFORE INSERT ON business.orders
 FOR EACH ROW
 EXECUTE FUNCTION business.gen_tracking_number();
 
+-- OrderItem ----------------------------------------------------------------
 CREATE TABLE business.order_item (
   id bigserial NOT NULL PRIMARY KEY,
-  quantity varchar(100) UNIQUE NOT NULL,
+  quantity int NOT NULL DEFAULT 1,
   total_amount decimal NOT NULL DEFAULT 0,
   coupon_amount decimal NOT NULL DEFAULT 0,
   final_amount decimal NOT NULL DEFAULT 0,

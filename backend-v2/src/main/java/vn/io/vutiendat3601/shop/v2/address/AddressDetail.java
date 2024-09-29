@@ -14,7 +14,7 @@ import org.hibernate.annotations.Immutable;
 import vn.io.vutiendat3601.shop.v2.common.AuditEntity;
 
 @Entity
-@Table(name = "v_address_detail")
+@Table(name = "v_address_detail", schema = "core")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
@@ -32,13 +32,13 @@ public class AddressDetail extends AuditEntity {
   @Column(name = "province_id")
   private Long provinceId;
 
-  @Column(name = "province")
+  @Column(name = "province_name")
   private String provinceName;
 
   @Column(name = "district_id")
   private Long districtId;
 
-  @Column(name = "district")
+  @Column(name = "district_name")
   private String districtName;
 
   @Column(name = "street")

@@ -1,5 +1,6 @@
 package vn.io.vutiendat3601.shop.v2.order;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,7 +28,7 @@ import vn.io.vutiendat3601.shop.v2.coupon.Coupon;
 import vn.io.vutiendat3601.shop.v2.customer.Customer;
 
 @Entity
-@Table(name = "orders", schema = "bussiness")
+@Table(name = "orders", schema = "business")
 @Getter
 @Setter
 @Builder
@@ -42,9 +43,10 @@ public class Order extends AuditEntity {
   @Column(name = "tracking_number")
   private String trackingNumber;
 
+  @Builder.Default
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
-  private OrderStatus status;
+  private OrderStatus status = OrderStatus.PENDING;
 
   @Builder.Default
   @Column(name = "num_of_products")
@@ -91,7 +93,7 @@ public class Order extends AuditEntity {
   private Customer customer;
 
   @Builder.Default
-  @OneToMany(mappedBy = "order")
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderItem> items = new ArrayList<>();
 
   public void addItem(@NonNull OrderItem item) {
@@ -101,6 +103,7 @@ public class Order extends AuditEntity {
       totalProductAmount = totalProductAmount.add(item.getTotalAmount());
       totalProductCouponAmount = totalProductCouponAmount.add(item.getCouponAmount());
       totalProductFinalAmount = totalProductFinalAmount.add(item.getFinalAmount());
+      finalAmount = totalProductFinalAmount;
     }
   }
 }
