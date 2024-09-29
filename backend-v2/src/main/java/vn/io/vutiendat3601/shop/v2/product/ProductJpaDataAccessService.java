@@ -13,13 +13,49 @@ public class ProductJpaDataAccessService implements ProductDao {
 
   @Override
   @NonNull
-  public Optional<Product> selectById(long id) {
-    return productRepo.findById(id);
+  public List<Product> selectByCategoryId(long categoryId) {
+    return productRepo.findAllByCategoryId(categoryId);
+  }
+
+  @Override
+  public void insertProduct(Product product) {
+    productRepo.save(product);
+  }
+
+  @Override
+  public void updateProduct(Product product) {
+    productRepo.save(product);
+  }
+
+  @Override
+  public void deleteProduct(String productNo) {
+    productRepo.deleteByProductNo(productNo);
+  }
+
+  @Override
+  public boolean existsProductByProductNo(String productNo) {
+    return productRepo.existsProductByProductNo(productNo);
+  }
+
+  @Override
+  public boolean existsProductBySku(String sku) {
+    return productRepo.existsProductBySku(sku);
+  }
+
+  @Override
+  public boolean existsProductBySlug(String slug) {
+    return productRepo.existsProductBySlug(slug);
   }
 
   @Override
   @NonNull
-  public List<Product> selectByCategoryId(long categoryId) {
-    return productRepo.findAllByCategoryId(categoryId);
+  public Optional<Product> selectByProductNo(String productNo) {
+    return productRepo.findByProductNo(productNo);
+  }
+
+  @Override
+  @NonNull
+  public Optional<Product> selectById(Long productId) {
+    return productRepo.findById(productId);
   }
 }
