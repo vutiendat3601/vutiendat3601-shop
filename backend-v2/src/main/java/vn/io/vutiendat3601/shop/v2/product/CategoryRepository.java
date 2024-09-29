@@ -2,4 +2,6 @@ package vn.io.vutiendat3601.shop.v2.product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {}
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+  boolean existsCategoryByCode(String code);
+}

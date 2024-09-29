@@ -36,6 +36,9 @@ public class Customer extends AuditEntity {
   @Column(name = "name")
   private String name;
 
+  @Column(name = "code")
+  private String code;
+
   @OneToOne
   @JoinColumn(name = "user_id")
   private User user;
