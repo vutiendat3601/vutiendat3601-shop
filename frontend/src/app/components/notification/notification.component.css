@@ -1,0 +1,29 @@
+.background {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+}
+
+.correct{
+  font-size: 100px;
+  color: green;
+}
+
+.error{
+  font-size: 100px;
+  color: red;
+}
+
+button {
+  width: 300px;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 25px;
+}
