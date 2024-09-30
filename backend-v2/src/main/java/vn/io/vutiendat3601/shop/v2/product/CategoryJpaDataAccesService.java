@@ -1,7 +1,8 @@
 package vn.io.vutiendat3601.shop.v2.product;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,7 @@ public class CategoryJpaDataAccesService implements CategoryDao {
 
   @Override
   @NonNull
-  public List<Category> selectAll() {
-    return categoryRespo.findAll();
+  public Page<Category> selectAll(int page, int size) {
+    return categoryRespo.findAll(PageRequest.of(page, size));
   }
 }
