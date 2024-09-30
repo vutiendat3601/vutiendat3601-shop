@@ -54,18 +54,6 @@
           </div>
         </div>
 
-        <div class="check">
-          <input type="checkbox" formControlName="terms" />
-          <span>Tôi đồng ý với các điều khoản</span>
-          <div
-            *ngIf="
-              loginForm.get('terms')?.invalid && loginForm.get('terms')?.touched
-            "
-          >
-            <small class="error">Bạn chưa đồng ý với các điều khoản.</small>
-          </div>
-        </div>
-
         <input
           class="btn"
           type="submit"

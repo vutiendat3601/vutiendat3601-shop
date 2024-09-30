@@ -1,3 +1,9 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 /* Header */
 .header-desktop {
   position: fix;
@@ -24,7 +30,9 @@
 
 /* Content */
 .content {
-  margin: auto;
+  flex: 1;
+  margin: 0 auto;
+  width: 1200px;
   max-width: 1200px;
 }
 
