@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CategoryDto } from '../category/category-dto';
-import { CategoryService } from './../category/category.service';
+import { CategoryService } from '../../domain/product/category.service';
+import { CategoryDto } from '../../domain/product/category-dto';
 
 @Component({
   selector: 'app-category-menu',

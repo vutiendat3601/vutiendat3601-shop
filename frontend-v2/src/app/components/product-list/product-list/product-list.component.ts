@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CartItem } from '../../../cart/cart-item';
 import { CartService } from '../../../cart/cart.service';
-import { CategoryMenuComponent } from '../../category-menu/category-menu.component';
-import { ProductDto } from '../../product-dto';
-import { ProductService } from '../../product.service';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { CategoryMenuComponent } from '../../category-menu/category-menu.component';
+import { ProductDto } from '../../../domain/product/product-dto';
+import { ProductService } from '../../../domain/product/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -51,7 +51,7 @@ export class ProductListComponent {
     // if (this.searchMode) {
     // this.handleSearchProducts();
     // } else {
-    this.handleListProducts();
+    this.handleRenderProducts();
     // }
   }
 
@@ -66,7 +66,7 @@ export class ProductListComponent {
     //   .subscribe(this.processResult());
   }
 
-  handleListProducts() {
+  handleRenderProducts() {
     const hasCategoryCode: boolean =
       this.route.snapshot.paramMap.has('categoryCode');
     if (hasCategoryCode) {
