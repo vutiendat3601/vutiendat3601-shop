@@ -45,6 +45,7 @@ public class SecurityConfig {
                     .anyRequest()
                     .permitAll())
         .csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.disable())
         .anonymous(anonymous -> anonymous.disable())
         .authenticationManager(authenticationManager)
         .addFilterAfter(
