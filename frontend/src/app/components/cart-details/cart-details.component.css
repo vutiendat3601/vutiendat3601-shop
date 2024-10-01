@@ -1,0 +1,156 @@
+.cart-detail-heading {
+  font-size: 24px;
+  font-weight: 500;
+  padding: 20px 10px;
+  margin: 0;
+}
+
+.cart-detail-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+/* Cart item */
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-item-info {
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+
+.cart-item-image {
+  width: 150px;
+  object-fit: contain;
+}
+
+.cart-item-name {
+  margin: 0 0 0 10px;
+}
+
+.cart-item-unit-price {
+  display: flex;
+  width: 16.67%;
+}
+
+.cart-item-unit-price p {
+  color: #d0011b;
+  margin: 0 0 0 8px;
+}
+
+.cart-item-quantity-wrapper {
+  width: 16.67%;
+  display: flex;
+}
+
+.cart-item-quantity {
+  margin: 0;
+  padding: 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(153, 153, 153);
+  border: 1px solid rgb(200, 200, 200);
+  border-top-left-radius: 5px;
+  border-radius: 5px;
+}
+
+.cart-item-total-price {
+  display: flex;
+  width: 16.67%;
+  margin: 0;
+}
+
+.cart-item-total-price p {
+  color: #d0011b;
+  margin: 0 0 0 8px;
+}
+
+/* Button*/
+.btn-incre,
+.btn-decre {
+  background-color: transparent;
+  color: rgb(153, 153, 153);
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: none;
+}
+
+.btn-incre i,
+.btn-decre i,
+.delete-btn i {
+  font-size: 16px;
+}
+
+.delete-btn {
+  margin-right: 20px;
+  color: rgb(153, 153, 153);
+}
+
+/* Checkout */
+.checkout {
+  float: right;
+  margin-right: 20px;
+  width: 20%;
+}
+
+.total-quantity,
+.shipping-fee,
+.total-price {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.total-quantity {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-quantity p {
+  color: black;
+  margin: 0 0 0 8px;
+}
+
+.shipping-fee {
+  display: flex;
+  justify-content: space-between;
+}
+
+.shipping-fee p {
+  color: black;
+  margin: 0 0 0 8px;
+}
+
+.total-price {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-price::before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 2px;
+  background-color: #ccc;
+  top: 0;
+  left: 8px;
+  right: 8px;
+}
+
+.total-price p {
+  color: #d0011b;
+  margin: 0 0 0 8px;
+}
+
+.checkout-btn {
+  color: #fff;
+  background: linear-gradient(122.33deg, #68bed1 30.62%, #1e94e9 100%);
+  margin-bottom: 12px;
+  float: right;
+}

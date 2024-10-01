@@ -28,6 +28,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { AccountActionsComponent } from './components/account-actions/account-actions.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { ResetpasswordComponent } from './components/auth/resetpassword/resetpassword.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
   { path: 'auth/resetpassword', component: ResetpasswordComponent },
+  { path: 'notification', component: NotificationComponent },
   { path: '', redirectTo: '/products', pathMatch: 'full' },
   { path: '**', redirectTo: '/products', pathMatch: 'full' },
 ];
@@ -57,6 +59,7 @@ const routes: Routes = [
     AccountActionsComponent,
     RegisterComponent,
     ResetpasswordComponent,
+    NotificationComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

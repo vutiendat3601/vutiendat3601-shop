@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <!-- Danh sách danh mục sản phẩm -->
+  <app-category-menu></app-category-menu>
+
+  <!-- Danh sách sản phẩm ứng với danh mục sản phẩm đã chọn ở trên -->
+  <div class="row">
+    <div *ngFor="let product of products" class="col-md-3">
+      <!-- Hiển thị từng sản phẩm -->
+      <div class="product-box">
+        <a routerLink="/products/{{ product.id }}">
+          <div class="product-image-wrapper">
+            <img src="{{ product.imageUrl }}" class="product-image" />
+          </div>
+          <div class="product-info">
+            <span class="product-name">{{ product.name }} </span>
+            <span class="product-price">
+              {{ product.unitPrice | currency: "VND" : "symbol" : "1.0-0" }}
+            </span>
+          </div>
+        </a>
+        <!-- Ngăn chặn sự kiện click -->
+        <button (click)="addToCart(product); $event.stopPropagation()" class="add-btn">
+          Thêm vào giỏ hàng
+        </button>
+      </div>
+    </div>
+
+    <!-- Trường hợp không tìm thấy sản phẩm -->
+    <div *ngIf="products?.length === 0" class="alert alert-warning col-md-12" role="alert">
+      Không tìm thấy sản phẩm
+    </div>
+  </div>
+
+  <!-- Phân trang -->
+  <div class="footer-pagination">
+    <div class="row justify-content-center">
+      <div class="col-md-3 mt-2 text-right">
+        <span class="mr-2">Page Size: </span>
+        <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
+          <option>5</option>
+          <option selected="true">10</option>
+          <option>20</option>
+          <option>50</option>
+        </select>
+      </div>
+      <div class="col-md-6 text-center">
+        <ngb-pagination [(page)]="page" [pageSize]="size" [maxSize]="2" [collectionSize]="totalElements"
+          [boundaryLinks]="true" (pageChange)="listProducts()">
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
