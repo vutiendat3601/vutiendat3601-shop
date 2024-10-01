@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class CategoryService {
-  private readonly CATEGORY_API_BASE_URL = `${environment.apiBaseUrl}/categories`;
+  private readonly CATEGORY_API_V2_BASE_URL = `${environment.apiBaseUrl}/v2/categories`;
   constructor(private readonly http: HttpClient) {}
 
   public getCategories(
@@ -17,7 +17,7 @@ export class CategoryService {
     size: number
   ): Observable<PageDto<CategoryDto>> {
     return this.http.get<PageDto<CategoryDto>>(
-      `${this.CATEGORY_API_BASE_URL}?page=${page}&size=${size}`
+      `${this.CATEGORY_API_V2_BASE_URL}?page=${page}&size=${size}`
     );
   }
 }

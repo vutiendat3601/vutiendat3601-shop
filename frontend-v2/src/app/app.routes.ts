@@ -18,6 +18,6 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    children: [{ path: 'products', component: ProductListComponent }],
+    children: [{ path: '', component: ProductListComponent }],
   },
 ];

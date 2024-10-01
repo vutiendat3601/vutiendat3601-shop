@@ -6,8 +6,9 @@ import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategoryMenuComponent } from '../../category-menu/category-menu.component';
-import { ProductDto } from '../../../domain/product/product-dto';
 import { ProductService } from '../../../domain/product/product.service';
+import { PageDto } from '../../../common/page-dto';
+import { ProductDto } from '../../../domain/product/product-dto';
 
 @Component({
   selector: 'app-product-list',
@@ -32,7 +33,7 @@ export class ProductListComponent {
   // new properties for pagination
   page: number = 1;
   size: number = 10;
-  totalElements: number = 0;
+  totalItems: number = 0;
 
   constructor(
     private readonly productService: ProductService,
@@ -41,7 +42,7 @@ export class ProductListComponent {
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe(() => {
+    this.route.queryParamMap.subscribe(() => {
       this.listProducts();
     });
   }
@@ -68,10 +69,10 @@ export class ProductListComponent {
 
   handleRenderProducts() {
     const hasCategoryCode: boolean =
-      this.route.snapshot.paramMap.has('categoryCode');
+      this.route.snapshot.queryParamMap.has('categoryCode');
     if (hasCategoryCode) {
       this.currentCategoryCode =
-        this.route.snapshot.paramMap.get('categoryCode')!;
+        this.route.snapshot.queryParamMap.get('categoryCode')!;
       this.productService
         .getProductsByCategoryCode(
           this.currentCategoryCode,
@@ -98,11 +99,11 @@ export class ProductListComponent {
   }
 
   processResult() {
-    return (data: any) => {
-      this.productDtos = data._embedded.products;
-      this.page = data.page.number + 1;
-      this.size = data.page.size;
-      this.totalElements = data.page.totalElements;
+    return (productDtoPage: PageDto<ProductDto>) => {
+      this.productDtos = productDtoPage.items;
+      this.page = productDtoPage.page;
+      this.size = productDtoPage.size;
+      this.totalItems = productDtoPage.totalItems;
     };
   }
 
