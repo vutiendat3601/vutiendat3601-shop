@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { CategoryService } from '../../domain/product/category.service';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CategoryDto } from '../../domain/product/category-dto';
+import { CategoryService } from '../../domain/product/category.service';
 
 @Component({
   selector: 'app-category-menu',
@@ -12,26 +12,29 @@ import { CategoryDto } from '../../domain/product/category-dto';
 })
 export class CategoryMenuComponent {
   selectedCategoryCode: string | null = null;
-  categories: CategoryDto[] = [];
+  categoryDtos: CategoryDto[] = [];
   page: number = 1;
   size: number = 50;
 
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.listCategories();
+    this.route.queryParamMap.subscribe(() => {
+      if (this.route.snapshot.queryParamMap.has('categoryCode')) {
+        this.selectedCategoryCode =
+          this.route.snapshot.queryParamMap.get('categoryCode');
+      }
+    });
   }
   listCategories() {
     this.categoryService
       .getCategories(this.page, this.size)
       .subscribe((categoryDtoPage) => {
-        this.categories = categoryDtoPage.items;
+        this.categoryDtos = categoryDtoPage.items;
       });
-  }
-  isSelected(categoryCode: string): boolean {
-    return this.selectedCategoryCode === categoryCode;
-  }
-  onCategorySelect(categoryCode: string) {
-    this.selectedCategoryCode = categoryCode;
   }
 }

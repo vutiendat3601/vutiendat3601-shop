@@ -25,7 +25,9 @@ export class ProductService {
   public getTrendingProducts(
     page: number = 1,
     size: number = 50
-  ): Observable<ProductDto> {
-    return this.http.get<ProductDto>(`${this.API_PRODUCT_BASE_URL}/trending`);
+  ): Observable<PageDto<ProductDto>> {
+    return this.http.get<PageDto<ProductDto>>(
+      `${this.API_PRODUCT_BASE_URL}/trending`
+    );
   }
 }

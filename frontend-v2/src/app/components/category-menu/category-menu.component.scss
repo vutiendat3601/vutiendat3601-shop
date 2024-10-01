@@ -1,0 +1,77 @@
+.category-list-wrapper {
+  margin-top: 10px;
+}
+
+.category-heading {
+  font-size: 24px;
+  font-weight: 500;
+  padding: 20px 10px;
+  margin: 0;
+}
+
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+}
+
+.category-list a {
+  text-decoration: none;
+}
+
+
+.category-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 120px;
+  max-height: 150px;
+  transition: transform linear 0.1;
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+
+.category-inner:hover {
+  transform: translateY(-4px);
+}
+
+/* Category khi được chon */
+.category-inner.selected {
+  box-shadow: 0 1px 20px 0 rgba(10, 104, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+.category-inner.selected .category-name {
+  color: #0a68ff;
+}
+
+.category-image {
+  flex: 1;
+}
+
+.category-image img {
+  margin: 4px 0;
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.category-name {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px;
+  height: 30px;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+
+.category-item.active .category-inner {
+  transform: translateY(-4px);
+}
