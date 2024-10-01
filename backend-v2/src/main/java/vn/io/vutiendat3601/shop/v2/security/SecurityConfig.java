@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.BCryptVe
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
@@ -62,5 +64,16 @@ public class SecurityConfig {
   @Bean
   PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder(BCryptVersion.$2B);
+  }
+
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    return req -> {
+      final CorsConfiguration corsConfig = new CorsConfiguration();
+      corsConfig.addAllowedOrigin("*");
+      corsConfig.addAllowedMethod("*");
+      corsConfig.addAllowedHeader("*");
+      return corsConfig;
+    };
   }
 }
