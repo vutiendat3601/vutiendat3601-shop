@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.shopsinhvien.io.vn',
+  apiBaseUrl: 'https://apidev.shopsinhvien.io.vn',
 };
