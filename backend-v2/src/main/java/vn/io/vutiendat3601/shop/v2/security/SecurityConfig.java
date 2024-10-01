@@ -5,6 +5,7 @@ import static org.springframework.http.HttpMethod.POST;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -69,6 +70,7 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder(BCryptVersion.$2B);
   }
 
+  @Primary
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     return req -> {
