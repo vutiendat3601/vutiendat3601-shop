@@ -75,6 +75,6 @@ public class ProductJpaDataAccessService implements ProductDao {
   @Override
   @NonNull
   public Page<Product> selectByOrderByBuyedCountDesc(int page, int size) {
-    return productRepo.findbyOrderByBuyedCountDesc(PageRequest.of(page, size));
+    return productRepo.findByOrderByBuyedCountDesc(PageRequest.of(page, size));
   }
 }
