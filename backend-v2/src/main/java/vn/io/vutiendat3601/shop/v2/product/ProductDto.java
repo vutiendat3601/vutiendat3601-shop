@@ -10,7 +10,7 @@ public record ProductDto(
     String description,
     BigDecimal unitPrice,
     BigDecimal unitListedPrice,
-    String imageUrl,
+    String thumbnail,
     Long buyedCount,
     List<String> tags,
     Long likedCount,
