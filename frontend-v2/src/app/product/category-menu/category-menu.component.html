@@ -1,0 +1,19 @@
+<div class="category-wrapper">
+  <p class="category-heading">DANH MỤC SẢN PHẨM</p>
+  <ul class="category-list">
+
+    @for (category of categories; track $index) {
+    <li>
+      <a routerLink="/category/{{ category.code }}" routerLinkActive="active-link"
+        (click)="onCategorySelect(category.code)">
+        <div class="category-item" [class.selected]="category.code === selectedCategoryCode">
+          <div class="category-image">
+            <img class="category-image" src="{{ category.thumbnail }}" alt="{{ category.name}}" />
+          </div>
+          <div class="category-name">{{ category.name }}</div>
+        </div>
+      </a>
+    </li>
+    }
+  </ul>
+</div>
