@@ -67,6 +67,7 @@ public class ProductJpaDataAccessService implements ProductDao {
     return productRepo.findById(productId);
   }
 
+  @NonNull
   public Optional<Product> selectByProductNoAndIsActiveTrue(@NonNull String productNo) {
     return productRepo.findByProductNoAndIsActiveTrue(productNo);
   }
