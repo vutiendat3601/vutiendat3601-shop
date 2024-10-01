@@ -37,7 +37,10 @@ public class SecurityConfig {
 
   @Bean
   SecurityFilterChain securityFilterChain(
-      HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+      HttpSecurity http,
+      AuthenticationManager authenticationManager,
+      CorsConfigurationSource corsConfigSrouce)
+      throws Exception {
     return http.authorizeHttpRequests(
             reqs ->
                 reqs.requestMatchers(GET, PUBLIC_GET_ROUTES)
@@ -47,7 +50,7 @@ public class SecurityConfig {
                     .anyRequest()
                     .permitAll())
         .csrf(csrf -> csrf.disable())
-        .cors(cors -> cors.disable())
+        .cors(cors -> cors.configurationSource(corsConfigSrouce))
         .anonymous(anonymous -> anonymous.disable())
         .authenticationManager(authenticationManager)
         .addFilterAfter(
