@@ -9,7 +9,7 @@ public class ProductDetaiDtoMapper implements Function<Product, ProductDetailDto
 
   @Override
   public ProductDetailDto apply(Product productDetail) {
-    Assert.notNull(productDetail, "product argument must not be null");
+    Assert.notNull(productDetail, "productDetail argument must not be null");
     return new ProductDetailDto(
         productDetail.getProductNo(),
         productDetail.getSku(),
