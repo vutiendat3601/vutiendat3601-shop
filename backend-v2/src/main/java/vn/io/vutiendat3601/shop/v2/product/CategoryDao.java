@@ -9,7 +9,7 @@ public interface CategoryDao {
   @NonNull
   Optional<Category> selectById(long id);
 
-  void insertCategory(Category category);
+  void insert(Category category);
 
   void updateCategory(Category category);
 

@@ -25,7 +25,7 @@ public class CategoryJpaDataAccesService implements CategoryDao {
   }
 
   @Override
-  public void insertCategory(Category category) {
+  public void insert(Category category) {
     categoryRespo.save(category);
   }
 

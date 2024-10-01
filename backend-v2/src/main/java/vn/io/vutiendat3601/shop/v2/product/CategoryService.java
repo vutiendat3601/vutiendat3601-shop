@@ -40,7 +40,7 @@ public class CategoryService {
             .name(createCategoryReq.name())
             .thumbnail(createCategoryReq.thumbnail())
             .build();
-    categoryDao.insertCategory(category);
+    categoryDao.insert(category);
   }
 
   public Category getCategory(Long id) {
