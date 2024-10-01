@@ -25,4 +25,10 @@ public class CustomerJpaDataAccessService implements CustomerDao {
   public void insert(@NonNull Customer customer) {
     customerRepo.save(customer);
   }
+
+  @Override
+  @NonNull
+  public Optional<Customer> selectByCode(@NonNull String code) {
+    return customerRepo.findByCode(code);
+  }
 }

@@ -1,9 +1,10 @@
 package vn.io.vutiendat3601.shop.v2.product;
 
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import vn.io.vutiendat3601.shop.v2.common.PageDto;
 
 @RequiredArgsConstructor
 @Service
@@ -15,8 +16,9 @@ public class ProductDetailService {
     return productDetailDao.selectProducDetail(productNo).map(productDetaiDtoMapper);
   }
 
-  public List<ProductDetailDto> getAll() {
-    final List<Product> products = productDetailDao.selectAll();
-    return products.stream().map(productDetaiDtoMapper).toList();
+  public PageDto<ProductDetailDto> getAll(int page, int size) {
+    page--;
+    final Page<Product> prdPage = productDetailDao.selectAll(page, size);
+    return PageDto.of(prdPage).map(productDetaiDtoMapper);
   }
 }

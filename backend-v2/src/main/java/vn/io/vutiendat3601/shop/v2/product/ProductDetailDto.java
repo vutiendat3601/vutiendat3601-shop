@@ -14,5 +14,5 @@ public record ProductDetailDto(
     Long buyedCount,
     Long likedCount,
     Boolean isActive,
-    Long unitsInStock,
+    Integer unitsInStock,
     Category category) {}

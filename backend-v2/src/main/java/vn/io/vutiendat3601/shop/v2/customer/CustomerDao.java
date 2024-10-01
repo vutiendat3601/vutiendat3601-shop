@@ -10,4 +10,7 @@ public interface CustomerDao {
   boolean existsByUserId(long userId);
 
   void insert(@NonNull Customer customer);
+
+  @NonNull
+  Optional<Customer> selectByCode(@NonNull String code);
 }

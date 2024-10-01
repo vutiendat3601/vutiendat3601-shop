@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   BrowserModule,
   provideClientHydration,
@@ -26,6 +27,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/auth/login/login.component';
 import { AccountActionsComponent } from './components/account-actions/account-actions.component';
 import { RegisterComponent } from './components/auth/register/register.component';
+import { ResetpasswordComponent } from './components/auth/resetpassword/resetpassword.component';
 
 const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
@@ -36,6 +38,8 @@ const routes: Routes = [
   { path: 'products', component: ProductListComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'auth/login', component: LoginComponent },
+  { path: 'auth/register', component: RegisterComponent },
+  { path: 'auth/resetpassword', component: ResetpasswordComponent },
   { path: '', redirectTo: '/products', pathMatch: 'full' },
   { path: '**', redirectTo: '/products', pathMatch: 'full' },
 ];
@@ -52,6 +56,7 @@ const routes: Routes = [
     LoginComponent,
     AccountActionsComponent,
     RegisterComponent,
+    ResetpasswordComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -59,6 +64,7 @@ const routes: Routes = [
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     provideClientHydration(),

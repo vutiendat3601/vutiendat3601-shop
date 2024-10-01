@@ -1,9 +1,10 @@
 package vn.io.vutiendat3601.shop.v2.product;
 
 import jakarta.transaction.Transactional;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import vn.io.vutiendat3601.shop.v2.common.PageDto;
 import vn.io.vutiendat3601.shop.v2.exception.RequestValidationException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceDuplicationException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
@@ -14,9 +15,10 @@ public class CategoryService {
   private final CategoryDao categoryDao;
   private final CategoryDtoMapper categoryDtoMapper;
 
-  public List<CategoryDto> getCategories() {
-    final List<Category> categories = categoryDao.selectAll();
-    return categories.stream().map(categoryDtoMapper).toList();
+  public PageDto<CategoryDto> getCategories(int page, int size) {
+    page--;
+    final Page<Category> categoryPage = categoryDao.selectAll(page, size);
+    return PageDto.of(categoryPage).map(categoryDtoMapper);
   }
 
   @Transactional

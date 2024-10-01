@@ -1,78 +1,81 @@
-<div class="background"></div>
-<div class="container">
-  <div class="item">
-    <h2 class="logo"><i class="bx bxl-xing"></i>Vutiendat3601-Shop</h2>
-    <div class="text-item">
-      <h2>Chào mừng đến với cửa hàng!<br /><span> </span></h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
-        repellendus?
+<div class="flex-r container">
+  <div class="flex-r login-wrapper">
+    <div class="login-text">
+      <p class="login-heading">Đăng nhập</p>
+      <p class="login-welcome">
+        Chào mừng bạn, chúc bạn có trải nghiệm mua sắm tốt với cửa hàng!
       </p>
-      <div class="social-icon">
-        <a href="#"><i class="bx bxl-facebook"></i></a>
-        <a href="#"><i class="bx bxl-twitter"></i></a>
-        <a href="#"><i class="bx bxl-youtube"></i></a>
-        <a href="#"><i class="bx bxl-instagram"></i></a>
-        <a href="#"><i class="bx bxl-linkedin"></i></a>
-      </div>
-    </div>
-  </div>
-  <div class="login-section">
-    <div class="form-box login">
-      <form action="">
-        <h2>Đăng nhập</h2>
+
+      <form class="flex-c" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="input-box">
-          <span class="icon"><i class="bx bxs-envelope"></i></span>
-          <input type="text" required placeholder="Nhập tài khoản" />
-          <label>Tài khoản</label>
+          <span class="label">Tài khoản</span>
+          <div class="flex-r input">
+            <input
+              type="text"
+              placeholder="Nhập tài khoản..."
+              formControlName="username"
+            />
+            <i class="fa-regular fa-user"></i>
+          </div>
+          <div
+            *ngIf="
+              loginForm.get('username')?.invalid &&
+              loginForm.get('username')?.touched
+            "
+          >
+            <small class="error">Tài khoản là bắt buộc.</small>
+          </div>
         </div>
-        <div class="input-box">
-          <span class="icon"><i class="bx bxs-lock-alt"></i></span>
-          <input type="password" required placeholder="Nhập mật khẩu" />
-          <label>Mật khẩu</label>
-        </div>
-        <div class="remember-password">
-          <label for=""><input type="checkbox" />Remember Me</label>
-          <a href="#">Quên mật khẩu</a>
-        </div>
-        <button class="btn">Đăng nhập</button>
-        <div class="create-account">
-          <p>
-            Bạn chưa có tài khoản? <a href="#" class="register-link">Đăng ký</a>
-          </p>
-        </div>
-      </form>
-    </div>
-    <div class="form-box register">
-      <form action="">
-        <h2>Sign Up</h2>
 
         <div class="input-box">
-          <span class="icon"><i class="bx bxs-user"></i></span>
-          <input type="text" required />
-          <label>Username</label>
-        </div>
-        <div class="input-box">
-          <span class="icon"><i class="bx bxs-envelope"></i></span>
-          <input type="email" required />
-          <label>Email</label>
-        </div>
-        <div class="input-box">
-          <span class="icon"><i class="bx bxs-lock-alt"></i></span>
-          <input type="password" required />
-          <label>Password</label>
-        </div>
-        <div class="remember-password">
-          <label for=""
-            ><input type="checkbox" />I agree with this statment</label
+          <span class="label">Mật khẩu</span>
+          <div class="flex-r input">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Nhập mật khẩu..."
+              formControlName="password"
+            />
+            <i
+              class="fas"
+              [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+              (click)="togglePasswordVisibility()"
+              style="cursor: pointer; margin-left: 8px"
+            ></i>
+          </div>
+          <div
+            *ngIf="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
           >
+            <small class="error"
+              >Mật khẩu là bắt buộc và phải có ít nhất 8 ký tự.</small
+            >
+          </div>
         </div>
-        <button class="btn">Login In</button>
-        <div class="create-account">
-          <p>
-            Already Have An Account? <a href="#" class="login-link">Sign In</a>
-          </p>
+
+        <div class="check">
+          <input type="checkbox" formControlName="terms" />
+          <span>Tôi đồng ý với các điều khoản</span>
+          <div
+            *ngIf="
+              loginForm.get('terms')?.invalid && loginForm.get('terms')?.touched
+            "
+          >
+            <small class="error">Bạn chưa đồng ý với các điều khoản.</small>
+          </div>
         </div>
+
+        <input
+          class="btn"
+          type="submit"
+          value="Đăng nhập"
+          [disabled]="loginForm.invalid"
+        />
+        <span class="extra-line">
+          <span>Bạn chưa có tài khoản?</span>
+          <a [routerLink]="['/auth/register']">Đăng ký tại đây</a>
+        </span>
       </form>
     </div>
   </div>

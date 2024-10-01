@@ -74,11 +74,11 @@ public class Product extends AuditEntity {
 
   @Builder.Default
   @Column(name = "is_active")
-  private Boolean isActive = true;
+  private Boolean isActive = false;
 
   @Builder.Default
   @Column(name = "units_in_stock")
-  private Long unitsInStock = 0L;
+  private Integer unitsInStock = 0;
 
   @ManyToOne
   @JoinColumn(name = "category_id")

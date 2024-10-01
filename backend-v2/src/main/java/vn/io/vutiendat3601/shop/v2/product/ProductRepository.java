@@ -1,7 +1,10 @@
 package vn.io.vutiendat3601.shop.v2.product;
 
+import io.micrometer.common.lang.NonNull;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,4 +22,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
   boolean existsProductBySku(String sku);
 
   boolean existsProductBySlug(String slug);
+
+  @NonNull
+  Optional<Product> findByProductNoAndIsActiveTrue(@NonNull String productNo);
+
+  @NonNull
+  Page<Product> findAllByCategoryCodeAndIsActiveTrue(
+      @NonNull String categoryCode, @NonNull Pageable pageable);
 }

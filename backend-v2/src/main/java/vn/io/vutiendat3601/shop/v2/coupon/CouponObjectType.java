@@ -1,0 +1,8 @@
+package vn.io.vutiendat3601.shop.v2.coupon;
+
+public enum CouponObjectType {
+  PRODUCT,
+  CATEGORY,
+  SHIPPING_FEE,
+  CUSTOMER
+}
