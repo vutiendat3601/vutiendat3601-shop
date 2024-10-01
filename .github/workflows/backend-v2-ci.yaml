@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    # defaults:
-    #   run:
-    #     working-directory: ./
     steps:
       - name: Checkout project repository
         uses: actions/checkout@v4
