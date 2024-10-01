@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "vn.io.vutiendat3601"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 
 java {
 	toolchain {
@@ -63,7 +63,7 @@ jib {
   }
   to {
     image = extra["app.docker.image"] as String
-    tags = setOf(extra["app.docker.tag"] as String)
+    tags = setOf("latest", extra["app.docker.tag"] as String)
   }
   container {
     jvmFlags = listOf("-Xms512m", "-Xmx1024m")
