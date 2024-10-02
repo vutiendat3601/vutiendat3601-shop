@@ -17,5 +17,5 @@ jobs:
       - name: Git Pull Code and Run Angular build
         run: >
           ssh -i ~/.ssh/id_rsa vutiendat3601@dev.shopsinhvien.io.vn
-          && git pull
+          git pull
           && ng build
