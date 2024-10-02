@@ -70,4 +70,10 @@ public class ProductJpaDataAccessService implements ProductDao {
   public Optional<Product> selectByProductNoAndIsActiveTrue(@NonNull String productNo) {
     return productRepo.findByProductNoAndIsActiveTrue(productNo);
   }
+
+  @Override
+  public Optional<Product> selectUnitInStocksByProductId(Long id) {
+    return productRepo.findUnitInStocksById(id);
+  }
+
 }

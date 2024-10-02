@@ -145,6 +145,7 @@ public class ProductService {
     productDao.updateProduct(product);
   }
 
+
   @Transactional
   public void deleteProduct(String productNo) {
     if (!productDao.existsProductByProductNo(productNo)) {

@@ -29,4 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
   @NonNull
   Page<Product> findAllByCategoryCodeAndIsActiveTrue(
       @NonNull String categoryCode, @NonNull Pageable pageable);
+
+
+  Optional<Product> findUnitInStocksById(Long id);
 }
