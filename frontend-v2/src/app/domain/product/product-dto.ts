@@ -8,9 +8,9 @@ export class ProductDto {
     public unitPrice: number,
     public unitListedPrice: number,
     public thumbnail: string | null,
-    public buyedCount: number,
+    public buyedCount: number = 10,
     public tags: string[],
-    public likedCount: number,
+    public likedCount: number = 10,
     public unitsInStock: number
   ) {}
 }

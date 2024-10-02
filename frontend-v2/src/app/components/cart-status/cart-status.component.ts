@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { CartService } from '../../cart/cart.service';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-cart-status',
   standalone: true,
-  imports: [FontAwesomeModule, CurrencyPipe],
+  imports: [FontAwesomeModule, CurrencyPipe, RouterLink],
   templateUrl: './cart-status.component.html',
   styleUrl: './cart-status.component.scss',
 })
@@ -18,19 +19,15 @@ export class CartStatusComponent {
   public constructor(private readonly cartService: CartService) {}
 
   ngOnInit(): void {
-    this.cartService
-      .numberOfProductsChanged()
-      .subscribe(
-        (numberOfProducts) => (this.numberOfProducts = numberOfProducts)
-      );
-    this.cartService
-      .totalProductAmountChanged()
-      .subscribe(
-        (totalProductAmount) => (this.totalProductAmount = totalProductAmount)
-      );
+    this.updateCartStatus();
   }
 
-  goToCartDetail(): void {
-    alert('Go to cart detail');
+  updateCartStatus() {
+    this.cartService.totalPrice.subscribe((totalPrice) => {
+      this.totalProductAmount = totalPrice;
+    });
+    this.cartService.totalQuantity.subscribe((totalQuantity) => {
+      this.numberOfProducts = totalQuantity;
+    });
   }
 }

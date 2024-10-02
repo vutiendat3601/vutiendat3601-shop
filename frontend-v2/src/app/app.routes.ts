@@ -23,7 +23,10 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    children: [{ path: '', component: ProductListComponent }],
+    children: [
+      { path: '', component: ProductListComponent },
+      { path: 'cart-detail', component: CartDetailsComponent },
+    ],
   },
   {
     path: 'auth',
@@ -31,17 +34,12 @@ export const routes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
       },
       {
         path: 'sign-up',
-        component: SignUpComponent
-      }
-    ]
-  },
-  {
-    path: '',
-    component: MainLayoutComponent,
-    children: [{ path: '', component: CartDetailsComponent }],
+        component: SignUpComponent,
+      },
+    ],
   },
 ];

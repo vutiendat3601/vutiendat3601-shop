@@ -48,12 +48,12 @@ export class ProductListComponent {
   }
 
   listProducts() {
-    // this.searchMode = this.route.snapshot.paramMap.has('keyword');
-    // if (this.searchMode) {
-    // this.handleSearchProducts();
-    // } else {
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+    if (this.searchMode) {
+    this.handleSearchProducts();
+    } else {
     this.handleRenderProducts();
-    // }
+    }
   }
 
   handleSearchProducts() {
@@ -109,12 +109,19 @@ export class ProductListComponent {
 
   addToCart(productDto: ProductDto) {
     const cartItem = new CartItem(
-      productDto.productNo,
-      1,
+      productDto.id,
       productDto.name,
+      productDto.productNo,
       productDto.thumbnail,
       productDto.unitPrice
     );
     this.cartService.addToCart(cartItem);
+  }
+
+  calculateDiscountPercentage(unitPrice: number, unitListedPrice: number): number {
+    if (unitListedPrice > 0 && unitPrice < unitListedPrice) {
+      return Math.round(((unitListedPrice - unitPrice) / unitListedPrice) * 100);
+    }
+    return 0; 
   }
 }
