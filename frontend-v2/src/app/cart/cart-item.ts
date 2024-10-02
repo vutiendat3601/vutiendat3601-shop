@@ -1,9 +1,10 @@
 export class CartItem {
   constructor(
+    public id: number,
+    public name: string,
     public productNo: string,
-    public quantity: number,
-    public couponCode: string | null,
     public productThumbnail: string | null,
-    public unitPrice: number
+    public unitPrice: number,
+    public quantity: number = 1,
   ) {}
 }

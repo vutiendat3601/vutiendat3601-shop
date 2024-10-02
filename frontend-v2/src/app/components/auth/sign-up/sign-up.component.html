@@ -40,10 +40,10 @@
           <div>
             @if(signUpForm.get('email')?.errors?.['required']) {
             <small class="error">Email là bắt buộc.</small>
-            } @if(signUpForm.get('email')?.errors?.['email']) {
+            } @else if(signUpForm.get('email')?.errors?.['email']) {
             <small class="error">Email không hợp lệ.</small>
             }
-            <small class="error">Email không hợp lệ.</small>
+            <small class="error"> Email không hợp lệ.</small>
           </div>
         </div>
 
