@@ -1,6 +1,7 @@
 package vn.io.vutiendat3601.shop.v2.order;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class OrderService {
                         "Address not found: (code=%s,customerCode=%s)"
                             .formatted(createOrderReq.addressCode(), customerCode)));
     final Order order = Order.builder().customer(customer).shippingAddress(shippingAddr).build();
-    calculateOrderItemAmount(order, createOrderReq);
+    calculateOrderItemAmount(order, createOrderReq.items());
 
     // Apply Shipping Fee
     shippingFeeCalculator.calculate(order);
@@ -57,8 +58,8 @@ public class OrderService {
   }
 
   private void calculateOrderItemAmount(
-      @NonNull Order order, @NonNull CreateOrderRequest createOrderReq) {
-    for (CreateOrderItemDto itemDto : createOrderReq.items()) {
+      @NonNull Order order, @NonNull List<CreateOrderItemDto> items ) {
+    for (CreateOrderItemDto itemDto : items) {
       final Product product =
           productDao
               .selectByProductNoAndIsActiveTrue(itemDto.productNo())
