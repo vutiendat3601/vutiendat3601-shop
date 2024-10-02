@@ -32,5 +32,13 @@ jobs:
       - name: Build Docker Image with Jib Gralde Plugin
         working-directory: ./backend-v2
         run: ./gradlew -Papp.docker.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib
+      - name: Docker pull and Compose Up to dev environement
+        run: >
+          mkdir ~/.ssh && echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+          && ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no vutiendat3601@dev.shopsinhvien.io.vn "
+          cd /home/vutiendat3601/shopsinhvien;
+          docker compose pull;
+          docker compose up -d;
+          "
 
         
