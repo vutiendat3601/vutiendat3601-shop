@@ -29,6 +29,8 @@ import { AccountActionsComponent } from './components/account-actions/account-ac
 import { RegisterComponent } from './components/auth/register/register.component';
 import { ResetpasswordComponent } from './components/auth/resetpassword/resetpassword.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { BannerComponent } from './components/banner/banner.component';
+import { BannerService } from './services/banner.service';
 
 const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
@@ -60,6 +62,7 @@ const routes: Routes = [
     RegisterComponent,
     ResetpasswordComponent,
     NotificationComponent,
+    BannerComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -74,6 +77,7 @@ const routes: Routes = [
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
     ProductService,
     CartService,
+    BannerService,
   ],
   bootstrap: [AppComponent],
 })
