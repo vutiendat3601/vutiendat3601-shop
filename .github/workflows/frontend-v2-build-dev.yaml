@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Backend version 2 codebase
         uses: actions/checkout@v4
       - name: Prepare SSH Key
-        run: mkdir ~/.ssh && echo ${{ secrets.SSH_PRIVATE_KEY }} > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+        run: mkdir ~/.ssh && echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
       - name: Git Pull Code and Run Angular build
         run: >
           ssh -i ~/.ssh/id_rsa vutiendat3601@dev.shopsinhvien.io.vn
