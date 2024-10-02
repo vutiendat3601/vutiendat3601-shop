@@ -15,7 +15,7 @@ jobs:
       - name: Git Pull Code and Run Angular build
         run: >
           mkdir ~/.ssh && echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-          && ssh -i ~/.ssh/id_rsa vutiendat3601@dev.shopsinhvien.io.vn
+          && ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no vutiendat3601@dev.shopsinhvien.io.vn
           cd ~/vutiendat3601-shop/frontend-v2
           && git pull
           && ng build
