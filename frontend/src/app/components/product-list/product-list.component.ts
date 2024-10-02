@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Product } from '../../models/product';
-import { ProductService } from '../../services/product.service';
 import { CartItem } from '../../models/cart-item';
+import { Product } from '../../models/product';
+import { BannerService } from '../../services/banner.service';
 import { CartService } from '../../services/cart.service';
+import { ProductService } from '../../services/product.service';
+import { Banner } from '../../models/banner';
 
 @Component({
   selector: 'app-product-list',
@@ -18,7 +20,9 @@ export class ProductListComponent implements OnInit {
   keyword: string = '';
   previousKeyword: string = '';
 
-  // new properties for pagination
+  banners: Banner[] = [];
+
+  // Phân trang
   page: number = 1;
   size: number = 10;
   totalElements: number = 0;
@@ -26,12 +30,16 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
+    private bannerService: BannerService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(() => {
       this.listProducts();
+    });
+    this.bannerService.getBanners().subscribe((data) => {
+      this.banners = data;
     });
   }
 
@@ -54,6 +62,10 @@ export class ProductListComponent implements OnInit {
     this.productService
       .searchProductsPaginate(this.page - 1, this.size, theKeyword)
       .subscribe(this.processResult());
+
+    this.bannerService.getBanners().subscribe((data) => {
+      this.banners = data;
+    });
   }
 
   handleListProducts() {
@@ -71,6 +83,10 @@ export class ProductListComponent implements OnInit {
     this.productService
       .getProductListPaginate(this.page - 1, this.size, this.currentCategoryId)
       .subscribe(this.processResult());
+
+    this.bannerService.getBanners().subscribe((data) => {
+      this.banners = data;
+    });
   }
 
   updatePageSize(size: string) {

@@ -1,0 +1,19 @@
+<div class="banner-wrapper">
+  <div class="banner-list">
+    <div class="banner-item">
+      <img
+        class="banner-image"
+        *ngFor="let banner of banners; let i = index"
+        [src]="banner.imageUrl"
+        [class.active]="i === currentSlideIndex"
+        alt="Banner Image"
+      />
+      <button class="prev-btn" (click)="prevSlide()">&#10094;</button>
+      <button class="next-btn" (click)="nextSlide()">&#10095;</button>
+    </div>
+  </div>
+  <div class="banner-promotion">
+    <img src="https://salt.tikicdn.com/ts/tka/b6/55/05/3be41c683f6320c5639728b49dfaf9c1.jpg" alt="Banner Promotion">
+    <img src="https://salt.tikicdn.com/ts/tka/d6/d0/56/736dfc64a35faa1c43991b22ab9ccb74.jpg" alt="Banner Promotion">
+  </div>
+</div>
