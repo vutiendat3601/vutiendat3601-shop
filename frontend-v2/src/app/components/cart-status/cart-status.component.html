@@ -1,0 +1,11 @@
+<div class="cart-area d-n">
+  <a routerLink="/cart-details" (click)="goToCartDetail()">
+    <div style="border: none" class="total">
+      {{ totalProductAmount | currency: 'VND' }}
+      <span class="number-of-roducts">{{ numberOfProducts }}</span>
+    </div>
+  </a>
+  <a routerLink="/cart-details" (click)="goToCartDetail()">
+    <div class="cart-icon"><fa-icon [icon]="faShoppingCart"></fa-icon></div>
+  </a>
+</div>

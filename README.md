@@ -15,13 +15,13 @@ $ git checkout -b feature/\<jiraTicket\>
   - JDK 17 installed
   - NodeJS 20 installed
 ### Start Backend:
-  - Go to backend directory:
-  \$ cd backend
+  - Go to backend-v2 directory:
+  \$ cd backend-v2
   - Run command:
-  \$ ./mvnw spring-boot:run
+  \$ ./gradlew :booRun
 ### Start Frontend:
- - Go to backend directory:
-  \$ cd frontend
+ - Go to frontend-v2 directory:
+  \$ cd frontend-v2
   - Run command:
   \$ npm install
   \$ npm i @angular/cli -g

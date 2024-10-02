@@ -23,9 +23,9 @@ public class OnlyOneProductCouponApplier implements ProductCouponApplier {
   private final AuthContext authContext;
 
   @Override
-  public void apply(@NonNull String couponCode, @NonNull OrderItem item) {
-    BigDecimal finalAmount = item.getFinalAmount();
-    final Product product = item.getProduct();
+  public void apply(@NonNull String couponCode, @NonNull OrderItem orderItem) {
+    BigDecimal finalAmount = orderItem.getFinalAmount();
+    final Product product = orderItem.getProduct();
     final Coupon coupon =
         couponDao
             .selectByCode(couponCode)
@@ -44,9 +44,9 @@ public class OnlyOneProductCouponApplier implements ProductCouponApplier {
             unitPrice, coupon.getType(), coupon.getMaxAmount(), coupon.getDiscountRatio());
 
     final BigDecimal couponAmount = unitPrice.subtract(appliedCouponPrice);
-    item.setCouponAmount(appliedCouponPrice);
+    orderItem.setCouponAmount(appliedCouponPrice);
     finalAmount = finalAmount.subtract(couponAmount);
-    item.setFinalAmount(finalAmount);
+    orderItem.setFinalAmount(finalAmount);
   }
 
   private boolean checkValidCoupon(@NonNull Coupon coupon) {

@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CartItem } from './cart-item';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { CartItem } from './cart-item';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  cartItems: CartItem[] = [];
-  totalProductAmount: Subject<number> = new BehaviorSubject<number>(0);
-  totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
+  private readonly cartItems: CartItem[] = [];
+  private readonly totalProductAmount: Subject<number> =
+    new BehaviorSubject<number>(0);
+  private readonly numberOfProducts: Subject<number> =
+    new BehaviorSubject<number>(0);
   constructor() {}
 
   addToCart(newCartItem: CartItem) {
@@ -24,16 +26,21 @@ export class CartService {
   }
 
   computeCartTotals() {
-    let totalPriceValue: number = 0;
-    let totalQuantityValue: number = 0;
+    let totalProductAmount: number = 0;
 
     for (const cartItem of this.cartItems) {
-      totalPriceValue += cartItem.quantity * cartItem.unitPrice;
-      totalQuantityValue += cartItem.quantity;
+      totalProductAmount += cartItem.quantity * cartItem.unitPrice;
     }
 
     // publish the new values ... all subscribers will receive the new data
-    this.totalProductAmount.next(totalPriceValue);
-    this.totalQuantity.next(totalQuantityValue);
+    this.totalProductAmount.next(totalProductAmount);
+    this.numberOfProducts.next(this.cartItems.length);
+  }
+
+  totalProductAmountChanged(): Subject<number> {
+    return this.totalProductAmount;
+  }
+  numberOfProductsChanged(): Subject<number> {
+    return this.numberOfProducts;
   }
 }

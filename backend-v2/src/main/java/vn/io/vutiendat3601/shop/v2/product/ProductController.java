@@ -23,13 +23,21 @@ import vn.io.vutiendat3601.shop.v2.common.PageDto;
 public class ProductController {
   private final ProductService productService;
 
-  @GetMapping()
+  @GetMapping
   public ResponseEntity<PageDto<ProductDto>> getProductsByCategoryCode(
       @RequestParam String categoryCode,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     final PageDto<ProductDto> productDtoPage =
         productService.getProductsByCategoryCode(categoryCode, page, size);
+    return ResponseEntity.ok(productDtoPage);
+  }
+
+  @GetMapping("trending")
+  public ResponseEntity<PageDto<ProductDto>> getTrendingProducts(
+      @RequestParam(required = false, defaultValue = "1") Integer page,
+      @RequestParam(required = false, defaultValue = "10") Integer size) {
+    final PageDto<ProductDto> productDtoPage = productService.getTrendingProducts(page, size);
     return ResponseEntity.ok(productDtoPage);
   }
 
