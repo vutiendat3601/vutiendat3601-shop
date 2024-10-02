@@ -1,11 +1,15 @@
+extra["app.docker.image"] = "vutiendat3601/shopsinhvien-backend-v2"
+extra["app.docker.tag"] = project.findProperty("app.docker.tag") ?: "latest"
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
+  id("com.google.cloud.tools.jib") version "3.4.3"
 }
 
 group = "vn.io.vutiendat3601"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 
 java {
 	toolchain {
@@ -51,4 +55,17 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+jib {
+  from {
+    image = "bellsoft/liberica-openjdk-debian:21"
+  }
+  to {
+    image = extra["app.docker.image"] as String
+    tags = setOf("latest", extra["app.docker.tag"] as String)
+  }
+  container {
+    jvmFlags = listOf("-Xms512m", "-Xmx1024m")
+  }
 }
