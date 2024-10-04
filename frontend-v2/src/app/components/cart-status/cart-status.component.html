@@ -1,11 +1,11 @@
 <div class="cart-area d-n">
-  <a routerLink="cart-detail">
+  <a routerLink="cart-details">
     <div style="border: none" class="total">
       {{ totalProductAmount | currency : 'VND' : 'symbol' : '1.0-0' }}
-      <span class="number-of-roducts">{{ numberOfProducts }}</span>
+      <span class="number-of-products">{{ numberOfProducts }}</span>
     </div>
   </a>
-  <a routerLink="cart-detail">
+  <a routerLink="cart-details">
     <div class="cart-icon"><fa-icon [icon]="faShoppingCart"></fa-icon></div>
   </a>
 </div>

@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 })
 export class ProductService {
   private readonly API_PRODUCT_BASE_URL = `${environment.apiBaseUrl}/v2/products`;
+  private readonly API_PRODUCT_DETAIL_BASE_URL = `${environment.apiBaseUrl}/v2/product-all`;
 
   constructor(private http: HttpClient) {}
 
@@ -27,7 +28,11 @@ export class ProductService {
     size: number = 50
   ): Observable<PageDto<ProductDto>> {
     return this.http.get<PageDto<ProductDto>>(
-      `${this.API_PRODUCT_BASE_URL}/trending`
+      `${this.API_PRODUCT_BASE_URL}/trending?page=${page}&size=${size}`
     );
+  }
+
+  public getProductByProductNo(productNo: string): Observable<ProductDto> {
+    return this.http.get<ProductDto>(`${this.API_PRODUCT_DETAIL_BASE_URL}/${productNo}/detail`)
   }
 }

@@ -8,15 +8,15 @@
       <div class="cart-item">
         <div class="cart-item-info">
           <img src="{{ cartItem.productThumbnail }}" class="cart-item-image" />
-          <a routerLink="products/{{ cartItem.id }}">
-            <p class="cart-item-name">Tên: {{ cartItem.name }}</p>
+          <a [routerLink]="['/products', cartItem.productNo]">
+            <p class="cart-item-name">{{ cartItem.name }}</p>
           </a>
         </div>
 
         <div class="cart-item-unit-price">
           Đơn giá:
           <p>
-            {{ cartItem.unitPrice | currency : "VND" : "symbol" : "1.0-0" }}
+            {{ cartItem.unitPrice | currency : "VND" : "symbol" : "1.3-3" }}
           </p>
         </div>
 
