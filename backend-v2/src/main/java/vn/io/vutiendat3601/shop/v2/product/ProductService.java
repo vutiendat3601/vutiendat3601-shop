@@ -33,6 +33,12 @@ public class ProductService {
     return PageDto.of(productPage).map(productDtoMapper);
   }
 
+  public PageDto<ProductDto> getTrendingProducts(Integer page, Integer size) {
+    page--;
+    final Page<Product> productPage = productDao.selectByOrderByBuyedCountDesc(page, size);
+    return PageDto.of(productPage).map(productDtoMapper);
+  }
+
   public Product getProduct(String productNo) {
     return productDao
         .selectByProductNo(productNo)
@@ -144,6 +150,7 @@ public class ProductService {
     product.setUnitPrice(newUnitPrice);
     productDao.updateProduct(product);
   }
+
 
   @Transactional
   public void deleteProduct(String productNo) {

@@ -1,0 +1,81 @@
+.banner-wrapper {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.banner-wrapper::before {
+  content: "";
+  display: block;
+  height: 10px;
+  width: 10px;
+  color: transparent;
+}
+
+.banner-list {
+  position: relative;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.banner-image {
+  position: relative;
+  width: 680px;
+  height: 330px;
+  display: none;
+  transition: opacity 0.5s ease;
+  border-radius: 10px;
+}
+
+.banner-list img.active {
+  display: block;
+}
+
+button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 1;
+}
+
+.banner-item {
+  position: relative;
+  width: 680px;
+  height: 330px;
+}
+
+.prev-btn {
+  position: absolute;
+  left: 0;
+}
+
+.next-btn {
+  position: absolute;
+  right: 0;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Banner promotion */
+.banner-promotion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  margin-left: 8px;
+}
+
+.banner-promotion img {
+  width: 100%;
+  border-radius: 10px;
+}

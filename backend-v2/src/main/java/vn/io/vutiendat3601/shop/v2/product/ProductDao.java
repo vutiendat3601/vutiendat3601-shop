@@ -32,4 +32,8 @@ public interface ProductDao {
 
   @NonNull
   Optional<Product> selectByProductNoAndIsActiveTrue(@NonNull String productNo);
+
+  Optional<Product> selectUnitInStocksByProductId(Long id);
+  @NonNull
+  Page<Product> selectByOrderByBuyedCountDesc(int page, int size);
 }

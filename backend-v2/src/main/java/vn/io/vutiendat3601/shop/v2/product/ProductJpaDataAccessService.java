@@ -67,7 +67,18 @@ public class ProductJpaDataAccessService implements ProductDao {
     return productRepo.findById(productId);
   }
 
+  @NonNull
   public Optional<Product> selectByProductNoAndIsActiveTrue(@NonNull String productNo) {
     return productRepo.findByProductNoAndIsActiveTrue(productNo);
+  }
+
+  @Override
+  public Optional<Product> selectUnitInStocksByProductId(Long id) {
+    return productRepo.findUnitInStocksById(id);
+  }
+
+  @NonNull
+  public Page<Product> selectByOrderByBuyedCountDesc(int page, int size) {
+    return productRepo.findByOrderByBuyedCountDesc(PageRequest.of(page, size));
   }
 }

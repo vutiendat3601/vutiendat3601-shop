@@ -6,17 +6,14 @@ import { CartItem } from './cart-item';
   providedIn: 'root',
 })
 export class CartService {
-  private readonly cartItems: CartItem[] = [];
-  private readonly totalProductAmount: Subject<number> =
-    new BehaviorSubject<number>(0);
-  private readonly numberOfProducts: Subject<number> =
-    new BehaviorSubject<number>(0);
+  cartItems: CartItem[] = [];
+  totalPrice: Subject<number> = new BehaviorSubject<number>(0);
+  totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
+
   constructor() {}
 
   addToCart(newCartItem: CartItem) {
-    const cartItem = this.cartItems.find(
-      (ci) => ci.productNo === newCartItem.productNo
-    );
+    const cartItem = this.cartItems.find((cI) => cI.id === newCartItem.id);
     if (cartItem) {
       cartItem.quantity++;
     } else {
@@ -25,22 +22,43 @@ export class CartService {
     this.computeCartTotals();
   }
 
-  computeCartTotals() {
-    let totalProductAmount: number = 0;
-
-    for (const cartItem of this.cartItems) {
-      totalProductAmount += cartItem.quantity * cartItem.unitPrice;
+  decrementQuantity(decrementCartItem: CartItem) {
+    const cartItem = this.cartItems.find(
+      (cI) => cI.id === decrementCartItem.id
+    );
+    if (cartItem) {
+      cartItem.quantity--;
+      if (cartItem.quantity === 0) {
+        this.remove(decrementCartItem);
+      } else {
+        this.computeCartTotals();
+      }
     }
-
-    // publish the new values ... all subscribers will receive the new data
-    this.totalProductAmount.next(totalProductAmount);
-    this.numberOfProducts.next(this.cartItems.length);
   }
 
-  totalProductAmountChanged(): Subject<number> {
-    return this.totalProductAmount;
+  remove(removeCartItem: CartItem) {
+    const cartItemIndex = this.cartItems.findIndex(
+      (cI) => cI.id === removeCartItem.id
+    );
+    if (cartItemIndex > -1) {
+      this.cartItems.splice(cartItemIndex, 1);
+      this.computeCartTotals();
+    }
   }
-  numberOfProductsChanged(): Subject<number> {
-    return this.numberOfProducts;
+
+  computeCartTotals() {
+    let totalPriceValue: number = 0;
+    let totalQuantityValue: number = 0;
+
+    for (let cartItem of this.cartItems) {
+      totalPriceValue += cartItem.quantity * cartItem.unitPrice;
+      totalQuantityValue += cartItem.quantity;
+    }
+    this.totalPrice.next(totalPriceValue);
+    this.totalQuantity.next(totalQuantityValue);
+  }
+
+  getCartItems() {
+    return this.cartItems;
   }
 }

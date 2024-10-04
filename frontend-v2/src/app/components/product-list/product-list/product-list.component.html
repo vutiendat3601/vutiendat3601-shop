@@ -1,38 +1,62 @@
 <div class="container-fluid">
   <!-- Danh sách danh mục sản phẩm -->
-  <app-category-menu></app-category-menu>
+  <app-category-menu />
 
   <!-- Danh sách sản phẩm ứng với danh mục sản phẩm đã chọn ở trên -->
   <div class="row">
-    <div *ngFor="let product of products" class="col-md-3">
+    @if (productDtos.length === 0) {
+    <!-- Trường hợp không tìm thấy sản phẩm -->
+    <div class="alert alert-warning col-md-12" role="alert">
+      Không tìm thấy sản phẩm
+    </div>
+    } @else { @for (productDto of productDtos; track $index) {
+    <div class="col-md-2">
       <!-- Hiển thị từng sản phẩm -->
       <div class="product-box">
-        <a routerLink="/products/{{ product.id }}">
+        <a routerLink="/products/{{ productDto.productNo }}">
           <div class="product-image-wrapper">
-            <img src="{{ product.imageUrl }}" class="product-image" />
+            <img src="{{ productDto.thumbnail }}" class="product-image" />
           </div>
           <div class="product-info">
-            <span class="product-name">{{ product.name }} </span>
+            <span class="product-name">{{ productDto.name }} </span>
+            <div class="product-promotion">
+              <span class="product-listed-price">
+                {{
+                  productDto.unitListedPrice
+                    | currency : "VND" : "symbol" : "1.0-0"
+                }}
+              </span>
+              @if (productDto.unitListedPrice > productDto.unitPrice) {
+              <span class="discount-percentage">
+                <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.23077 0H4.23077L0 7.82222L3.5 9.14286V16L10 5.68889L6.53846 4.62222L9.23077 0Z" fill="url(#paint0_linear_2216_10611)"></path><defs><linearGradient id="paint0_linear_2216_10611" x1="0" y1="0" x2="0" y2="16" gradientUnits="userSpaceOnUse"><stop stop-color="#EE4D2D"></stop><stop offset="1" stop-color="#FF7337"></stop></linearGradient></defs></svg>
+                -{{
+                  calculateDiscountPercentage(
+                    productDto.unitPrice,
+                    productDto.unitListedPrice
+                  )
+                }}%
+              </span>
+              }
+            </div>
             <span class="product-price">
-              {{ product.unitPrice | currency: "VND" : "symbol" : "1.0-0" }}
+              {{ productDto.unitPrice | currency : "VND" : "symbol" : "1.0-0" }}
             </span>
           </div>
         </a>
         <!-- Ngăn chặn sự kiện click -->
-        <button (click)="addToCart(product); $event.stopPropagation()" class="add-btn">
+        <button
+          (click)="addToCart(productDto); $event.stopPropagation()"
+          class="btn btn-primary add-btn"
+        >
           Thêm vào giỏ hàng
         </button>
       </div>
     </div>
-
-    <!-- Trường hợp không tìm thấy sản phẩm -->
-    <div *ngIf="products?.length === 0" class="alert alert-warning col-md-12" role="alert">
-      Không tìm thấy sản phẩm
-    </div>
+    }}
   </div>
 
   <!-- Phân trang -->
-  <div class="footer-pagination">
+  <div class="footer-pagination" style="margin-top: 16px">
     <div class="row justify-content-center">
       <div class="col-md-3 mt-2 text-right">
         <span class="mr-2">Page Size: </span>
@@ -44,8 +68,14 @@
         </select>
       </div>
       <div class="col-md-6 text-center">
-        <ngb-pagination [(page)]="page" [pageSize]="size" [maxSize]="2" [collectionSize]="totalElements"
-          [boundaryLinks]="true" (pageChange)="listProducts()">
+        <ngb-pagination
+          [(page)]="page"
+          [pageSize]="size"
+          [maxSize]="2"
+          [collectionSize]="totalItems"
+          [boundaryLinks]="true"
+          (pageChange)="listProducts()"
+        >
         </ngb-pagination>
       </div>
     </div>

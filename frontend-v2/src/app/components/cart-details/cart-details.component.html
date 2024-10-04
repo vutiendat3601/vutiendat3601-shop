@@ -1,0 +1,82 @@
+<!-- Trường hợp giỏ hàng có sản phẩm -->
+<p class="cart-detail-heading">GIỎ HÀNG CỦA BẠN</p>
+@if (cartItems.length > 0) {
+<div class="cart-detail-wrapper">
+  <div>
+    @for (cartItem of cartItems; track $index) {
+    <div>
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <img src="{{ cartItem.productThumbnail }}" class="cart-item-image" />
+          <a routerLink="products/{{ cartItem.id }}">
+            <p class="cart-item-name">Tên: {{ cartItem.name }}</p>
+          </a>
+        </div>
+
+        <div class="cart-item-unit-price">
+          Đơn giá:
+          <p>
+            {{ cartItem.unitPrice | currency : "VND" : "symbol" : "1.0-0" }}
+          </p>
+        </div>
+
+        <div class="cart-item-quantity-wrapper">
+          <button
+            (click)="decrementQuantity(cartItem)"
+            class="btn btn-primary btn-sm btn-decre"
+          >
+            <fa-icon [icon]="faMinus" class="icon-derce"></fa-icon>
+          </button>
+          <p class="cart-item-quantity">{{ cartItem.quantity }}</p>
+          <button
+            (click)="incrementQuantity(cartItem)"
+            class="btn btn-primary btn-sm btn-incre"
+          >
+            <fa-icon [icon]="faPlus"></fa-icon>
+          </button>
+        </div>
+
+        <div class="cart-item-total-price">
+          Thành tiền:
+          <p>
+            {{
+              cartItem.quantity * cartItem.unitPrice
+                | currency : "VND" : "symbol" : "1.0-0"
+            }}
+          </p>
+        </div>
+
+        <button (click)="remove(cartItem)" class="delete-btn">
+          <fa-icon [icon]="faTrash" style="border: none"></fa-icon>
+        </button>
+      </div>
+    </div>
+    }
+    <!-- Tính tổng tiền -->
+    <div class="checkout">
+      <div class="total-quantity">
+        Tổng số lượng:
+        <p>{{ totalQuantity }}</p>
+      </div>
+      <div class="shipping-fee">
+        Phí giao hàng:
+        <p>FREE</p>
+      </div>
+      <div class="total-price">
+        Tổng tiền:
+        <p>{{ totalPrice | currency : "VND" : "symbol" : "1.0-0" }}</p>
+      </div>
+      <a routerLink="/checkout" class="btn checkout-btn">Thanh toán</a>
+    </div>
+  </div>
+</div>
+} @else {
+<!-- Trường hợp giỏ hàng không có sản phẩm nào -->
+<div
+  class="alert alert-warning col-md-12"
+  role="alert"
+  style="margin-bottom: 16px"
+>
+  Giỏ hàng của bạn trống.
+</div>
+}
