@@ -13,7 +13,7 @@ export class CartService {
   constructor() {}
 
   addToCart(newCartItem: CartItem) {
-    const cartItem = this.cartItems.find((cI) => cI.id === newCartItem.id);
+    const cartItem = this.cartItems.find((cI) => cI.productNo === newCartItem.productNo);
     if (cartItem) {
       cartItem.quantity++;
     } else {
@@ -24,7 +24,7 @@ export class CartService {
 
   decrementQuantity(decrementCartItem: CartItem) {
     const cartItem = this.cartItems.find(
-      (cI) => cI.id === decrementCartItem.id
+      (cI) => cI.productNo === decrementCartItem.productNo
     );
     if (cartItem) {
       cartItem.quantity--;
@@ -38,7 +38,7 @@ export class CartService {
 
   remove(removeCartItem: CartItem) {
     const cartItemIndex = this.cartItems.findIndex(
-      (cI) => cI.id === removeCartItem.id
+      (cI) => cI.productNo === removeCartItem.productNo
     );
     if (cartItemIndex > -1) {
       this.cartItems.splice(cartItemIndex, 1);

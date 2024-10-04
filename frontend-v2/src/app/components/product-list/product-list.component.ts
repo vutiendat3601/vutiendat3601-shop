@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CartItem } from '../../../cart/cart-item';
-import { CartService } from '../../../cart/cart.service';
+import { CartItem } from '../../domain/cart/cart-item';
+import { CartService } from '../../domain/cart/cart.service';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-import { CategoryMenuComponent } from '../../category-menu/category-menu.component';
-import { ProductService } from '../../../domain/product/product.service';
-import { PageDto } from '../../../common/page-dto';
-import { ProductDto } from '../../../domain/product/product-dto';
+import { CategoryMenuComponent } from '../category-menu/category-menu.component';
+import { ProductService } from '../../domain/product/product.service';
+import { PageDto } from '../../common/page-dto';
+import { ProductDto } from '../../domain/product/product-dto';
 
 @Component({
   selector: 'app-product-list',
@@ -24,16 +24,18 @@ import { ProductDto } from '../../../domain/product/product-dto';
 })
 export class ProductListComponent {
   productDtos: ProductDto[] = [];
+  trendingProducts: ProductDto[] = [];
   currentCategoryCode?: string;
   previousCategoryCode?: string;
   searchMode: boolean = false;
   keyword: string = '';
   previousKeyword: string = '';
+  selectedCategoryCode: string | undefined;
 
-  // new properties for pagination
   page: number = 1;
   size: number = 10;
   totalItems: number = 0;
+  isCategorySelected: boolean = false;
 
   constructor(
     private readonly productService: ProductService,
@@ -42,60 +44,51 @@ export class ProductListComponent {
   ) {}
 
   ngOnInit() {
+    this.listTrendingProducts();
     this.route.queryParamMap.subscribe(() => {
       this.listProducts();
     });
   }
 
+  listTrendingProducts() {
+    this.productService
+      .getTrendingProducts(this.page, this.size)
+      .subscribe((productDtoPage: PageDto<ProductDto>) => {
+        this.trendingProducts = productDtoPage.items;
+        this.totalItems = productDtoPage.totalItems;
+      });
+  }
+
   listProducts() {
-    this.searchMode = this.route.snapshot.paramMap.has('keyword');
-    if (this.searchMode) {
-    this.handleSearchProducts();
-    } else {
-    this.handleRenderProducts();
-    }
-  }
-
-  handleSearchProducts() {
-    // const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
-    // if (this.previousKeyword != theKeyword) {
-    //   this.page = 1;
-    // }
-    // this.previousKeyword = theKeyword;
-    // this.productService
-    //   .searchProductsPaginate(this.page - 1, this.size, theKeyword)
-    //   .subscribe(this.processResult());
-  }
-
-  handleRenderProducts() {
     const hasCategoryCode: boolean =
       this.route.snapshot.queryParamMap.has('categoryCode');
     if (hasCategoryCode) {
+      this.isCategorySelected = true;
       this.currentCategoryCode =
         this.route.snapshot.queryParamMap.get('categoryCode')!;
+      this.handleRenderProducts(this.currentCategoryCode);
+    } else {
+      this.isCategorySelected = false;
+      this.handleRenderProducts();
+    }
+  }
+
+  onCategorySelected(categoryCode: string) {
+    this.selectedCategoryCode = categoryCode;
+    this.page = 1;
+    this.listProducts();
+  }
+
+  handleRenderProducts(categoryCode?: string) {
+    if (categoryCode) {
       this.productService
-        .getProductsByCategoryCode(
-          this.currentCategoryCode,
-          this.page,
-          this.size
-        )
+        .getProductsByCategoryCode(categoryCode, this.page, this.size)
         .subscribe(this.processResult());
     } else {
-      this.currentCategoryCode = undefined;
       this.productService
         .getTrendingProducts(this.page, this.size)
         .subscribe(this.processResult());
     }
-    if (this.previousCategoryCode != this.currentCategoryCode) {
-      this.page = 1;
-    }
-    this.previousCategoryCode = this.currentCategoryCode;
-  }
-
-  updatePageSize(size: string) {
-    this.size = Number.parseInt(size);
-    this.page = 1;
-    this.listProducts();
   }
 
   processResult() {
@@ -107,21 +100,37 @@ export class ProductListComponent {
     };
   }
 
+  updatePage(newPage: number) {
+    this.page = +newPage;
+    this.listProducts();
+  }
+
+  updatePageSize(newSize: string) {
+    this.size = +newSize;
+    this.page = 1;
+    this.listProducts();
+  }
+
   addToCart(productDto: ProductDto) {
     const cartItem = new CartItem(
       productDto.id,
       productDto.name,
-      productDto.productNo,
+      productDto.product_no,
       productDto.thumbnail,
       productDto.unitPrice
     );
     this.cartService.addToCart(cartItem);
   }
 
-  calculateDiscountPercentage(unitPrice: number, unitListedPrice: number): number {
+  calculateDiscountPercentage(
+    unitPrice: number,
+    unitListedPrice: number
+  ): number {
     if (unitListedPrice > 0 && unitPrice < unitListedPrice) {
-      return Math.round(((unitListedPrice - unitPrice) / unitListedPrice) * 100);
+      return Math.round(
+        ((unitListedPrice - unitPrice) / unitListedPrice) * 100
+      );
     }
-    return 0; 
+    return 0;
   }
 }

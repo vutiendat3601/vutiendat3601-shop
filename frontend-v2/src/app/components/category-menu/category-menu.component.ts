@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CategoryDto } from '../../domain/product/category-dto';
 import { CategoryService } from '../../domain/product/category.service';
@@ -11,6 +11,7 @@ import { CategoryService } from '../../domain/product/category.service';
   styleUrl: './category-menu.component.scss',
 })
 export class CategoryMenuComponent {
+  @Output() categorySelected = new EventEmitter<string>();
   selectedCategoryCode: string | null = null;
   categoryDtos: CategoryDto[] = [];
   page: number = 1;
@@ -30,11 +31,17 @@ export class CategoryMenuComponent {
       }
     });
   }
-  listCategories() {
+
+  listCategories(): void {
     this.categoryService
       .getCategories(this.page, this.size)
       .subscribe((categoryDtoPage) => {
         this.categoryDtos = categoryDtoPage.items;
       });
+  }
+
+  selectCategory(categoryCode: string): void {
+    this.selectedCategoryCode = categoryCode;
+    this.categorySelected.emit(categoryCode);
   }
 }

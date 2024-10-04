@@ -1,0 +1,103 @@
+.container-fluid {
+  display: flex;
+}
+
+.product-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.detail-img {
+  width: 40%;
+  height: auto;
+  object-fit: cover;
+  display: flex;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-name {
+  font-size: 20px;
+  margin-top: 38px;
+}
+
+.product-about {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+
+  p {
+    margin: 12px 0;
+  }
+
+  .buyed-count {
+
+  }
+
+  .liked-count {
+
+  }
+
+  .unit-in-stock {
+
+  }
+}
+
+.product-price {
+  font-size: 20px;
+  color: #d0011b;
+}
+
+.product-desc {
+  min-height: 150px;
+
+  h4 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 18px;
+    display: -webkit-box;             /* Sử dụng flexbox để áp dụng */
+    -webkit-box-orient: vertical;    /* Thiết lập hướng của box thành dọc */
+    -webkit-line-clamp: 3;           /* Giới hạn số dòng hiển thị là 3 */
+    overflow: hidden;                 /* Ẩn phần văn bản vượt quá giới hạn */
+    text-overflow: ellipsis;         /* Thêm dấu ba chấm */
+  }
+}
+
+.add-btn {
+  color: #fff;
+  font-size: 16px;
+  padding: 12px;
+  background: rgb(10, 104, 255);
+  border-radius: 10px;
+  border: none;
+}
+
+.add-btn:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.back-btn {
+  text-decoration: none;
+  margin-left: 30px;
+  padding: 12px;
+  background: rgb(10, 104, 255);
+  border-radius: 10px;
+}
+
+.back-btn:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.back-btn a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+}

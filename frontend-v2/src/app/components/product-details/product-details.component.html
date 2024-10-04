@@ -1,0 +1,28 @@
+<div class="detail-section">
+  <div class="container-fluid">
+    <div class="product-image">
+      <img src="{{ productDto.thumbnail }}" class="detail-img" />
+    </div>
+    <div class="product-info">
+      <h3 class="product-name">{{ productDto.name }}</h3>
+      <div class="product-about">
+        <p class="buyed-count">Đã bán: {{ productDto.buyedCount}}</p>
+        <p class="liked-count">Yêu thích: {{ productDto.likedCount}}</p>
+        <p class="unit-in-stock">Còn lại {{ productDto.unitsInStock}} sản phẩm</p>
+      </div>
+      <div class="product-price">
+        {{ productDto.unitPrice | currency : "VND" : "symbol" : "1.0-0" }}
+      </div>
+      <hr />
+      <div class="product-desc">
+        <h4>Mô tả sản phẩm</h4>
+        <p>{{ productDto.description }} Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur maiores officia incidunt commodi dignissimos obcaecati, magnam et facere aut velit reprehenderit ut facilis non veniam soluta nihil libero molestiae blanditiis!</p>
+      </div>
+      <div class="add-to-cart">
+        <button (click)="addToCart(productDto)" class="add-btn">
+          Thêm vào giỏ hàng
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

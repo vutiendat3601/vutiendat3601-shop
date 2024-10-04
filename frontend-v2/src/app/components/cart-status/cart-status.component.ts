@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { CartService } from '../../cart/cart.service';
+import { CartService } from '../../domain/cart/cart.service';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';

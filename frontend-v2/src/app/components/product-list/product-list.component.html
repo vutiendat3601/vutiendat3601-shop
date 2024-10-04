@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <!-- Danh sách danh mục sản phẩm -->
-  <app-category-menu />
+  <app-category-menu (categorySelected)="onCategorySelected($event)" />
 
   <!-- Danh sách sản phẩm ứng với danh mục sản phẩm đã chọn ở trên -->
   <div class="row">
@@ -13,12 +13,12 @@
     <div class="col-md-2">
       <!-- Hiển thị từng sản phẩm -->
       <div class="product-box">
-        <a routerLink="/products/{{ productDto.productNo }}">
+        <a routerLink="products/{{ productDto.product_no }}">
           <div class="product-image-wrapper">
             <img src="{{ productDto.thumbnail }}" class="product-image" />
           </div>
           <div class="product-info">
-            <span class="product-name">{{ productDto.name }} </span>
+            <span class="product-name">{{ productDto.name }}</span>
             <div class="product-promotion">
               <span class="product-listed-price">
                 {{
@@ -28,7 +28,31 @@
               </span>
               @if (productDto.unitListedPrice > productDto.unitPrice) {
               <span class="discount-percentage">
-                <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.23077 0H4.23077L0 7.82222L3.5 9.14286V16L10 5.68889L6.53846 4.62222L9.23077 0Z" fill="url(#paint0_linear_2216_10611)"></path><defs><linearGradient id="paint0_linear_2216_10611" x1="0" y1="0" x2="0" y2="16" gradientUnits="userSpaceOnUse"><stop stop-color="#EE4D2D"></stop><stop offset="1" stop-color="#FF7337"></stop></linearGradient></defs></svg>
+                <svg
+                  width="10"
+                  height="16"
+                  viewBox="0 0 10 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.23077 0H4.23077L0 7.82222L3.5 9.14286V16L10 5.68889L6.53846 4.62222L9.23077 0Z"
+                    fill="url(#paint0_linear_2216_10611)"
+                  ></path>
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_2216_10611"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="16"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#EE4D2D"></stop>
+                      <stop offset="1" stop-color="#FF7337"></stop>
+                    </linearGradient>
+                  </defs>
+                </svg>
                 -{{
                   calculateDiscountPercentage(
                     productDto.unitPrice,
@@ -74,7 +98,7 @@
           [maxSize]="2"
           [collectionSize]="totalItems"
           [boundaryLinks]="true"
-          (pageChange)="listProducts()"
+          (pageChange)="updatePage($event)"
         >
         </ngb-pagination>
       </div>
