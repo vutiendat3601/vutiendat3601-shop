@@ -12,6 +12,7 @@ public class ProductDtoMapper implements Function<Product, ProductDto> {
     Assert.notNull(product, "product argument must not be null");
     return new ProductDto(
         product.getId(),
+        product.getProductNo(),
         product.getSku(),
         product.getName(),
         product.getDescription(),
