@@ -6,6 +6,7 @@ import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { AdminLayoutComponent } from './admin/admin/layouts/admin-layout/admin-layout.component';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,20 @@ export const routes: Routes = [
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'sign-up', component: SignUpComponent },
+    ],
+  },
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    children: [
+      { path: 'dashboard', component: ProductListComponent },
+      { path: 'manage-product', component: ProductListComponent },
+      { path: 'manage-category', component: ProductListComponent },
+      { path: 'manage-order', component: ProductListComponent },
+      { path: 'manage-user', component: ProductListComponent },
+      { path: 'manage-sales', component: ProductListComponent },
+      { path: 'logout', component: CartDetailsComponent },
+      { path: 'change-password', component: CartDetailsComponent },
     ],
   },
 ];
