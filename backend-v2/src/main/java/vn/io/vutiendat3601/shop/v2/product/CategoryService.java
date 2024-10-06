@@ -43,16 +43,16 @@ public class CategoryService {
     categoryDao.insert(category);
   }
 
-  public Category getCategory(Long id) {
+  public Category getCategory(String code) {
     return categoryDao
-        .selectById(id)
+        .selectByCode(code)
         .orElseThrow(
-            () -> new ResourceNotFoundException("Category with id [%s] not found".formatted(id)));
+            () -> new ResourceNotFoundException("Category with id [%s] not found".formatted(code)));
   }
 
   @Transactional
-  public void updateCategory(Long id, UpdateCategoryRequest updateCategoryReq) {
-    Category category = getCategory(id);
+  public void updateCategory(String code, UpdateCategoryRequest updateCategoryReq) {
+    Category category = getCategory(code);
     boolean isChange = false;
 
     if (updateCategoryReq.code() != null && !updateCategoryReq.code().equals(category.getCode())) {
@@ -82,8 +82,8 @@ public class CategoryService {
   }
 
   @Transactional
-  public void deleteProduct(Long id) {
-    getCategory(id);
-    categoryDao.deleteCategory(id);
+  public void deleteProduct(String code) {
+    getCategory(code);
+    categoryDao.deleteCategory(code);
   }
 }

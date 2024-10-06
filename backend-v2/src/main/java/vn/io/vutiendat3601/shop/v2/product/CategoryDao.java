@@ -7,13 +7,16 @@ import org.springframework.lang.NonNull;
 public interface CategoryDao {
 
   @NonNull
-  Optional<Category> selectById(long id);
+  Optional<Category> selectByCode(String code);
+
+  @NonNull
+  Optional<Category> selectById(Long id);
 
   void insert(Category category);
 
   void updateCategory(Category category);
 
-  void deleteCategory(Long id);
+  void deleteCategory(String code);
 
   boolean existsCategoryByCode(String code);
 
