@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TopWidgetsComponent } from './top-widgets.component';
+import { ManageCategoryComponent } from './manage-category.component';
 
-describe('TopWidgetsComponent', () => {
-  let component: TopWidgetsComponent;
-  let fixture: ComponentFixture<TopWidgetsComponent>;
+describe('ManageCategoryComponent', () => {
+  let component: ManageCategoryComponent;
+  let fixture: ComponentFixture<ManageCategoryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TopWidgetsComponent]
+      imports: [ManageCategoryComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TopWidgetsComponent);
+    fixture = TestBed.createComponent(ManageCategoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
