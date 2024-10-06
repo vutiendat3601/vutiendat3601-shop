@@ -1,0 +1,36 @@
+<div class="category-table-wrapper">
+  <div class="category-header">
+    <p class="category-heading">DANH MỤC SẢN PHẨM</p>
+    <button (click)="addCategory()">Thêm danh mục</button>
+  </div>
+  <table class="category-table">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Tên sản phẩm</th>
+        <th>Ảnh sản phẩm</th>
+        <th>Tương tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (categoryDto of categoryDtos; track $index) {
+      <tr>
+        <td>{{ categoryDto.code }}</td>
+        <td>{{ categoryDto.name }}</td>
+        <td>
+          <img
+            class="category-image"
+            [src]="categoryDto.thumbnail"
+            [alt]="categoryDto.name"
+            style="width: 50px; height: 50px; object-fit: contain;"
+          />
+        </td>
+        <td>
+          <button (click)="updateCategory(categoryDto)">Sửa</button>
+          <button (click)="deleteCategory(categoryDto.code)">Xóa</button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

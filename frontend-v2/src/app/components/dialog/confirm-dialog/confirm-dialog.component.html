@@ -1,0 +1,8 @@
+<h1 mat-dialog-title class="heading">Xác nhận</h1>
+<div mat-dialog-content class="content">
+  <p>{{ data.message }}</p>
+</div>
+<div mat-dialog-actions class="btn-actions">
+  <button mat-button color="warn" (click)="onYesClick()" class="delete-btn">Xóa</button>
+  <button mat-button (click)="onNoClick()" class="cancel-btn">Hủy</button>
+</div>

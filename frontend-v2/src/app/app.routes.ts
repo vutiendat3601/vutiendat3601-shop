@@ -7,6 +7,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { AdminLayoutComponent } from './admin/admin/layouts/admin-layout/admin-layout.component';
+import { ManageCategoryComponent } from './admin/components/manage-category/manage-category.component';
 
 export const routes: Routes = [
   {
@@ -35,7 +36,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: ProductListComponent },
       { path: 'manage-product', component: ProductListComponent },
-      { path: 'manage-category', component: ProductListComponent },
+      { path: 'manage-category', component: ManageCategoryComponent },
       { path: 'manage-order', component: ProductListComponent },
       { path: 'manage-user', component: ProductListComponent },
       { path: 'manage-sales', component: ProductListComponent },
