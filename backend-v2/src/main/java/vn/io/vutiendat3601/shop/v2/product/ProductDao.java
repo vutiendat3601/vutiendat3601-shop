@@ -27,7 +27,7 @@ public interface ProductDao {
 
   boolean existsProductBySlug(String slug);
 
-  Page<Product> selectByCategoryCodeAndIsActiveTrue(
+  Page<Product> selectByCategoryCode(
       @NonNull String categoryCode, int page, int size);
 
   @NonNull
