@@ -24,9 +24,9 @@ public class ProductController {
 
   @GetMapping
   public ResponseEntity<PageDto<ProductDto>> getProductsByCategoryCode(
-      @RequestParam String categoryCode,
-      @RequestParam(required = false, defaultValue = "1") Integer page,
-      @RequestParam(required = false, defaultValue = "10") Integer size) {
+      @RequestParam("categoryCode") String categoryCode,
+      @RequestParam(name = "page",required = false, defaultValue = "1") Integer page,
+      @RequestParam(name = "size",required = false, defaultValue = "10") Integer size) {
     final PageDto<ProductDto> productDtoPage =
         productService.getProductsByCategoryCode(categoryCode, page, size);
     return ResponseEntity.ok(productDtoPage);
