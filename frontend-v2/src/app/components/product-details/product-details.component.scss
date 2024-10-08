@@ -33,18 +33,6 @@
   p {
     margin: 12px 0;
   }
-
-  .buyed-count {
-
-  }
-
-  .liked-count {
-
-  }
-
-  .unit-in-stock {
-
-  }
 }
 
 .product-price {
@@ -61,11 +49,11 @@
 
   p {
     font-size: 18px;
-    display: -webkit-box;             /* Sử dụng flexbox để áp dụng */
-    -webkit-box-orient: vertical;    /* Thiết lập hướng của box thành dọc */
-    -webkit-line-clamp: 3;           /* Giới hạn số dòng hiển thị là 3 */
-    overflow: hidden;                 /* Ẩn phần văn bản vượt quá giới hạn */
-    text-overflow: ellipsis;         /* Thêm dấu ba chấm */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;   
+    -webkit-line-clamp: 3;          
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

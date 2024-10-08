@@ -39,7 +39,7 @@ export class ProductDetailsComponent {
     const cartItem = new CartItem(
       productDto.id,
       productDto.name,
-      productDto.product_no,
+      productDto.productNo,
       productDto.thumbnail,
       productDto.unitPrice
     );

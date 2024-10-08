@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { PageDto } from '../../common/page-dto';
 import { ProductDto } from './product-dto';
 import { environment } from '../../../environments/environment';
+import { ProductRequestCreateDto } from './product-request-create-dto';
+import { ProductRequestUpdateDto } from './product-request-update-dto';
 @Injectable({
   providedIn: 'root',
 })
@@ -33,6 +35,31 @@ export class ProductService {
   }
 
   public getProductByProductNo(productNo: string): Observable<ProductDto> {
-    return this.http.get<ProductDto>(`${this.API_PRODUCT_DETAIL_BASE_URL}/${productNo}/detail`)
+    return this.http.get<ProductDto>(
+      `${this.API_PRODUCT_DETAIL_BASE_URL}/${productNo}/detail`
+    );
+  }
+
+  public addProduct(
+    productCreateReq: ProductRequestCreateDto
+  ): Observable<void> {
+    return this.http.post<void>(
+      `${this.API_PRODUCT_BASE_URL}`,
+      productCreateReq
+    );
+  }
+
+  public updateProduct(
+    productNo: string,
+    productUpdateReq: ProductRequestUpdateDto
+  ): Observable<void> {
+    return this.http.put<void>(
+      `${this.API_PRODUCT_BASE_URL}/${productNo}`,
+      productUpdateReq
+    );
+  }
+
+  public deleteProduct(productNo: string): Observable<void> {
+    return this.http.delete<void>(`${this.API_PRODUCT_BASE_URL}/${productNo}`);
   }
 }

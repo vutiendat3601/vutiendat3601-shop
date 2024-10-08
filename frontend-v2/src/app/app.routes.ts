@@ -8,6 +8,7 @@ import { CartDetailsComponent } from './components/cart-details/cart-details.com
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { AdminLayoutComponent } from './admin/admin/layouts/admin-layout/admin-layout.component';
 import { ManageCategoryComponent } from './admin/components/manage-category/manage-category.component';
+import { ManageProductComponent } from './admin/components/manage-product/manage-product.component';
 
 export const routes: Routes = [
   {
@@ -34,8 +35,8 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: ProductListComponent },
-      { path: 'manage-product', component: ProductListComponent },
+      { path: '', component: ProductListComponent },
+      { path: 'manage-product', component: ManageProductComponent },
       { path: 'manage-category', component: ManageCategoryComponent },
       { path: 'manage-order', component: ProductListComponent },
       { path: 'manage-user', component: ProductListComponent },

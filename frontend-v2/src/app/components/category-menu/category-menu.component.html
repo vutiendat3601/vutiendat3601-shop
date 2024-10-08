@@ -1,13 +1,26 @@
 <div class="category-wrapper">
   <p class="category-heading">DANH MỤC SẢN PHẨM</p>
   <ul class="category-list">
-
     @for (categoryDto of categoryDtos; track $index) {
-    <li class="category-item" [class.active]="selectedCategoryCode === categoryDto.code">
-      <a [routerLink]="'/'" [queryParams]="{categoryCode: categoryDto.code}">
-        <div class="category-inner" [class.selected]="categoryDto.code === selectedCategoryCode">
+    <li
+      class="category-item"
+      [class.active]="selectedCategoryCode === categoryDto.code"
+    >
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ categoryCode: categoryDto.code }"
+        queryParamsHandling="merge"
+      >
+        <div
+          class="category-inner"
+          [class.selected]="categoryDto.code === selectedCategoryCode"
+        >
           <div class="category-image">
-            <img class="category-image" src="{{ categoryDto.thumbnail }}" alt="{{ categoryDto.name}}" />
+            <img
+              class="category-image"
+              src="{{ categoryDto.thumbnail }}"
+              alt="{{ categoryDto.name }}"
+            />
           </div>
           <div class="category-name">{{ categoryDto.name }}</div>
         </div>

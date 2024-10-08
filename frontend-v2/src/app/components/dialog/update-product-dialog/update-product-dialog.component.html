@@ -1,0 +1,72 @@
+<div class="wrapper">
+  <h1 mat-dialog-title>SỬA SẢN PHẨM</h1>
+  <div mat-dialog-content class="content">
+    <mat-form-field>
+      <mat-label>SKU</mat-label>
+      <input
+        matInput
+        [(ngModel)]="productUpdateReq.sku"
+        placeholder="SKU"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Tên sản phẩm</mat-label>
+      <input
+        matInput
+        [(ngModel)]="productUpdateReq.name"
+        placeholder="Tên sản phẩm"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Mô tả sản phẩm</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="productUpdateReq.description"
+        placeholder="Mô tả sản phẩm"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Giá bán</mat-label>
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="productUpdateReq.unitPrice"
+        placeholder="Giá bán"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Ảnh sản phẩm</mat-label>
+      <input
+        matInput
+        [(ngModel)]="productUpdateReq.thumbnail"
+        placeholder="File ảnh sản phẩm"
+      />
+    </mat-form-field>
+    <div>
+      <mat-label>Trạng thái sản phẩm</mat-label>
+      <mat-radio-group [(ngModel)]="productUpdateReq.isActive">
+        <mat-radio-button [value]="true">Active</mat-radio-button>
+        <mat-radio-button [value]="false">Inactive</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <mat-form-field>
+      <mat-label>Danh mục</mat-label>
+      <mat-select
+        [(ngModel)]="selectedCategoryId"
+        (selectionChange)="onCategoryChange($event.value)"
+        required
+      >
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="actions-btn">
+    <button mat-button (click)="onCancel()" class="cancel-btn">Hủy</button>
+    <button mat-button (click)="onSave()" class="save-btn">Lưu</button>
+  </div>
+</div>

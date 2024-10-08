@@ -1,1 +1,85 @@
-<p>manage-product works!</p>
+<div class="container-fluid">
+  <!-- Danh sách danh mục sản phẩm -->
+  <app-category-menu
+    (categorySelected)="onCategorySelected($event)"
+  ></app-category-menu>
+
+  <!-- Danh sách sản phẩm ứng với danh mục sản phẩm đã chọn -->
+  <div class="row">
+    <!-- Kiểm tra nếu không có sản phẩm -->
+    @if (productDtos.length === 0) {
+    <div class="product-header">
+      <p class="product-heading">DANH SÁCH SẢN PHẨM</p>
+      <button (click)="addProduct()">Thêm sản phẩm</button>
+    </div>
+    <div class="alert alert-warning col-md-12" role="alert">
+      Không tìm thấy sản phẩm
+    </div>
+    } @else {
+    <!-- Nếu có sản phẩm -->
+    <div class="product-table-wrapper col-md-12">
+      <div class="product-header">
+        <p class="product-heading">DANH SÁCH SẢN PHẨM</p>
+        <button (click)="addProduct()">Thêm sản phẩm</button>
+      </div>
+      <table class="product-table table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Tên sản phẩm</th>
+            <th>Mô tả</th>
+            <th>Giá sản phẩm</th>
+            <th>Ảnh sản phẩm</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let productDto of productDtos; let i = index">
+            <td>{{ productDto.name }}</td>
+            <td>{{ productDto.description }}</td>
+            <td>
+              {{ productDto.unitPrice | currency : "VND" : "symbol" : "1.0-0" }}
+            </td>
+            <td>
+              <img
+                class="product-image"
+                [src]="productDto.thumbnail"
+                [alt]="productDto.name"
+                style="width: 50px; height: 50px; object-fit: contain"
+              />
+            </td>
+            <td>
+              <button (click)="updateProduct(productDto)">Sửa</button>
+              <button (click)="deleteProduct(productDto.productNo)">Xóa</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    }
+  </div>
+
+  <!-- Phân trang -->
+  <div class="footer-pagination" style="margin-top: 16px">
+    <div class="row justify-content-center">
+      <div class="col-md-3 mt-2 text-right">
+        <span class="mr-2">Page Size: </span>
+        <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
+          <option>5</option>
+          <option selected="true">10</option>
+          <option>20</option>
+          <option>50</option>
+        </select>
+      </div>
+      <div class="col-md-6 text-center">
+        <ngb-pagination
+          [(page)]="page"
+          [pageSize]="size"
+          [maxSize]="2"
+          [collectionSize]="totalItems"
+          [boundaryLinks]="true"
+          (pageChange)="updatePage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

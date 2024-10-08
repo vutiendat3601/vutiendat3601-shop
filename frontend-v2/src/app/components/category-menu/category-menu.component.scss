@@ -12,15 +12,20 @@
 .category-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   list-style: none;
   padding: 0;
+  gap: 10px;
+}
+
+.category-item {
+  width: 120px;
+  box-sizing: border-box;
 }
 
 .category-list a {
   text-decoration: none;
 }
-
 
 .category-inner {
   display: flex;
@@ -38,7 +43,6 @@
   transform: translateY(-4px);
 }
 
-/* Category khi được chon */
 .category-inner.selected {
   box-shadow: 0 1px 20px 0 rgba(10, 104, 255, 0.2);
   transform: translateY(-4px);
@@ -71,6 +75,33 @@
   -webkit-line-clamp: 1;
 }
 
+.category-item.active .category-inner {
+  transform: translateY(-4px);
+}
+
+
+.category-image {
+  flex: 1;
+}
+
+.category-image img {
+  margin: 4px 0;
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.category-name {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px;
+  height: 30px;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
 
 .category-item.active .category-inner {
   transform: translateY(-4px);
