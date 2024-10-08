@@ -23,10 +23,7 @@ export class CategoryService {
   }
 
   public addCategory(category: CategoryDto): Observable<void> {
-    return this.http.post<void>(
-      `${this.CATEGORY_API_V2_BASE_URL}`,
-      category
-    );
+    return this.http.post<void>(`${this.CATEGORY_API_V2_BASE_URL}`, category);
   }
 
   public updateCategory(

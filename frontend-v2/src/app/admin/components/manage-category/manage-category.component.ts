@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CategoryDto } from '../../../domain/product/category-dto';
 import { CategoryService } from '../../../domain/product/category.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../components/dialog/confirm-dialog/confirm-dialog.component';
 import { EditCategoryDialogComponent } from '../../../components/dialog/edit-category-dialog/edit-category-dialog.component';
 
@@ -22,7 +22,6 @@ export class ManageCategoryComponent {
 
   constructor(
     private readonly categoryService: CategoryService,
-    private readonly route: ActivatedRoute,
     private readonly dialog: MatDialog
   ) {}
 
@@ -39,9 +38,12 @@ export class ManageCategoryComponent {
   }
 
   addCategory(): void {
-    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
-      width: '600px',
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.maxWidth = 'none';
+    const dialogRef = this.dialog.open(
+      EditCategoryDialogComponent,
+      dialogConfig
+    );
 
     dialogRef.afterClosed().subscribe((result: CategoryDto) => {
       if (result) {
@@ -55,10 +57,13 @@ export class ManageCategoryComponent {
   }
 
   updateCategory(category: CategoryDto): void {
-    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
-      width: '600px',
-      data: { header: 'Sửa danh mục', ...category },
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.maxWidth = 'none';
+    dialogConfig.data = { ...category };
+    const dialogRef = this.dialog.open(
+      EditCategoryDialogComponent,
+      dialogConfig
+    );
 
     dialogRef.afterClosed().subscribe((updatedCategory: CategoryDto) => {
       if (updatedCategory && updatedCategory.code) {
@@ -73,9 +78,7 @@ export class ManageCategoryComponent {
 
   deleteCategory(categoryCode: string | undefined): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '600px',
       data: {
-        header: 'Thêm danh mục',
         message: 'Bạn có chắc chắn muốn xóa danh mục này không?',
       },
     });
