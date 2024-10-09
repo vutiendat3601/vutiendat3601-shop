@@ -11,7 +11,7 @@ import { CurrencyPipe } from '@angular/common';
   standalone: true,
   imports: [CurrencyPipe],
   templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.scss'
+  styleUrl: './product-details.component.scss',
 })
 export class ProductDetailsComponent {
   productDto: ProductDto = new ProductDto();
@@ -30,16 +30,18 @@ export class ProductDetailsComponent {
 
   handleProductDetails() {
     const theProductNo: string = this.route.snapshot.paramMap.get('productNo')!;
-    this.productService.getProductByProductNo(theProductNo).subscribe((data) => {
-      this.productDto = data;
-    });
+    this.productService
+      .getProductByProductNo(theProductNo)
+      .subscribe((data) => {
+        this.productDto = data;
+      });
   }
 
   addToCart(productDto: ProductDto) {
     const cartItem = new CartItem(
       productDto.id,
       productDto.name,
-      productDto.product_no,
+      productDto.productNo,
       productDto.thumbnail,
       productDto.unitPrice
     );

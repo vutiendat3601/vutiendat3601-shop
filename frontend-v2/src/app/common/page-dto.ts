@@ -1,7 +1,9 @@
-export interface PageDto<T> {
-  items: T[];
-  page: number;
-  size: number;
-  totalItems: number;
-  totalPages: number;
+export class PageDto<T> {
+  constructor(
+    public items: T[],
+    public page: number,
+    public size: number,
+    public totalItems: number,
+    public totalPages: number
+  ) {}
 }

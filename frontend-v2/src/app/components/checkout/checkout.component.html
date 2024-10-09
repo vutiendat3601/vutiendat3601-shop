@@ -1,0 +1,130 @@
+<div class="main-content page-m">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+
+      <div>
+        <div class="form-area">
+
+          <!-- customer form group -->
+          <div>
+            <h3 class="header-checkout">Thông tin cá nhân</h3>
+            <div class="row">
+              <div class="col-md-3">
+                <img src="https://cdn-icons-png.flaticon.com/256/3177/3177440.png" alt="User Icon">
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-6"><label>TÊN</label></div>
+                  <div class="col-md-6"><label>SỐ ĐIỆN THOẠI</label></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="input-space">
+                      <input type="text">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="input-space">
+                      <input type="text">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="row"><label>EMAIL</label></div>
+                  <div class="col-md-12">
+                    <div class="input-space">
+                      <input type="text">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div [formGroup]="addrFormGroup">
+            <div class="row">
+              <h3><i class="fa fa-truck" aria-hidden="true"></i> Địa chỉ giao hàng</h3>
+            </div>
+
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-3"> <label>TỈNH/THÀNH PHỐ</label></div>
+              <div class="col-md-4"> <label>QUẬN/HUYỆN</label></div>
+              <div class="col-md-3"> <label>PHƯỜNG/XÃ</label></div>
+            </div>
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-3">
+                <div class="input-space">
+                  <select formControlName="provinceId" (change)="handleProvinceSelected($event)">
+                    <option [value]="-1" disabled>
+                      --- Chọn tỉnh/thành phố ---
+                    </option>
+                    @for (province of provinces; track $index) {
+                    <option [value]="province.id">
+                      {{ province.name }}
+                    </option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="input-space">
+                  <select formControlName="districtId" (change)="handleDistrictSelected($event)">
+                    <option [value]="-1">
+                      --- Chọn huyện/thị xã ---
+                    </option>
+                    @for (district of districts; track $index) {
+                    <option [value]="district.id">
+                      {{ district.name }}
+                    </option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="input-space">
+                  <select formControlName="districtId">
+                    <option [value]="-1">
+                      --- Chọn phường/xã ---
+                    </option>
+                    @for (ward of wards; track ward.id) {
+                    <option [value]="ward.id">
+                      {{ ward.name }}
+                    </option>
+                    }
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-10"><label>ĐỊA CHỈ</label></div>
+            </div>
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-10">
+                <div class="input-space">
+                  <input type="text">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+              <div class="right">
+                <button type="submit" class="btn btn-info">Tiếp tục</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- submit button-->
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
       {
         path: 'products/:productNo',
         component: ProductDetailsComponent,
+      },
+      {
+        path: 'checkout',
+        component: CheckoutComponent,
       },
     ],
   },

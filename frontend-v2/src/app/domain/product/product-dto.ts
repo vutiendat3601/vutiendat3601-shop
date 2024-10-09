@@ -1,7 +1,7 @@
 export class ProductDto {
   constructor(
     public id?: number,
-    public product_no?: string,
+    public productNo?: string,
     public sku?: string,
     public name?: string,
     public description?: string,
