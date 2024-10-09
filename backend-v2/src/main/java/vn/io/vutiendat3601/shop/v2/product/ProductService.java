@@ -29,7 +29,7 @@ public class ProductService {
       @NonNull String categoryCode, int page, int size) {
     page--;
     final Page<Product> productPage =
-        productDao.selectByCategoryCodeAndIsActiveTrue(categoryCode, page, size);
+        productDao.selectByCategoryCode(categoryCode, page, size);
     return PageDto.of(productPage).map(productDtoMapper);
   }
 

@@ -55,9 +55,9 @@ public class ProductJpaDataAccessService implements ProductDao {
     return productRepo.findByProductNo(productNo);
   }
 
-  public Page<Product> selectByCategoryCodeAndIsActiveTrue(
+  public Page<Product> selectByCategoryCode(
       @NonNull String categoryCode, int page, int size) {
-    return productRepo.findAllByCategoryCodeAndIsActiveTrue(
+    return productRepo.findAllByCategoryCode(
         categoryCode, PageRequest.of(page, size));
   }
 

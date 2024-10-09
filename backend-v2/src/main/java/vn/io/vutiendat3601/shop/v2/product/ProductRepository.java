@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -26,12 +28,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
   @NonNull
   Optional<Product> findByProductNoAndIsActiveTrue(@NonNull String productNo);
 
-  @NonNull
-  Page<Product> findAllByCategoryCodeAndIsActiveTrue(
-      @NonNull String categoryCode, @NonNull Pageable pageable);
-
+  @Query("SELECT p FROM Product p JOIN Category c ON p.category.id = c.id WHERE c.code = :categoryCode")
+    Page<Product> findAllByCategoryCode(@Param("categoryCode") String categoryCode, Pageable pageable);
 
   Optional<Product> findUnitInStocksById(Long id);
+
   @NonNull
   Page<Product> findByOrderByBuyedCountDesc(@NonNull Pageable pageable);
 }
