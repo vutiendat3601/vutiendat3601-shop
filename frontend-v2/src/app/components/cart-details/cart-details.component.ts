@@ -17,6 +17,7 @@ export class CartDetailsComponent implements OnInit {
   faMinus = faMinus;
   faPlus = faPlus;
   faTrash = faTrash;
+
   totalPrice: number = 0;
   totalQuantity: number = 0;
   cartItems: CartItem[] = [];
@@ -29,11 +30,15 @@ export class CartDetailsComponent implements OnInit {
   }
 
   updateCartStatus() {
-    this.cartService.totalPrice.subscribe((totalPrice) => {
-      this.totalPrice = totalPrice;
-    });
-    this.cartService.totalQuantity.subscribe((totalQuantity) => {
-      this.totalQuantity = totalQuantity;
+    this.cartService.totalPrice.subscribe(
+      (totalPrice) => (this.totalPrice = totalPrice)
+    );
+    this.cartService.totalQuantity.subscribe(
+      (totalQuantity) => (this.totalQuantity = totalQuantity)
+    );
+    this.cartService.cartItemsChanged.subscribe((cartItems) => {
+      this.cartItems = cartItems;
+      console.log(this.cartItems);
     });
   }
 

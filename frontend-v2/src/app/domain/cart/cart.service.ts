@@ -7,19 +7,27 @@ import { CartItem } from './cart-item';
 })
 export class CartService {
   cartItems: CartItem[] = [];
+  cartItemsChanged: Subject<CartItem[]> = new BehaviorSubject<CartItem[]>([]);
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
   constructor() {}
 
   addToCart(newCartItem: CartItem) {
-    const cartItem = this.cartItems.find((cI) => cI.productNo === newCartItem.productNo);
+    console.log('this.cartItems be', this.cartItems);
+    const cartItem = this.cartItems.find(
+      (cI) => cI.productNo === newCartItem.productNo
+    );
+    console.log('add', cartItem);
+
     if (cartItem) {
       cartItem.quantity++;
     } else {
-      this.cartItems.push(newCartItem);
+      this.cartItems = [...this.cartItems, newCartItem];
     }
+    console.log('this.cartItems', this.cartItems);
     this.computeCartTotals();
+    this.cartItemsChanged.next(this.cartItems);
   }
 
   decrementQuantity(decrementCartItem: CartItem) {
@@ -34,6 +42,8 @@ export class CartService {
         this.computeCartTotals();
       }
     }
+    this.cartItemsChanged.next(this.cartItems);
+    console.log(this.cartItems);
   }
 
   remove(removeCartItem: CartItem) {
@@ -44,6 +54,7 @@ export class CartService {
       this.cartItems.splice(cartItemIndex, 1);
       this.computeCartTotals();
     }
+    this.cartItemsChanged.next(this.cartItems);
   }
 
   computeCartTotals() {
@@ -56,9 +67,5 @@ export class CartService {
     }
     this.totalPrice.next(totalPriceValue);
     this.totalQuantity.next(totalQuantityValue);
-  }
-
-  getCartItems() {
-    return this.cartItems;
   }
 }
