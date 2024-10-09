@@ -1,0 +1,30 @@
+.wrapper {
+  min-width: 1000px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions-btn {
+  float: right;
+  .cancel-btn,
+  .save-btn {
+    font-size: 16px;
+    outline: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  .cancel-btn {
+    background-color: #f44336;
+  }
+  .save-btn {
+    background-color: rgb(88, 194, 43);
+  }
+}

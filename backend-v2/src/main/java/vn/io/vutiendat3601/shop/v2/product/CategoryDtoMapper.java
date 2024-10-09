@@ -11,6 +11,6 @@ public class CategoryDtoMapper implements Function<Category, CategoryDto> {
   public CategoryDto apply(Category category) {
     Assert.notNull(category, "category argument must not be null");
     return new CategoryDto(
-        category.getCode(), category.getSlug(), category.getName(), category.getThumbnail());
+        category.getId(),category.getCode(), category.getSlug(), category.getName(), category.getThumbnail());
   }
 }

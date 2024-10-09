@@ -19,12 +19,6 @@ public class CategoryJpaDataAccesService implements CategoryDao {
   }
 
   @Override
-  @NonNull
-  public Optional<Category> selectById(long id) {
-    return categoryRespo.findById(id);
-  }
-
-  @Override
   public void insert(Category category) {
     categoryRespo.save(category);
   }
@@ -40,7 +34,19 @@ public class CategoryJpaDataAccesService implements CategoryDao {
   }
 
   @Override
-  public void deleteCategory(Long id) {
-    categoryRespo.deleteById(id);
+  @NonNull
+  public Optional<Category> selectByCode(String code) {
+   return categoryRespo.findByCode(code);
+  }
+
+  @Override
+  public void deleteCategory(String code) {
+   categoryRespo.deleteByCode(code);
+  }
+
+  @Override
+  @NonNull
+  public Optional<Category> selectById(Long id) {
+    return categoryRespo.findById(id);
   }
 }

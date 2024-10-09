@@ -1,0 +1,14 @@
+.content {
+  display: flex;
+  .side-nav {
+    flex: 1;
+    width: 350px;
+    min-width: 260px;
+    min-height: calc(100vh - 70px);
+    background-color: #113c60;
+    color: #fff;
+  }
+  .main-content {
+    flex: 4;
+  }
+}

@@ -1,0 +1,34 @@
+<div class="wrapper">
+  <h1 mat-dialog-title>QUẢN LÝ DANH MỤC</h1>
+  <div mat-dialog-content class="content">
+    <mat-form-field>
+      <mat-label>CODE</mat-label>
+      <input matInput [(ngModel)]="category.code" placeholder="CODE" required />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Tên danh mục</mat-label>
+      <input
+        matInput
+        [(ngModel)]="category.name"
+        placeholder="Tên danh mục"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Slug</mat-label>
+      <input matInput [(ngModel)]="category.slug" placeholder="Slug" required />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Ảnh danh mục</mat-label>
+      <input
+        matInput
+        [(ngModel)]="category.thumbnail"
+        placeholder="File ảnh danh mục"
+      />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="actions-btn">
+    <button mat-button (click)="onCancel()" class="cancel-btn">Hủy</button>
+    <button mat-button (click)="onSave()" class="save-btn">Lưu</button>
+  </div>
+</div>

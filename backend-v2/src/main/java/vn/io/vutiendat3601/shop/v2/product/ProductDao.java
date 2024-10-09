@@ -27,12 +27,13 @@ public interface ProductDao {
 
   boolean existsProductBySlug(String slug);
 
-  Page<Product> selectByCategoryCodeAndIsActiveTrue(
+  Page<Product> selectByCategoryCode(
       @NonNull String categoryCode, int page, int size);
 
   @NonNull
   Optional<Product> selectByProductNoAndIsActiveTrue(@NonNull String productNo);
 
+  Optional<Product> selectUnitInStocksByProductId(Long id);
   @NonNull
   Page<Product> selectByOrderByBuyedCountDesc(int page, int size);
 }

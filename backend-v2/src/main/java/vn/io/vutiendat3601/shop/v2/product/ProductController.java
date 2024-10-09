@@ -1,6 +1,5 @@
 package vn.io.vutiendat3601.shop.v2.product;
 
-import io.swagger.v3.oas.annotations.Parameter;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +24,9 @@ public class ProductController {
 
   @GetMapping
   public ResponseEntity<PageDto<ProductDto>> getProductsByCategoryCode(
-      @RequestParam String categoryCode,
-      @RequestParam(required = false, defaultValue = "1") Integer page,
-      @RequestParam(required = false, defaultValue = "10") Integer size) {
+      @RequestParam("categoryCode") String categoryCode,
+      @RequestParam(name = "page",required = false, defaultValue = "1") Integer page,
+      @RequestParam(name = "size",required = false, defaultValue = "10") Integer size) {
     final PageDto<ProductDto> productDtoPage =
         productService.getProductsByCategoryCode(categoryCode, page, size);
     return ResponseEntity.ok(productDtoPage);
@@ -41,14 +40,14 @@ public class ProductController {
     return ResponseEntity.ok(productDtoPage);
   }
 
-  @PostMapping("v2/products")
+  @PostMapping
   public ResponseEntity<?> createProduct(
       @Validated @RequestBody CreateProductRequest createProductReq) {
     productService.createProduct(createProductReq);
     return ResponseEntity.ok().build();
   }
 
-  @PutMapping("v2/products/{product_no}")
+  @PutMapping("{product_no}")
   public ResponseEntity<?> updateProduct(
       @PathVariable("product_no") String productNo,
       @RequestBody UpdateProductRequest updateProductRequest) {
@@ -56,15 +55,15 @@ public class ProductController {
     return ResponseEntity.ok().build();
   }
 
-  @DeleteMapping("v2/products/{product_no}")
+  @DeleteMapping("{product_no}")
   public ResponseEntity<?> deleteProduct(@PathVariable("product_no") String productNo) {
     productService.deleteProduct(productNo);
     return ResponseEntity.ok().build();
   }
 
-  @PostMapping("v2/products/unitprice/{product_no}")
+  @PostMapping("unitprice/{product_no}")
   public ResponseEntity<PriceHistoryDto> updateUnitPrice(
-      @PathVariable("product_no") String productNo, @Parameter @NonNull BigDecimal newUnitPrice) {
+      @PathVariable("product_no") String productNo, @RequestBody @NonNull BigDecimal newUnitPrice) {
     productService.updateUnitPrice(productNo, newUnitPrice);
 
     return ResponseEntity.ok().build();
