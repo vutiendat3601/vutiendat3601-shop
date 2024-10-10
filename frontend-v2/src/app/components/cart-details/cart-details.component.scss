@@ -117,27 +117,18 @@
 
 .total-quantity,
 .shipping-fee,
-.total-price {
+.total-price,
+.coupon {
   padding: 8px;
   font-size: 16px;
 }
 
-.total-quantity {
+.shipping-fee, .coupon, .total-quantity {
   display: flex;
   justify-content: space-between;
 }
 
-.total-quantity p {
-  color: black;
-  margin: 0 0 0 8px;
-}
-
-.shipping-fee {
-  display: flex;
-  justify-content: space-between;
-}
-
-.shipping-fee p {
+.shipping-fee p, .total-quantity p {
   color: black;
   margin: 0 0 0 8px;
 }
@@ -162,6 +153,10 @@
 .total-price p {
   color: #d0011b;
   margin: 0 0 0 8px;
+}
+
+.coupon input, .coupon data {
+  width: 240px;
 }
 
 .checkout-btn {
