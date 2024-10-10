@@ -1,5 +1,4 @@
-name: Build Backend version 2 Project and containerize to Docker Hub on Merge Request
-on:
+name: Build Frontend version 2 Project
   pull_request:
     branches:
       - dev
@@ -10,7 +9,7 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout Backend version 2 codebase
+      - name: Checkout Frontend version 2 codebase
         uses: actions/checkout@v4
       - name: Git Pull Code and Run Angular build
         run: >
