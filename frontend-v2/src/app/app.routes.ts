@@ -10,6 +10,8 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AdminLayoutComponent } from './admin/admin/layouts/admin-layout/admin-layout.component';
 import { ManageCategoryComponent } from './admin/components/manage-category/manage-category.component';
 import { ManageProductComponent } from './admin/components/manage-product/manage-product.component';
+import { ManageOrderComponent } from './admin/components/manage-order/manage-order.component';
+import { OrderListComponent } from './components/order-list/order-list.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +27,10 @@ export const routes: Routes = [
       {
         path: 'checkout',
         component: CheckoutComponent,
+      },
+      {
+        path: 'order-list',
+        component: OrderListComponent,
       },
     ],
   },
@@ -43,7 +49,7 @@ export const routes: Routes = [
       { path: '', component: ProductListComponent },
       { path: 'manage-product', component: ManageProductComponent },
       { path: 'manage-category', component: ManageCategoryComponent },
-      { path: 'manage-order', component: ProductListComponent },
+      { path: 'manage-order', component: ManageOrderComponent },
       { path: 'manage-user', component: ProductListComponent },
       { path: 'manage-sales', component: ProductListComponent },
       { path: 'logout', component: CartDetailsComponent },
