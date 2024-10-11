@@ -52,6 +52,7 @@
 .cart-item-unit-price {
   display: flex;
   width: 16.67%;
+  justify-content: center;
 }
 
 .cart-item-unit-price p {
@@ -62,6 +63,7 @@
 .cart-item-quantity-wrapper {
   width: 16.67%;
   display: flex;
+  justify-content: center;
 }
 
 .cart-item-quantity {
