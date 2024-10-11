@@ -20,6 +20,21 @@
             </p>
           </div>
 
+          <div class="coupon">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nhập hoặc chọn mã giảm giá"
+              [(ngModel)]="selectedCoupon"
+              (input)="filterCoupons()"
+              list="availableCoupons"
+            />
+            <!-- Danh sách mã giảm giá gợi ý -->
+            <datalist id="availableCoupons">
+              <option *ngFor="let coupon of filteredCoupons" [value]="coupon.code">{{ coupon.description }}</option>
+            </datalist>          
+          </div>
+
           <div class="cart-item-quantity-wrapper">
             <button
               (click)="decrementQuantity(cartItem)"
@@ -64,7 +79,6 @@
         </div>
         <div class="coupon">
           Mã giảm giá:
-          <!-- Ô input nhập mã giảm giá -->
           <input
             type="text"
             class="form-control"
