@@ -53,6 +53,8 @@ public class OrderServiceTest {
 
   @Mock private VatCaclator vatCaclator;
 
+  private final OrderDtoMapper orderDtoMapper = new OrderDtoMapper();
+
   private static final User USER =
       User.builder()
           .username("vutiendat3601")
@@ -137,6 +139,7 @@ public class OrderServiceTest {
   private final CreateOrderRequest CREATE_ORDER_REQ =
       new CreateOrderRequest(
           ADDRESS.getCode(),
+          "FREESHIP15K",
           List.of(
               new CreateOrderItemDto("20240812sfD4r5Snm", 2, COUPON_CATEGORY.getCode()),
               new CreateOrderItemDto("20220124vfD3r5Szy", 1, null)));
@@ -152,7 +155,8 @@ public class OrderServiceTest {
             productDao,
             productCouponApplier,
             shippingFeeCalculator,
-            vatCaclator);
+            vatCaclator,
+            orderDtoMapper);
   }
 
   @Test

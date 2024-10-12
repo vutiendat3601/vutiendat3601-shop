@@ -44,7 +44,7 @@ public class OnlyOneProductCouponApplier implements ProductCouponApplier {
             unitPrice, coupon.getType(), coupon.getMaxAmount(), coupon.getDiscountRatio());
 
     final BigDecimal couponAmount = unitPrice.subtract(appliedCouponPrice);
-    orderItem.setCouponAmount(appliedCouponPrice);
+    orderItem.setCouponAmount(couponAmount);
     finalAmount = finalAmount.subtract(couponAmount);
     orderItem.setFinalAmount(finalAmount);
   }

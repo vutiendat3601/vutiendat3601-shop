@@ -31,6 +31,32 @@ public class OrderService {
   private final ProductCouponApplier productCouponApplier;
   private final ShippingFeeCalculator shippingFeeCalculator;
   private final VatCaclator vatCaclator;
+  private final OrderDtoMapper orderDtoMapper;
+
+  public OrderDto getOrderPreview(@NonNull CreateOrderRequest createOrderReq) {
+    final String customerCode = authContext.getUser().customerCode();
+    final Customer customer =
+        customerDao
+            .selectByCode(customerCode)
+            .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+    final Address shippingAddr =
+        addrDao
+            .selectByCodeAndCustomerCode(createOrderReq.addressCode(), customerCode)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "Address not found: (code=%s,customerCode=%s)"
+                            .formatted(createOrderReq.addressCode(), customerCode)));
+    final Order order = Order.builder().customer(customer).shippingAddress(shippingAddr).build();
+    calculateOrderItemAmount(order, createOrderReq.items());
+
+    // Apply Shipping Fee
+    shippingFeeCalculator.calculate(order);
+
+    // Apply VAT
+    vatCaclator.calculate(order);
+    return orderDtoMapper.apply(order);
+  }
 
   public void createOrder(@NonNull CreateOrderRequest createOrderReq) {
     final String customerCode = authContext.getUser().customerCode();
@@ -58,7 +84,7 @@ public class OrderService {
   }
 
   private void calculateOrderItemAmount(
-      @NonNull Order order, @NonNull List<CreateOrderItemDto> items ) {
+      @NonNull Order order, @NonNull List<CreateOrderItemDto> items) {
     for (CreateOrderItemDto itemDto : items) {
       final Product product =
           productDao
