@@ -5,4 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record CreateOrderRequest(
-    @NotNull String addressCode, @NotNull @NotEmpty List<CreateOrderItemDto> items) {}
+    @NotNull String addressCode,
+    String shippingFeeCouponCode,
+    @NotNull @NotEmpty List<CreateOrderItemDto> items) {}

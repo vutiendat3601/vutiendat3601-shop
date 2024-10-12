@@ -68,7 +68,7 @@ public class ShopV2Application {
                             .user(USER)
                             .phones(List.of())
                             .build()));
-    final String addrCode = "fc570168-f26e-4201-8f84-edd72cd30a8a";
+    final String addrCode = "903089e9-6b54-45ce-b64c-3a59a59cdd1d";
     addrRepo
         .findByCodeAndCustomerCode(addrCode, customerCode)
         .orElseGet(

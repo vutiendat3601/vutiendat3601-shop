@@ -53,3 +53,11 @@ AS SELECT u.id,
     c.code AS customer_code
   FROM core.users u
   INNER JOIN core.customer c ON u.id = c.user_id;
+
+INSERT INTO core.users
+(id, username, email, phone, is_deleted, is_verified, hashed_password, authorities, created_at, updated_at, created_by, updated_by)
+VALUES(0, 'root', 'root@shopsinhvien.io.vn', '0898993601', false, true, '', '{ADMIN}'::character varying[], CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, 0);
+
+INSERT INTO core.customer
+(id, user_id, code, "name", phones, created_at, updated_at, created_by, updated_by)
+VALUES(0, 0, '2c0e3d09-8dd1-4d26-adbe-0310cf513d2d', 'root', '{0898993601}'::character varying[], CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, 0);

@@ -11369,3 +11369,7 @@ INSERT INTO common.ward (id, "name", district_id) VALUES
 (32244, 'Thị trấn Rạch Gốc', 973),
 (32245, 'Xã Tân Ân', 973),
 (32248, 'Xã Đất Mũi', 973);
+
+INSERT INTO core.address
+(id, code, street, customer_id, ward_id, created_at, updated_at, created_by, updated_by)
+VALUES(0, 'fc570168-f26e-4201-8f84-edd72cd30a8a', '1 Nguyễn Huệ', 0, 26740, '2024-10-11 23:09:29.451', '2024-10-11 23:09:29.451', 0, 0);
