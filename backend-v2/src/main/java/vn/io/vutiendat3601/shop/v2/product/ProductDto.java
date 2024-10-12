@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record ProductDto(
-    Long id,
     String productNo,
     String sku,
     String name,
@@ -16,4 +15,5 @@ public record ProductDto(
     List<String> tags,
     Long likedCount,
     Boolean isActive,
-    Integer unitsInStock) {}
+    Integer unitsInStock,
+    String categoryCode) {}
