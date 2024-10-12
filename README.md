@@ -2,10 +2,10 @@
 - Create a new branch for feature:
 $ git checkout -b feature/\<jiraTicket\>
 - Remember to merge latest code from branch 'dev' to new feature branch before push:
-\$ git switch dev
-\$ git pull
-\$ git switch feature/\<jiraTicket\>
-\$ git merge dev
+\$ git switch dev\
+\$ git pull\
+\$ git switch feature/\<jiraTicket\>\
+\$ git merge dev\
 
 - After push to GitHub Repository, please make a Pull Request from the 'feature/\<jiraTicket\>' branch to 'dev' branch
 
@@ -16,14 +16,14 @@ $ git checkout -b feature/\<jiraTicket\>
   - NodeJS 20 installed
 ### Start Backend:
   - Go to backend-v2 directory:
-  \$ cd backend-v2
+  \$ cd backend-v2\
   - Run command:
-  \$ ./gradlew :booRun
+  \$ ./gradlew :booRun\
 ### Start Frontend:
  - Go to frontend-v2 directory:
-  \$ cd frontend-v2
+  \$ cd frontend-v2\
   - Run command:
-  \$ npm install
-  \$ npm i @angular/cli -g
-  \$ ng serve --host 0.0.0.0
+  \$ npm install\
+  \$ npm i @angular/cli -g\
+  \$ ng serve --host 0.0.0.0\
   
