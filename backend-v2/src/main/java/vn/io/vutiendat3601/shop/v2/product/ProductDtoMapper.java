@@ -11,7 +11,6 @@ public class ProductDtoMapper implements Function<Product, ProductDto> {
   public ProductDto apply(Product product) {
     Assert.notNull(product, "product argument must not be null");
     return new ProductDto(
-        product.getId(),
         product.getProductNo(),
         product.getSku(),
         product.getName(),
@@ -23,6 +22,7 @@ public class ProductDtoMapper implements Function<Product, ProductDto> {
         product.getTags(),
         product.getLikedCount(),
         product.getIsActive(),
-        product.getUnitsInStock());
+        product.getUnitsInStock(),
+        product.getCategory().getCode());
   }
 }
