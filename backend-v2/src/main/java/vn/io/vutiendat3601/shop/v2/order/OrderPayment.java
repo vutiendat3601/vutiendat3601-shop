@@ -1,5 +1,6 @@
 package vn.io.vutiendat3601.shop.v2.order;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -68,7 +69,7 @@ public class OrderPayment extends AuditEntity {
   @Column(name = "callback_url")
   private String callbackUrl;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "order_id")
   private Order order;
 }

@@ -16,7 +16,7 @@ CREATE TABLE business.order_payment (
   "status" varchar(100) NOT NULL CHECK (
     "status" IN (
       'PENDING',
-      'PAID',
+      'SUCCESS',
       'FAIL'
     )
   ),

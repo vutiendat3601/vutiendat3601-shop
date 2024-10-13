@@ -18,8 +18,9 @@ import org.springframework.stereotype.Service;
 import vn.io.vutiendat3601.shop.v2.exception.ConflictException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
 import vn.io.vutiendat3601.shop.v2.payment.PaymentMethod;
-import vn.io.vutiendat3601.shop.v2.payment.PaymentProvider;
 import vn.io.vutiendat3601.shop.v2.payment.PaymentStatus;
+import vn.io.vutiendat3601.shop.v2.payment.VnPayPaymentProvider;
+import vn.io.vutiendat3601.shop.v2.payment.VnPayPaymentResult;
 import vn.io.vutiendat3601.shop.v2.util.StringUtils;
 
 @Slf4j
@@ -43,7 +44,7 @@ public class OrderPaymentService {
   private final OrderPaymentDtoMapper orderPaymentDtoMapper;
 
   @Qualifier("vnPayPaymentOrderRediectUrl")
-  private final PaymentProvider vnPayPaymentProvider;
+  private final VnPayPaymentProvider vnPayPaymentProvider;
 
   public OrderPaymentDto createOrderPayment(
       @NonNull String trackingNumber,
@@ -107,5 +108,20 @@ public class OrderPaymentService {
       default:
         throw new IllegalArgumentException("Payment method not found");
     }
+  }
+
+  public void processVnPayPaymentResult(@NonNull VnPayPaymentResult vnPayPaymentResult) {
+    final Map<String, String> params =
+        vnPayPaymentProvider.validateUrl(vnPayPaymentResult.redirectUrl());
+    final OrderPayment orderPayment =
+        orderPaymentDao
+            .selectByRefAndStatus(params.get("vnp_TxnRef"), PaymentStatus.PENDING)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "Order Payment not found: (ref=%s)".formatted(params.get("vnp_TxnRef"))));
+    orderPayment.setStatus(PaymentStatus.SUCCESS);
+    orderPayment.getOrder().setStatus(OrderStatus.PAID);
+    orderPaymentDao.update(orderPayment);
   }
 }

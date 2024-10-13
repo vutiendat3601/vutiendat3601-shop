@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vn.io.vutiendat3601.shop.v2.payment.VnPayPaymentResult;
 
 @Tag(name = "Order")
 @RequiredArgsConstructor
@@ -41,5 +42,12 @@ public class OrderController {
     final OrderPaymentDto orderPaymentRedirectUrlDto =
         orderPaymentService.createOrderPayment(trackingNumber, createOrderPaymentReq, req);
     return ResponseEntity.ok(orderPaymentRedirectUrlDto);
+  }
+
+  @PostMapping("payment/vnpay")
+  public ResponseEntity<?> processOrderPaymentResult(
+      @RequestBody VnPayPaymentResult vnPayPaymentResult) {
+    orderPaymentService.processVnPayPaymentResult(vnPayPaymentResult);
+    return ResponseEntity.ok().build();
   }
 }

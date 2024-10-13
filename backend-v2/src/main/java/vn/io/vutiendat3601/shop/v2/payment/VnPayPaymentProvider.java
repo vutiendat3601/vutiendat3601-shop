@@ -2,15 +2,20 @@ package vn.io.vutiendat3601.shop.v2.payment;
 
 import jakarta.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import vn.io.vutiendat3601.shop.v2.exception.ConflictException;
 import vn.io.vutiendat3601.shop.v2.util.StringUtils;
 
 @Service
@@ -62,44 +67,52 @@ public class VnPayPaymentProvider implements PaymentProvider {
     vnpParams.put("vnp_TxnRef", paymentRef);
     vnpParams.put(
         "vnp_Amount", String.valueOf(amount.multiply(new BigDecimal(100)).toBigInteger()));
-
     final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
 
     vnpParams.forEach(
         (name, value) -> {
-          name = URLEncoder.encode(name, StandardCharsets.US_ASCII);
-          value = URLEncoder.encode(value, StandardCharsets.US_ASCII);
+          name = URLEncoder.encode(name, StandardCharsets.UTF_8);
+          value = URLEncoder.encode(value, StandardCharsets.UTF_8);
           builder.queryParam(name, value);
         });
     builder.queryParam("vnp_SecureHash", generateVnpSecureHash(builder.build().getQuery()));
     return builder.build().toUriString();
   }
 
-  /* @Override
-  public String generate(@NonNull Order order, @NonNull Map<String, String> params) {
-    final ZonedDateTime now = ZonedDateTime.now(DEFAULT_ZONE_ID);
+  public Map<String, String> validateUrl(@NonNull String url) {
+    // Decode url
+    final String decUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
 
-    final Map<String, String> vnpParams = new TreeMap<>(vnpDefaultParams);
-    vnpParams.putAll(params);
-    vnpParams.put("vnp_TxnRef", StringUtils.makeRandomDigits(8));
-    vnpParams.put(
-        "vnp_Amount",
-        String.valueOf(order.getFinalAmount().multiply(new BigDecimal(100)).toBigInteger()));
-    vnpParams.put(
-        "vnp_OrderInfo",
-        "Thanh toan don hang tai shopsinhvien.io.vn: " + order.getTrackingNumber());
-    vnpParams.put("vnp_CreateDate", now.format(DATE_TIME_FORMATTER));
-    vnpParams.put("vnp_ExpireDate", now.plusDays(durationDay).format(DATE_TIME_FORMATTER));
+    // Get Url with raw params
+    final UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(decUrl).build();
 
-    final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
-
-    vnpParams.forEach(
-        (name, value) -> {
-          name = URLEncoder.encode(name, StandardCharsets.US_ASCII);
-          value = URLEncoder.encode(value, StandardCharsets.US_ASCII);
-          builder.queryParam(name, value);
-        });
-    builder.queryParam("vnp_SecureHash", generateVnpSecureHash(builder.build().getQuery()));
-    return builder.build().toUriString();
-  } */
+    // Prepare params to hash
+    StringBuilder sb = new StringBuilder();
+    final MultiValueMap<String, String> multiValueParams = uriComponents.getQueryParams();
+    final String secureHash = multiValueParams.getFirst("vnp_SecureHash");
+    if (Objects.nonNull(secureHash)) {
+      uriComponents.getQueryParams().keySet().stream()
+          .filter(name -> !name.equals("vnp_SecureHash"))
+          .forEach(
+              name -> {
+                String value =
+                    URLEncoder.encode(multiValueParams.getFirst(name), StandardCharsets.UTF_8);
+                name = URLEncoder.encode(name, StandardCharsets.UTF_8);
+                sb.append("%s=%s&".formatted(name, value));
+              });
+      String hash = null;
+      if (sb.length() > 0) {
+        final String query = sb.substring(0, sb.length() - 1);
+        hash = StringUtils.hmacSha512(secretKey, query);
+      }
+      if (secureHash.equals(hash)) {
+        final Map<String, String> params = new HashMap<>();
+        multiValueParams
+            .keySet()
+            .forEach(name -> params.put(name, multiValueParams.getFirst(name)));
+        return params;
+      }
+    }
+    throw new ConflictException("Invalid VNPay Url");
+  }
 }
