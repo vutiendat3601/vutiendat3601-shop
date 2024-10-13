@@ -9,6 +9,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import vn.io.vutiendat3601.shop.v2.address.Address;
 import vn.io.vutiendat3601.shop.v2.address.AddressDao;
+import vn.io.vutiendat3601.shop.v2.address.Ward;
+import vn.io.vutiendat3601.shop.v2.address.WardDao;
 import vn.io.vutiendat3601.shop.v2.auth.AuthContext;
 import vn.io.vutiendat3601.shop.v2.customer.Customer;
 import vn.io.vutiendat3601.shop.v2.customer.CustomerDao;
@@ -41,22 +43,25 @@ public class OrderService {
 
   private final OrderDtoMapper orderDtoMapper;
 
-  public OrderDto getOrderPreview(@NonNull CreateOrderRequest createOrderReq) {
+  private final WardDao wardDao;
+
+  public OrderDto getOrderPreview(@NonNull OrderPreviewRequest orderPreviewReq) {
     final String customerCode = authContext.getUser().customerCode();
     final Customer customer =
         customerDao
             .selectByCode(customerCode)
             .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
-    final Address shippingAddr =
-        addrDao
-            .selectByCodeAndCustomerCode(createOrderReq.addressCode(), customerCode)
+
+    final Ward ward =
+        wardDao
+            .selectById(orderPreviewReq.wardId())
             .orElseThrow(
                 () ->
                     new ResourceNotFoundException(
-                        "Address not found: (code=%s,customerCode=%s)"
-                            .formatted(createOrderReq.addressCode(), customerCode)));
+                        "Ward not found: (id=%s)".formatted(orderPreviewReq.wardId())));
+    Address shippingAddr = Address.builder().ward(ward).build();
     final Order order = Order.builder().customer(customer).shippingAddress(shippingAddr).build();
-    calculateOrderItemAmount(order, createOrderReq.items());
+    calculateOrderItemAmount(order, orderPreviewReq.items());
 
     // Apply Shipping Fee
     shippingFeeCalculator.calculate(order);
@@ -107,7 +112,7 @@ public class OrderService {
       final BigDecimal unitPrice = product.getUnitPrice();
       final int quantity = itemDto.quantity();
 
-      BigDecimal itemFinalAmount = unitPrice.multiply(new BigDecimal(quantity));
+      final BigDecimal itemFinalAmount = unitPrice.multiply(new BigDecimal(quantity));
 
       final OrderItem item =
           OrderItem.builder()

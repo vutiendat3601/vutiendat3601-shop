@@ -5,16 +5,19 @@ import static vn.io.vutiendat3601.shop.v2.business.BusinessConstant.KEY_SHIPPING
 
 import jakarta.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import vn.io.vutiendat3601.shop.v2.address.AddressDetail;
 import vn.io.vutiendat3601.shop.v2.address.AddressDetailDao;
+import vn.io.vutiendat3601.shop.v2.address.WardDetail;
+import vn.io.vutiendat3601.shop.v2.address.WardDetailDao;
 import vn.io.vutiendat3601.shop.v2.business.BusinessConfiguration;
 import vn.io.vutiendat3601.shop.v2.business.BusinessConfigurationDao;
+import vn.io.vutiendat3601.shop.v2.exception.ConflictException;
 import vn.io.vutiendat3601.shop.v2.exception.MissingConfigurationException;
-import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
 import vn.io.vutiendat3601.shop.v2.exception.WrongConfigurationException;
 import vn.io.vutiendat3601.shop.v2.order.Order;
 import vn.io.vutiendat3601.shop.v2.util.ObjectMapperUtils;
@@ -25,6 +28,7 @@ public class KmShippingFeeCaculator implements ShippingFeeCalculator {
   @Setter private ShippingFeeConfiguration shippingFeeConfiguration;
   private final BusinessConfigurationDao businessConfigDao;
   private final AddressDetailDao addrDetailDao;
+  private final WardDetailDao wardDetailDao;
 
   @PostConstruct
   private void loadShippingFeeConfig() {
@@ -51,21 +55,31 @@ public class KmShippingFeeCaculator implements ShippingFeeCalculator {
     BigDecimal finalAmount = order.getFinalAmount();
     final String shippingAddrCode = order.getShippingAddress().getCode();
     final String customerCode = order.getCustomer().getCode();
-    final AddressDetail shippingAddrDetail =
-        addrDetailDao
-            .selectByCodeAndCustomerCode(shippingAddrCode, customerCode)
-            .orElseThrow(
-                () ->
-                    new ResourceNotFoundException(
-                        "Addres not found: (code=%s)".formatted(shippingAddrCode)));
-    final BigDecimal shippingFeeAmount =
-        shippingFeeConfiguration.shippingFees().stream()
-            .filter(sf -> sf.provinceIds().contains(shippingAddrDetail.getProvinceId()))
-            .map(sf -> sf.unitPrice())
-            .findFirst()
-            .orElse(shippingFeeConfiguration.defaultFee());
-    order.setShippingFeeAmount(shippingFeeAmount);
-    finalAmount = finalAmount.add(shippingFeeAmount);
+
+    Long provinceId = null;
+    final Optional<AddressDetail> shippingAddrDetailOpt =
+        addrDetailDao.selectByCodeAndCustomerCode(shippingAddrCode, customerCode);
+    if (shippingAddrDetailOpt.isPresent()) {
+      provinceId = shippingAddrDetailOpt.get().getProvinceId();
+    } else {
+      final WardDetail wardDetail =
+          wardDetailDao
+              .selectById(order.getShippingAddress().getWard().getId())
+              .orElseThrow(() -> new ConflictException("Can't identify shipping address"));
+      provinceId = wardDetail.getProvinceId();
+    }
+    Optional.of(provinceId)
+        .ifPresent(
+            pId -> {
+              final BigDecimal shippingFeeAmount =
+                  shippingFeeConfiguration.shippingFees().stream()
+                      .filter(sf -> sf.provinceIds().contains(pId))
+                      .map(sf -> sf.unitPrice())
+                      .findFirst()
+                      .orElse(shippingFeeConfiguration.defaultFee());
+              order.setShippingFeeAmount(shippingFeeAmount);
+            });
+    finalAmount = finalAmount.add(order.getShippingFeeAmount());
     order.setFinalAmount(finalAmount);
   }
 }

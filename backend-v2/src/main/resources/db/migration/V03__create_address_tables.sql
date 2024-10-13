@@ -68,6 +68,8 @@ AS SELECT
     d.name AS district_name,
     p.id AS province_id,
     p.name AS province_name,
+    w.id AS ward_id,
+    w.name AS ward_name,
     c.id AS customer_id,
     c.code AS customer_code,
     a.created_at,
@@ -79,3 +81,19 @@ AS SELECT
       JOIN common.district d ON w.district_id = d.id
       JOIN common.province p ON d.province_id = p.id
       JOIN core.customer c ON c.id = a.customer_id;
+
+CREATE OR REPLACE VIEW core.v_ward_detail
+AS SELECT
+    w.id,
+    w.name,
+    d.id AS district_id,
+    d.name AS district_name,
+    p.id AS province_id,
+    p.name AS province_name,
+    w.created_at,
+    w.updated_at,
+    w.created_by,
+    w.updated_by
+   FROM common.ward w
+      JOIN common.district d ON w.district_id = d.id
+      JOIN common.province p ON d.province_id = p.id;

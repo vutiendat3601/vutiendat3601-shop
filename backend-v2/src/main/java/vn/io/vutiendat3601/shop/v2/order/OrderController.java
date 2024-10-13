@@ -22,8 +22,8 @@ public class OrderController {
 
   @PostMapping("preview")
   public ResponseEntity<OrderDto> createOrderPreview(
-      @Validated @RequestBody CreateOrderRequest createOrderReq) {
-    final OrderDto orderDto = orderService.getOrderPreview(createOrderReq);
+      @Validated @RequestBody OrderPreviewRequest orderPreviewReq) {
+    final OrderDto orderDto = orderService.getOrderPreview(orderPreviewReq);
     return ResponseEntity.ok(orderDto);
   }
 
