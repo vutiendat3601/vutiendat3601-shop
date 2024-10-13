@@ -50,17 +50,5 @@ app:
     password:
       validDurationSecond: 30000
       codeLength: 120
-  # payment:
-  #   vnpay:
-  #     vnpVersion: 2.1.0
-  #     vnpTmnCode: SW9LXZFQ
-  #     vnpCurrCode: VND
-  #     vnpLocale: vn
-  #     vnpReturnUrl: https://dev.shopsinhvien.io.vn/payment/callback/vnpay
-  #     vnpOrderType: other
-  #     vnpBankCode: NCB
-  #     secretKey: 62DBDT7NUBC9ORU42S8DQIXD1R0DCX1A
-  #     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
-  #     durationDay: 7
 bussiness:
   vatPercent: 10
