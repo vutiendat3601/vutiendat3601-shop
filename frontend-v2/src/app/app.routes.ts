@@ -34,7 +34,7 @@ export const routes: Routes = [
         component: OrderListComponent,
       },
       {
-        path: 'payment/callback/vnpay',
+        path: 'order/payment/callback/vnpay',
         component: VnPayResultComponent,
       },
     ],
