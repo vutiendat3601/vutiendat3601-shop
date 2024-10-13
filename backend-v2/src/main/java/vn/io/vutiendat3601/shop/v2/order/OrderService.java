@@ -24,13 +24,21 @@ import vn.io.vutiendat3601.shop.v2.product.ProductDao;
 @Service
 public class OrderService {
   private final AuthContext authContext;
+
   private final AddressDao addrDao;
+
   private final OrderDao orderDao;
+
   private final CustomerDao customerDao;
+
   private final ProductDao productDao;
+
   private final ProductCouponApplier productCouponApplier;
+
   private final ShippingFeeCalculator shippingFeeCalculator;
+
   private final VatCaclator vatCaclator;
+
   private final OrderDtoMapper orderDtoMapper;
 
   public OrderDto getOrderPreview(@NonNull CreateOrderRequest createOrderReq) {
@@ -58,7 +66,7 @@ public class OrderService {
     return orderDtoMapper.apply(order);
   }
 
-  public void createOrder(@NonNull CreateOrderRequest createOrderReq) {
+  public CreatedOrderDto createOrder(@NonNull CreateOrderRequest createOrderReq) {
     final String customerCode = authContext.getUser().customerCode();
     final Customer customer =
         customerDao
@@ -72,7 +80,7 @@ public class OrderService {
                     new ResourceNotFoundException(
                         "Address not found: (code=%s,customerCode=%s)"
                             .formatted(createOrderReq.addressCode(), customerCode)));
-    final Order order = Order.builder().customer(customer).shippingAddress(shippingAddr).build();
+    Order order = Order.builder().customer(customer).shippingAddress(shippingAddr).build();
     calculateOrderItemAmount(order, createOrderReq.items());
 
     // Apply Shipping Fee
@@ -80,7 +88,10 @@ public class OrderService {
 
     // Apply VAT
     vatCaclator.calculate(order);
-    orderDao.insert(order);
+    long orderId = orderDao.insert(order);
+    order =
+        orderDao.selectById(orderId).orElseThrow(() -> new RuntimeException("Can't create order"));
+    return new CreatedOrderDto(order.getTrackingNumber());
   }
 
   private void calculateOrderItemAmount(
