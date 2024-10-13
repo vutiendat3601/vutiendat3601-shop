@@ -1,7 +1,14 @@
 package vn.io.vutiendat3601.shop.v2.order;
 
+import java.util.Optional;
 import org.springframework.lang.NonNull;
 
 public interface OrderDao {
-  void insert(@NonNull Order order);
+  long insert(@NonNull Order order);
+
+  @NonNull
+  Optional<Order> selectByTrackingNumber(@NonNull String trackingNumber);
+
+  @NonNull
+  Optional<Order> selectById(long id);
 }
