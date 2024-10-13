@@ -1,17 +1,18 @@
 import { Routes } from '@angular/router';
-import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { ProductListComponent } from './components/product-list/product-list.component';
-import { LoginComponent } from './components/auth/login/login.component';
-import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
-import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { CartDetailsComponent } from './components/cart-details/cart-details.component';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AdminLayoutComponent } from './admin/admin/layouts/admin-layout/admin-layout.component';
 import { ManageCategoryComponent } from './admin/components/manage-category/manage-category.component';
-import { ManageProductComponent } from './admin/components/manage-product/manage-product.component';
 import { ManageOrderComponent } from './admin/components/manage-order/manage-order.component';
+import { ManageProductComponent } from './admin/components/manage-product/manage-product.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
+import { VnPayResultComponent } from './components/payment/vn-pay-result/vn-pay-result.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,10 @@ export const routes: Routes = [
       {
         path: 'order-list',
         component: OrderListComponent,
+      },
+      {
+        path: 'payment/callback/vnpay',
+        component: VnPayResultComponent,
       },
     ],
   },
