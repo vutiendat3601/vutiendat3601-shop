@@ -31,9 +31,6 @@ public class VnPayPaymentProvider implements PaymentProvider {
   @Value("${app.payment.vnpay.vnpOrderType}")
   private String vnpOrderType;
 
-  @Value("${app.payment.vnpay.vnpBankCode}")
-  private String vnpBankCode;
-
   @Value("${app.payment.vnpay.url}")
   private String url;
 

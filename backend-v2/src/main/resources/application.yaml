@@ -50,5 +50,14 @@ app:
     password:
       validDurationSecond: 30000
       codeLength: 120
+  payment:
+    vnpay:
+      vnpVersion: 2.1.0
+      vnpCurrCode: VND
+      vnpLocale: vn
+      vnpReturnUrl: https://dev.shopsinhvien.io.vn/order/payment/callback/vnpay
+      vnpOrderType: other
+      url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+      durationDay: 7
 bussiness:
   vatPercent: 10
