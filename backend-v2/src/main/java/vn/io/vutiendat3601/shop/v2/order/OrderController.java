@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import vn.io.vutiendat3601.shop.v2.common.PageDto;
 import vn.io.vutiendat3601.shop.v2.payment.VnPayPaymentResult;
 
 @Tag(name = "Order")
@@ -33,6 +35,14 @@ public class OrderController {
       @Validated @RequestBody CreateOrderRequest createOrderReq) {
     final OrderDto orderDto = orderService.createOrder(createOrderReq);
     return ResponseEntity.ok(orderDto);
+  }
+
+  @GetMapping
+  public ResponseEntity<PageDto<OrderDto>> getOrdersByCurrentUser(
+      @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+      @RequestParam(name = "size", required = false, defaultValue = "100") Integer size) {
+    final PageDto<OrderDto> orderDtoPage = orderService.getOrdersByCurrentUser(page, size);
+    return ResponseEntity.ok(orderDtoPage);
   }
 
   @GetMapping("{trackingNumber}")
