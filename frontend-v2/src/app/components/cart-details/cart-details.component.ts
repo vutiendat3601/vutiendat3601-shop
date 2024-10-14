@@ -46,18 +46,18 @@ export class CartDetailsComponent implements OnInit {
   orderPreview: OrderDto | null = null;
   createOrderReq: CreateOrderRequest | null = null;
 
+  // Product coupons and Category coupons
+  selectedCoupon: string = '';
   productCoupons: Map<string, string[]> = new Map<string, string[]>();
   categoryCoupons: Map<string, CouponDto[]> = new Map<string, CouponDto[]>();
 
-  selectedCoupon: string = '';
+  // Shipping fee coupons
   selectedShippingFeeCoupon: string = '';
-
   availableCoupons = [
     { code: 'FREESHIP', description: 'Miễn phí vận chuyển' },
     { code: 'DISCOUNT10', description: 'Giảm 10%' },
     { code: 'SALE2024', description: 'Giảm giá mùa sale 2024' },
   ];
-
   filteredCoupons = [...this.availableCoupons];
 
   // Address
