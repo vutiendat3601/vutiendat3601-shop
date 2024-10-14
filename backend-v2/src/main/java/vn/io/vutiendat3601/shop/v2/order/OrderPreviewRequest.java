@@ -5,6 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record OrderPreviewRequest(
-    @NotNull Long wardId,
+    Long wardId,
     String shippingFeeCouponCode,
     @NotNull @NotEmpty List<CreateOrderItemDto> items) {}
