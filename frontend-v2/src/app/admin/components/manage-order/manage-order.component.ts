@@ -1,35 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { OrderDto } from '../../../domain/order/order-dto';
+import { OrderService } from '../../../domain/order/order.service';
+import {  CommonModule, CurrencyPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-manage-order',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, CurrencyPipe, FormsModule, CommonModule],
   templateUrl: './manage-order.component.html',
-  styleUrl: './manage-order.component.scss'
+  styleUrl: './manage-order.component.scss',
 })
-export class ManageOrderComponent {
-// Hàm này sẽ được gọi khi dropdown thay đổi
-updateStatusColor(event: Event): void {
-  const dropdown = event.target as HTMLSelectElement;
+export class ManageOrderComponent implements OnInit {
+  orderDtos: OrderDto[] = [];
+  page: number = 1;
+  size: number = 20;
+  
+  @ViewChild('orderStatusDropdown', { static: false }) dropdown: ElementRef<HTMLSelectElement> | undefined;
 
-  // Xóa tất cả các class màu sắc trước khi thêm class mới
-  dropdown.classList.remove('green-bg', 'red-bg', 'default-bg');
+  constructor(private readonly orderService: OrderService) {}
 
-  // Kiểm tra trạng thái và áp dụng màu tương ứng
-  if (dropdown.value === 'shipped') {
-    dropdown.classList.add('green-bg');
-  } else if (dropdown.value === 'canceled') {
-    dropdown.classList.add('red-bg');
-  } else {
-    dropdown.classList.add('default-bg');
+  ngOnInit(): void {
+    this.listOrders();
+  }
+
+  listOrders(): void {
+    this.orderService
+      .getOrdersByAdmin(this.page, this.size)
+      .subscribe((orderDtoPage) => {
+        this.orderDtos = orderDtoPage.items;
+      });
+  }
+
+  updateStatusColor(event: Event, dropdown: HTMLSelectElement): void {
+    dropdown.classList.remove('green-bg', 'red-bg', 'default-bg');
+    if (dropdown.value === 'SHIPPED') {
+      dropdown.classList.add('green-bg');
+    } else if (dropdown.value === 'CANCELED') {
+      dropdown.classList.add('red-bg');
+    } else {
+      dropdown.classList.add('default-bg');
+    }
   }
 }
-
-// Đặt màu mặc định khi trang tải lần đầu
-ngOnInit(): void {
-  const dropdown = document.getElementById('order-status') as HTMLSelectElement;
-  this.updateStatusColor(new Event('change', { bubbles: true, cancelable: true }));
-}
-}
-
-

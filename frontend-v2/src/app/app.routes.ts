@@ -8,11 +8,12 @@ import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
-import { VnPayResultComponent } from './components/payment/vn-pay-result/vn-pay-result.component';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { ProductListComponent } from './components/product-list/product-list.component';
-import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { VnPayResultComponent } from './components/payment/vn-pay-result/vn-pay-result.component';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { ChangePasswordComponent } from './admin/components/change-password/change-password.component';
 
 export const routes: Routes = [
   {
@@ -58,7 +59,7 @@ export const routes: Routes = [
       { path: 'manage-user', component: ProductListComponent },
       { path: 'manage-sales', component: ProductListComponent },
       { path: 'logout', component: CartDetailsComponent },
-      { path: 'change-password', component: CartDetailsComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
     ],
   },
 ];
