@@ -16,4 +16,7 @@ public interface CouponDao {
 
   @NonNull
   Page<Coupon> selectAllByProductNo(@NonNull String productNo, int page, int size);
+
+  @NonNull
+  Page<Coupon> selectAllByObjectType(@NonNull CouponObjectType objectType, int page, int size);
 }

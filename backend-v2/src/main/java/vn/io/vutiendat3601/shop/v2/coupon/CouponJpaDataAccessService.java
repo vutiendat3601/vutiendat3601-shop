@@ -27,12 +27,22 @@ public class CouponJpaDataAccessService implements CouponDao {
   @Override
   @NonNull
   public Page<Coupon> selectAllByCategoryCode(@NonNull String categoryCode, int page, int size) {
-    return couponRepo.findAllByCategoryCode(categoryCode, PageRequest.of(page, size));
+    return couponRepo.findAllByCategoryCodeAndObjectType(
+        categoryCode, CouponObjectType.CATEGORY, PageRequest.of(page, size));
   }
 
   @Override
   @NonNull
   public Page<Coupon> selectAllByProductNo(@NonNull String productNo, int page, int size) {
-    return couponRepo.findAllByProductProductNo(productNo, PageRequest.of(page, size));
+    return couponRepo.findAllByProductProductNoAndObjectType(
+        productNo, CouponObjectType.PRODUCT, PageRequest.of(page, size));
+  }
+
+  @Override
+  @NonNull
+  public Page<Coupon> selectAllByObjectType(
+      @NonNull CouponObjectType objectType, int page, int size) {
+    return couponRepo.findAllByObjectType(
+        CouponObjectType.SHIPPING_FEE, PageRequest.of(page, size));
   }
 }
