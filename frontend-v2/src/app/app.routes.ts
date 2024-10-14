@@ -12,6 +12,7 @@ import { ManageCategoryComponent } from './admin/components/manage-category/mana
 import { ManageProductComponent } from './admin/components/manage-product/manage-product.component';
 import { ManageOrderComponent } from './admin/components/manage-order/manage-order.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
+import { ChangePasswordComponent } from './admin/components/change-password/change-password.component';
 
 export const routes: Routes = [
   {
@@ -53,7 +54,7 @@ export const routes: Routes = [
       { path: 'manage-user', component: ProductListComponent },
       { path: 'manage-sales', component: ProductListComponent },
       { path: 'logout', component: CartDetailsComponent },
-      { path: 'change-password', component: CartDetailsComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
     ],
   },
 ];
