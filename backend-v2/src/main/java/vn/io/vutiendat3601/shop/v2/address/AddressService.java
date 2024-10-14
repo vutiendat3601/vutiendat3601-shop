@@ -19,16 +19,17 @@ public class AddressService {
   private final WardDao wardDao;
   private final CustomerDao customerDao;
   private final AuthContext authContext;
+  private final AddresDetailDtoMapper addrDetailDtoMapper;
 
   private final ProvinceDtoMapper provinceDtoMapper;
   private final DistrictDtoMapper distDtoMapper;
   private final WardDtoMapper wardDtoMapper;
 
-  public PageDto<AddressDetail> getAddressDetails(long customerId, int page, int size) {
+  public PageDto<AddressDetailDto> getAddressDetails(long customerId, int page, int size) {
     page--;
     final Page<AddressDetail> addrDetailPage =
         addrDetailDao.selectAllByCustomerId(customerId, page, size);
-    return PageDto.of(addrDetailPage);
+    return PageDto.of(addrDetailPage).map(addrDetailDtoMapper);
   }
 
   public PageDto<ProvinceDto> getProvinces(int page, int size) {
@@ -49,8 +50,8 @@ public class AddressService {
     return PageDto.of(distPage).map(wardDtoMapper);
   }
 
-  public void createAddress(CreateAddressRequest createAddrReq) {
-    final Address addr = new Address();
+  public AddressDetailDto createAddress(CreateAddressRequest createAddrReq) {
+    Address addr = new Address();
     if (!wardDao.existsById(createAddrReq.wardId())) {
       throw new ResourceNotFoundException("Ward not found");
     }
@@ -65,6 +66,11 @@ public class AddressService {
                     new ResourceNotFoundException(
                         "Customer not found: (code=%s)".formatted(customerCode)));
     addr.setCustomer(customer);
-    addrDao.insert(addr);
+    long id = addrDao.insert(addr);
+    final AddressDetail addrDetail =
+        addrDetailDao
+            .selectById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+    return addrDetailDtoMapper.apply(addrDetail);
   }
 }

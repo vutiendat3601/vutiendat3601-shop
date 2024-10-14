@@ -26,4 +26,11 @@ public class OrderJpaDataAccessService implements OrderDao {
   public Optional<Order> selectById(long id) {
     return orderRepo.findById(id);
   }
+
+  @Override
+  @NonNull
+  public Optional<Order> selectByTrackingNumberAndCustomerCode(
+      @NonNull String trackingNumber, @NonNull String customerCode) {
+    return orderRepo.findByTrackingNumberAndCustomerCode(trackingNumber, customerCode);
+  }
 }

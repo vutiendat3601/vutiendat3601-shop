@@ -71,7 +71,19 @@ public class OrderService {
     return orderDtoMapper.apply(order);
   }
 
-  public CreatedOrderDto createOrder(@NonNull CreateOrderRequest createOrderReq) {
+  public OrderDto getOrderByCurrentUser(@NonNull String trackingNumber) {
+    final String customerCode = authContext.getUser().customerCode();
+    final Order order =
+        orderDao
+            .selectByTrackingNumberAndCustomerCode(trackingNumber, customerCode)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "Order not found: (trackingNumber=%s)".formatted(trackingNumber)));
+    return orderDtoMapper.apply(order);
+  }
+
+  public OrderDto createOrder(@NonNull CreateOrderRequest createOrderReq) {
     final String customerCode = authContext.getUser().customerCode();
     final Customer customer =
         customerDao
@@ -96,7 +108,7 @@ public class OrderService {
     long orderId = orderDao.insert(order);
     order =
         orderDao.selectById(orderId).orElseThrow(() -> new RuntimeException("Can't create order"));
-    return new CreatedOrderDto(order.getTrackingNumber());
+    return orderDtoMapper.apply(order);
   }
 
   private void calculateOrderItemAmount(

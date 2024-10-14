@@ -4,7 +4,10 @@ import java.util.Optional;
 import org.springframework.lang.NonNull;
 
 public interface AddressDao {
-  void insert(@NonNull Address addr);
+  long insert(@NonNull Address addr);
+
+  @NonNull
+  Optional<Address> selectById(long id);
 
   @NonNull
   Optional<Address> selectByCodeAndCustomerCode(@NonNull String code, @NonNull String customerCode);

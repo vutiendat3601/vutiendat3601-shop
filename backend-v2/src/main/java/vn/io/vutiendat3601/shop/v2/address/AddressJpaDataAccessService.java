@@ -11,8 +11,8 @@ public class AddressJpaDataAccessService implements AddressDao {
   private final AddressRepository addrRepo;
 
   @Override
-  public void insert(@NonNull Address addr) {
-    addrRepo.save(addr);
+  public long insert(@NonNull Address addr) {
+    return addrRepo.save(addr).getId();
   }
 
   @Override
@@ -20,5 +20,11 @@ public class AddressJpaDataAccessService implements AddressDao {
   public Optional<Address> selectByCodeAndCustomerCode(
       @NonNull String code, @NonNull String customerCode) {
     return addrRepo.findByCodeAndCustomerCode(code, customerCode);
+  }
+
+  @Override
+  @NonNull
+  public Optional<Address> selectById(long id) {
+    return addrRepo.findById(id);
   }
 }

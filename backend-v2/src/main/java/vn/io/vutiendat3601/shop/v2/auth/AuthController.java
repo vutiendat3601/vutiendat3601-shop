@@ -2,13 +2,12 @@ package vn.io.vutiendat3601.shop.v2.auth;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vn.io.vutiendat3601.shop.v2.user.CreateUserRequest;
 import vn.io.vutiendat3601.shop.v2.verification.VerificationDto;
@@ -19,16 +18,16 @@ import vn.io.vutiendat3601.shop.v2.verification.VerificationDto;
 public class AuthController {
   private final AuthService authService;
 
-  @GetMapping("login")
+  @PostMapping("login")
   public ResponseEntity<VerificationDto> login(
       @RequestHeader("Authorization") String authorization) {
     final VerificationDto verifDto = authService.loginByEmailAndPassword(authorization);
     return ResponseEntity.ok(verifDto);
   }
 
-  @GetMapping("token")
-  public ResponseEntity<JwtDto> getToken(@RequestParam String code) {
-    final JwtDto jwtDto = authService.generateJwt(code);
+  @PostMapping(path = "token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  public ResponseEntity<JwtDto> getToken(TokenRequest tokenReq) {
+    final JwtDto jwtDto = authService.generateJwt(tokenReq);
     return ResponseEntity.ok(jwtDto);
   }
 

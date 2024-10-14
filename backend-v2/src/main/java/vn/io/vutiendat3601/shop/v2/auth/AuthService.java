@@ -8,15 +8,13 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.List;
 import java.util.Objects;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 import vn.io.vutiendat3601.shop.v2.customer.CreateCustomerRequest;
 import vn.io.vutiendat3601.shop.v2.customer.CustomerService;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
@@ -86,13 +84,13 @@ public class AuthService {
         createUserReq.email(), "Email Verification", emailVerificaitionHtml);
   }
 
-  public JwtDto generateJwt(@NonNull String code) {
+  public JwtDto generateJwt(@NonNull TokenRequest tokenReq) {
     final BadCredentialsException wrongCodeException = new BadCredentialsException("Wrong code");
-    final VerificationDto verifDto = verifService.getVerfication(code);
+    final VerificationDto verifDto = verifService.getVerfication(tokenReq.code());
     if (verifDto.isDisabled()) {
       throw wrongCodeException;
     }
-    verifService.disableVerification(code);
+    verifService.disableVerification(tokenReq.code());
     if (!LOGIN_CODE.equals(verifDto.type()) || verifDto.expiredAt().isBefore(ZonedDateTime.now())) {
       throw wrongCodeException;
     }
