@@ -79,8 +79,27 @@
 
 .cart-item-total-price {
   display: flex;
+  flex-direction: column;
   width: 16.67%;
   margin: 0;
+  color: black;
+  .discount {
+    display: flex;
+    color: black;
+    p {
+      color: #d0011b;
+      margin: 0 0 0 8px;
+      text-decoration: line-through;
+    }
+  }
+  .final-price {
+    display: flex;
+    color: black;
+    p {
+      color: #d0011b;
+      margin: 0 0 0 8px;
+    }
+  }
 }
 
 .cart-item-total-price p {
@@ -125,12 +144,15 @@
   font-size: 16px;
 }
 
-.shipping-fee, .coupon, .total-quantity {
+.shipping-fee,
+.coupon,
+.total-quantity {
   display: flex;
   justify-content: space-between;
 }
 
-.shipping-fee p, .total-quantity p {
+.shipping-fee p,
+.total-quantity p {
   color: black;
   margin: 0 0 0 8px;
 }
@@ -157,7 +179,8 @@
   margin: 0 0 0 8px;
 }
 
-.coupon input, .coupon data {
+.coupon input,
+.coupon data {
   width: 240px;
 }
 
@@ -168,4 +191,3 @@
   padding: 8px 60px;
   float: right;
 }
-

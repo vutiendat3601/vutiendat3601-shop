@@ -113,11 +113,15 @@ export class ProductListComponent {
 
   addToCart(productDto: ProductDto) {
     const cartItem = new CartItem(
-      productDto.id,
       productDto.name,
       productDto.productNo,
       productDto.thumbnail,
-      productDto.unitPrice
+      productDto.unitPrice,
+      1,
+      productDto.categoryCode,
+      null,
+      null,
+      null
     );
     this.cartService.addToCart(cartItem);
   }

@@ -14,18 +14,14 @@ export class CartService {
   constructor() {}
 
   addToCart(newCartItem: CartItem) {
-    console.log('this.cartItems be', this.cartItems);
     const cartItem = this.cartItems.find(
       (cI) => cI.productNo === newCartItem.productNo
     );
-    console.log('add', cartItem);
-
     if (cartItem) {
       cartItem.quantity++;
     } else {
       this.cartItems = [...this.cartItems, newCartItem];
     }
-    console.log('this.cartItems', this.cartItems);
     this.computeCartTotals();
     this.cartItemsChanged.next(this.cartItems);
   }
@@ -43,7 +39,6 @@ export class CartService {
       }
     }
     this.cartItemsChanged.next(this.cartItems);
-    console.log(this.cartItems);
   }
 
   remove(removeCartItem: CartItem) {
@@ -62,7 +57,11 @@ export class CartService {
     let totalQuantityValue: number = 0;
 
     for (let cartItem of this.cartItems) {
-      totalPriceValue += cartItem.quantity * cartItem.unitPrice;
+      if (cartItem.coupon && cartItem.finalPrice) {
+        totalPriceValue += cartItem.finalPrice;
+      } else {
+        totalPriceValue += cartItem.quantity * cartItem.unitPrice;
+      }
       totalQuantityValue += cartItem.quantity;
     }
     this.totalPrice.next(totalPriceValue);
