@@ -30,24 +30,24 @@ import { ProductRequestUpdateDto } from '../../../domain/product/product-request
 export class UpdateProductDialogComponent {
   productUpdateReq: ProductRequestUpdateDto;
   categories: any[] = [];
-  selectedCategoryId: number | undefined;
+  selectedCategoryCode: string | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateProductDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ProductDto,
+    @Inject(MAT_DIALOG_DATA) public productDto: ProductDto,
     private categoryService: CategoryService
   ) {
     this.productUpdateReq = new ProductRequestUpdateDto(
-      data.sku,
-      data.name,
-      data.description,
-      data.unitPrice,
-      data.thumbnail,
-      data.isActive,
-      data.categoryId
+      productDto.sku,
+      productDto.name,
+      productDto.description,
+      productDto.unitPrice,
+      productDto.thumbnail,
+      productDto.isActive,
+      productDto.categoryCode
     );
-    if (!data.categoryId) {
-      this.selectedCategoryId = data.categoryId;
+    if (!productDto.categoryCode) {
+      this.selectedCategoryCode = productDto.categoryCode;
     }
   }
 
@@ -69,8 +69,8 @@ export class UpdateProductDialogComponent {
     });
   }
 
-  onCategoryChange(categoryId: number): void {
-    this.productUpdateReq.categoryId = categoryId;
+  onCategoryChange(categoryCode: string): void {
+    this.productUpdateReq.categoryCode = categoryCode;
   }
 
   onCancel(): void {
@@ -78,8 +78,9 @@ export class UpdateProductDialogComponent {
   }
 
   onSave(): void {
-    this.productUpdateReq.categoryId = this.selectedCategoryId;
+    if (this.selectedCategoryCode) {
+      this.productUpdateReq.categoryCode = this.selectedCategoryCode;
+    }
     this.dialogRef.close(this.productUpdateReq);
-    console.log(this.productUpdateReq);
   }
 }

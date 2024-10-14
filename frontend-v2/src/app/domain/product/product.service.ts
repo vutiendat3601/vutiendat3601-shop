@@ -6,6 +6,7 @@ import { ProductDto } from './product-dto';
 import { environment } from '../../../environments/environment';
 import { ProductRequestCreateDto } from './product-request-create-dto';
 import { ProductRequestUpdateDto } from './product-request-update-dto';
+import { CouponDto } from '../coupon/coupon-dto';
 @Injectable({
   providedIn: 'root',
 })
@@ -36,7 +37,17 @@ export class ProductService {
 
   public getProductByProductNo(productNo: string): Observable<ProductDto> {
     return this.http.get<ProductDto>(
-      `${this.API_PRODUCT_DETAIL_BASE_URL}/${productNo}/detail`
+      `${this.API_PRODUCT_DETAIL_BASE_URL}/${productNo}/detail?`
+    );
+  }
+
+  public getCouponsByProductNo(
+    productNo: string,
+    page: number = 1,
+    size: number = 100
+  ): Observable<PageDto<CouponDto>> {
+    return this.http.get<PageDto<CouponDto>>(
+      `${this.API_PRODUCT_BASE_URL}/${productNo}/coupons?page=${page}&size=${size}`
     );
   }
 

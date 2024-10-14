@@ -6,6 +6,6 @@ export class ProductRequestUpdateDto {
     public unitPrice: number = 0,
     public thumbnail?: string | null,
     public isActive: boolean = true,
-    public categoryId?: number
+    public categoryCode?: string
   ) {}
 }

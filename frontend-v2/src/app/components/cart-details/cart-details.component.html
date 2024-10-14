@@ -1,112 +1,142 @@
-  <!-- Trường hợp giỏ hàng có sản phẩm -->
-  <p class="cart-detail-heading">GIỎ HÀNG CỦA BẠN</p>
-  @if (cartItems.length > 0) {
-  <div class="cart-detail-wrapper">
+<!-- Trường hợp giỏ hàng có sản phẩm -->
+<p class="cart-detail-heading">GIỎ HÀNG CỦA BẠN</p>
+@if (cartItems.length > 0) {
+<div class="cart-detail-wrapper">
+  <div>
+    @for (cartItem of cartItems; track $index) {
     <div>
-      @for (cartItem of cartItems; track $index) {
-      <div>
-        <div class="cart-item">
-          <div class="cart-item-info">
-            <img src="{{ cartItem.productThumbnail }}" class="cart-item-image" />
-            <a [routerLink]="['/products', cartItem.productNo]">
-              <p class="cart-item-name">{{ cartItem.name }}</p>
-            </a>
-          </div>
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <img src="{{ cartItem.productThumbnail }}" class="cart-item-image" />
+          <a [routerLink]="['/products', cartItem.productNo]">
+            <p class="cart-item-name">{{ cartItem.name }}</p>
+          </a>
+        </div>
 
-          <div class="cart-item-unit-price">
-            Đơn giá:
-            <p>
-              {{ cartItem.unitPrice | currency : "VND" : "symbol" : "1.0-0" }}
-            </p>
-          </div>
+        <div class="cart-item-unit-price">
+          Đơn giá:
+          <p>
+            {{ cartItem.unitPrice | currency : "VND" : "symbol" : "1.0-0" }}
+          </p>
+        </div>
 
-          <div class="coupon">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Nhập hoặc chọn mã giảm giá"
-              [(ngModel)]="selectedCoupon"
-              (input)="filterCoupons()"
-              list="availableCoupons"
-            />
-            <!-- Danh sách mã giảm giá gợi ý -->
-            <datalist id="availableCoupons">
-              <option *ngFor="let coupon of filteredCoupons" [value]="coupon.code">{{ coupon.description }}</option>
-            </datalist>          
-          </div>
-
-          <div class="cart-item-quantity-wrapper">
-            <button
-              (click)="decrementQuantity(cartItem)"
-              class="btn btn-primary btn-sm btn-decre"
+        <div class="coupon">
+          <select
+            (change)="onSelectedChange(cartItem)"
+            class="form-control"
+            [(ngModel)]="cartItem.coupon"
+          >
+            <option value="" disabled selected>Chọn mã giảm giá</option>
+            <option
+              *ngFor="
+                let coupon of getCartItemCoupons(
+                  cartItem.productNo,
+                  cartItem.categoryCode
+                )
+              "
+              [value]="coupon"
             >
-              <fa-icon [icon]="faMinus" class="icon-derce"></fa-icon>
-            </button>
-            <p class="cart-item-quantity">{{ cartItem.quantity }}</p>
-            <button
-              (click)="incrementQuantity(cartItem)"
-              class="btn btn-primary btn-sm btn-incre"
-            >
-              <fa-icon [icon]="faPlus"></fa-icon>
-            </button>
-          </div>
+              {{ coupon }}
+            </option>
+          </select>
+        </div>
 
-          <div class="cart-item-total-price">
-            Thành tiền:
+        <div class="cart-item-quantity-wrapper">
+          <button
+            (click)="decrementQuantity(cartItem)"
+            class="btn btn-primary btn-sm btn-decre"
+          >
+            <fa-icon [icon]="faMinus" class="icon-derce"></fa-icon>
+          </button>
+          <p class="cart-item-quantity">{{ cartItem.quantity }}</p>
+          <button
+            (click)="incrementQuantity(cartItem)"
+            class="btn btn-primary btn-sm btn-incre"
+          >
+            <fa-icon [icon]="faPlus"></fa-icon>
+          </button>
+        </div>
+
+        <div class="cart-item-total-price">
+          @if (cartItem.coupon && cartItem.finalPrice) {
+          <div class="discount">
+            Giảm:
             <p>
               {{
-                cartItem.quantity * cartItem.unitPrice
+                cartItem.unitPrice * cartItem.quantity - cartItem.finalPrice
                   | currency : "VND" : "symbol" : "1.0-0"
               }}
             </p>
           </div>
+          <div class="final-price">
+            Thành tiền:
+            <p>
+              {{ cartItem.finalPrice | currency : "VND" : "symbol" : "1.0-0" }}
+            </p>
+          </div>
+          } @else {
+          <p>
+            Thành tiền:
+            {{
+              cartItem.quantity * cartItem.unitPrice
+                | currency : "VND" : "symbol" : "1.0-0"
+            }}
+          </p>
+          }
+        </div>
 
-          <button (click)="remove(cartItem)" class="delete-btn">
-            <fa-icon [icon]="faTrash" style="border: none"></fa-icon>
-          </button>
-        </div>
-      </div>
-      }
-      <!-- Tính tổng tiền -->
-      <div class="checkout">
-        <div class="total-quantity">
-          Tổng số lượng:
-          <p>{{ totalQuantity }}</p>
-        </div>
-        <div class="shipping-fee">
-          Phí giao hàng:
-          <p>{{ defaultShippingFee }}</p>
-        </div>
-        <div class="coupon">
-          Mã giảm giá:
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Nhập hoặc chọn mã giảm giá"
-            [(ngModel)]="selectedCoupon"
-            (input)="filterCoupons()"
-            list="availableCoupons"
-          />
-          <!-- Danh sách mã giảm giá gợi ý -->
-          <datalist id="availableCoupons">
-            <option *ngFor="let coupon of filteredCoupons" [value]="coupon.code">{{ coupon.description }}</option>
-          </datalist>          
-        </div>
-        <div class="total-price">
-          Tổng tiền:
-          <p>{{ totalPrice + defaultShippingFee | currency : "VND" : "symbol" : "1.0-0" }}</p>
-        </div>
-        <a routerLink="/checkout" class="btn checkout-btn">Thanh toán</a>
+        <button (click)="remove(cartItem)" class="delete-btn">
+          <fa-icon [icon]="faTrash" style="border: none"></fa-icon>
+        </button>
       </div>
     </div>
+    }
+    <!-- Tính tổng tiền -->
+    <div class="checkout">
+      <div class="total-quantity">
+        Tổng số lượng:
+        <p>{{ totalQuantity }}</p>
+      </div>
+      <div class="shipping-fee">
+        Phí giao hàng:
+        <p>{{ shippingFee }}</p>
+      </div>
+      <div class="coupon">
+        Mã giảm giá:
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nhập hoặc chọn mã giảm giá"
+          [(ngModel)]="selectedShippingFeeCoupon"
+          list="availableCoupons"
+        />
+        <!-- Danh sách mã giảm giá gợi ý -->
+        <datalist id="availableCoupons">
+          <option *ngFor="let coupon of filteredCoupons" [value]="coupon.code">
+            {{ coupon.description }}
+          </option>
+        </datalist>
+      </div>
+      <div class="total-price">
+        Tổng tiền:
+        <p>
+          {{
+           totalPrice + shippingFee 
+              | currency : "VND" : "symbol" : "1.0-0"
+          }}
+        </p>
+      </div>
+      <a routerLink="/checkout" class="btn checkout-btn">Thanh toán</a>
+    </div>
   </div>
-  } @else {
-  <!-- Trường hợp giỏ hàng không có sản phẩm nào -->
-  <div
-    class="alert alert-warning col-md-12"
-    role="alert"
-    style="margin-bottom: 16px"
-  >
-    Giỏ hàng của bạn trống.
-  </div>
-  }
+</div>
+} @else {
+<!-- Trường hợp giỏ hàng không có sản phẩm nào -->
+<div
+  class="alert alert-warning col-md-12"
+  role="alert"
+  style="margin-bottom: 16px"
+>
+  Giỏ hàng của bạn trống.
+</div>
+}

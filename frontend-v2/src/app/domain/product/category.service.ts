@@ -4,6 +4,7 @@ import { PageDto } from './../../common/page-dto';
 import { Injectable } from '@angular/core';
 import { CategoryDto } from './category-dto';
 import { environment } from '../../../environments/environment';
+import { CouponDto } from '../coupon/coupon-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,16 @@ export class CategoryService {
   ): Observable<PageDto<CategoryDto>> {
     return this.http.get<PageDto<CategoryDto>>(
       `${this.CATEGORY_API_V2_BASE_URL}?page=${page}&size=${size}`
+    );
+  }
+
+  public getCoupons(
+    code: string,
+    page: number = 1,
+    size: number = 100
+  ): Observable<PageDto<CouponDto>> {
+    return this.http.get<PageDto<CouponDto>>(
+      `${this.CATEGORY_API_V2_BASE_URL}/${code}/coupons?page=${page}&size=${size}`
     );
   }
 

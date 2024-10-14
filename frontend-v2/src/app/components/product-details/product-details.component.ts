@@ -14,7 +14,7 @@ import { CurrencyPipe } from '@angular/common';
   styleUrl: './product-details.component.scss',
 })
 export class ProductDetailsComponent {
-  productDto: ProductDto = new ProductDto();
+  productDto: ProductDto | null = null;
 
   constructor(
     private productService: ProductService,
@@ -37,14 +37,20 @@ export class ProductDetailsComponent {
       });
   }
 
-  addToCart(productDto: ProductDto) {
-    const cartItem = new CartItem(
-      productDto.id,
-      productDto.name,
-      productDto.productNo,
-      productDto.thumbnail,
-      productDto.unitPrice
-    );
-    this.cartService.addToCart(cartItem);
+  addToCart(productDto: ProductDto | null) {
+    if (productDto) {
+      const cartItem = new CartItem(
+        productDto.name,
+        productDto.productNo,
+        productDto.thumbnail,
+        productDto.unitPrice,
+        1,
+        productDto.categoryCode,
+        null,
+        null,
+        null
+      );
+      this.cartService.addToCart(cartItem);
+    }
   }
 }
