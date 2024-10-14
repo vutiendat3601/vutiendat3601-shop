@@ -14,15 +14,6 @@ public class CouponService {
   private final CouponDao couponDao;
   private final CouponDtoMapper couponDtoMapper;
 
-  // private final AuthContext authContext;
-
-  // public PageDto<CouponDto> getAvailableCouponByCurrentUser(int page, int size) {
-  //   page--;
-  //   final String customerCode = authContext.getUser().customerCode();
-  //   final Page<Coupon> couponPage = couponDao.selectAllByCustomerCode(customerCode, page, size);
-  //   return PageDto.of(couponPage).map(couponDtoMapper);
-  // }
-
   public PageDto<CouponDto> getAvailableCouponByCategoryCode(
       @NonNull String categoryCode, int page, int size) {
     page--;
@@ -34,6 +25,13 @@ public class CouponService {
       @NonNull String productNo, int page, int size) {
     page--;
     final Page<Coupon> couponPage = couponDao.selectAllByProductNo(productNo, page, size);
+    return PageDto.of(couponPage).map(couponDtoMapper);
+  }
+
+  public PageDto<CouponDto> getShippingFeeCoupons(Integer page, Integer size) {
+    page--;
+    final Page<Coupon> couponPage =
+        couponDao.selectAllByObjectType(CouponObjectType.SHIPPING_FEE, page, size);
     return PageDto.of(couponPage).map(couponDtoMapper);
   }
 }

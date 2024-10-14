@@ -55,19 +55,24 @@ public class OrderService {
             .selectByCode(customerCode)
             .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
-    final Ward ward =
-        wardDao
-            .selectById(orderPreviewReq.wardId())
-            .orElseThrow(
-                () ->
-                    new ResourceNotFoundException(
-                        "Ward not found: (id=%s)".formatted(orderPreviewReq.wardId())));
-    Address shippingAddr = Address.builder().ward(ward).build();
-    final Order order = Order.builder().customer(customer).shippingAddress(shippingAddr).build();
+    final Order order = Order.builder().customer(customer).build();
+    if (Objects.nonNull(orderPreviewReq.wardId())) {
+      final Ward ward =
+          wardDao
+              .selectById(orderPreviewReq.wardId())
+              .orElseThrow(
+                  () ->
+                      new ResourceNotFoundException(
+                          "Ward not found: (id=%s)".formatted(orderPreviewReq.wardId())));
+      Address shippingAddr = Address.builder().ward(ward).build();
+      order.setShippingAddress(shippingAddr);
+    }
     calculateOrderItemAmount(order, orderPreviewReq.items());
 
     // Apply Shipping Fee
-    shippingFeeCalculator.calculate(order);
+    if (Objects.nonNull(order.getShippingAddress())) {
+      shippingFeeCalculator.calculate(order);
+    }
 
     // Apply VAT
     vatCaclator.calculate(order);
