@@ -14,30 +14,31 @@
     <tbody>
       <tr *ngFor="let item of order.items; let j = index">
         <td class="col product-name">{{ item.productName }}</td>
-        <td class="col price">{{ item.totalAmount | currency : 'VND' }}</td>
+        <td class="col price">{{ item.totalAmount | currency : "VND" }}</td>
         <td class="col quantity">{{ item.quantity }}</td>
-        <td class="col discount">{{ item.couponAmount | currency : 'VND' }}</td>
-        <td class="col total">{{ item.finalAmount | currency : 'VND' }}</td>
+        <td class="col discount">{{ item.couponAmount | currency : "VND" }}</td>
+        <td class="col total">{{ item.finalAmount | currency : "VND" }}</td>
       </tr>
       <tr class="shipping-fee">
         <td colspan="4">Phí vận chuyển:</td>
-        <td>{{ order.shippingFeeAmount | currency : 'VND' }}</td>
+        <td>{{ order.shippingFeeAmount | currency : "VND" }}</td>
       </tr>
       <tr class="total-amount">
         <td colspan="4">Tổng đơn hàng:</td>
-        <td>{{ order.finalAmount | currency : 'VND' }}</td>
+        <td>{{ order.finalAmount | currency : "VND" }}</td>
       </tr>
       <tr class="status-dropdown">
         <td colspan="5">
           <select
-            id="order-status"
-            #orderStatusDropdown
+            id="order-status-{{ i }}"
             [(ngModel)]="order.status"
-            (change)="updateStatusColor($event, orderStatusDropdown)"
+            (change)="onSelectedChange(order.trackingNumber, order.status)"
           >
             <option value="PENDING">Chờ xử lý</option>
-            <option value="SHIPPED">Đã giao hàng</option>
-            <option value="CANCELED">Đã hủy</option>
+            <option value="PAID">Đã thanh toán</option>
+            <option value="PAYMENT_FAILED">Thanh toán thất bại</option>
+            <option value="DELIVERING">Đang vận chuyển</option>
+            <option value="DELIVERED">Đã giao hàng</option>
           </select>
         </td>
       </tr>

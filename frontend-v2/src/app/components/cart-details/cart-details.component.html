@@ -182,7 +182,7 @@
       </div>
       <div class="shipping-fee">
         Phí giao hàng:
-        <p>{{ shippingFee == 0 ? "Vui lòng chọn địa chỉ giao hàng" : shippingFee }}</p>
+        <p>{{ shippingFee == 0 ? "Vui lòng chọn địa chỉ giao hàng" : shippingFee | currency : "VND" : "symbol" : "1.0-0" }}</p>
       </div>
       <div class="coupon">
         Mã vận chuyển:
