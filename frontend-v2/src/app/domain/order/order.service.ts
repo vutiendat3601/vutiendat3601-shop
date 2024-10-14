@@ -5,6 +5,7 @@ import { CreateOrderRequest } from './create-order-request';
 import { OrderDto } from './order-dto';
 import { Observable } from 'rxjs';
 import { PageDto } from '../../common/page-dto';
+import { UpdateOrderStatus } from './update-order-status';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,16 @@ export class OrderService {
   ): Observable<PageDto<OrderDto>> {
     return this.http.get<PageDto<OrderDto>>(
       `${this.API_ORDER_ADMIN_BASE_URL}?page=${page}&size=${size}`
+    );
+  }
+
+  public updateOrderStatus(
+    trackingNumber: string,
+    updateOrderStatus: UpdateOrderStatus
+  ): Observable<void> {
+    return this.http.put<void>(
+      `${this.API_ORDER_ADMIN_BASE_URL}/${trackingNumber}`,
+      updateOrderStatus
     );
   }
 }
