@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderDto } from '../../domain/order/order-dto';
 import { CategoryService } from '../../domain/product/category.service';
 import { CouponDto } from '../../domain/coupon/coupon-dto';
@@ -14,6 +14,10 @@ import { CreateOrderRequest } from '../../domain/order/create-order-request';
 import { ProductService } from '../../domain/product/product.service';
 import { OrderService } from '../../domain/order/order.service';
 import { CreateOrderItemDto } from '../../domain/order/create-order-item-dto';
+import { ProvinceDto } from '../../domain/address/province-dto';
+import { DistrictDto } from '../../domain/address/district-dto';
+import { WardDto } from '../../domain/address/ward-dto';
+import { AddressService } from '../../domain/address/address.service';
 
 @Component({
   selector: 'app-cart-details',
@@ -24,6 +28,7 @@ import { CreateOrderItemDto } from '../../domain/order/create-order-item-dto';
     FontAwesomeModule,
     FormsModule,
     CommonModule,
+    ReactiveFormsModule
   ],
   templateUrl: './cart-details.component.html',
   styleUrl: './cart-details.component.scss',
@@ -55,16 +60,32 @@ export class CartDetailsComponent implements OnInit {
 
   filteredCoupons = [...this.availableCoupons];
 
+  // Address
+  ADDRESS_COMPARATOR = (a: { name: string }, b: { name: string }) =>
+    a.name.localeCompare(b.name);
+
+  addrFormGroup = new FormGroup({
+    provinceId: new FormControl<number>(-1),
+    districtId: new FormControl<number>(-1),
+    ward: new FormControl<number>(-1),
+  });
+  provinces: ProvinceDto[] = [];
+  districts: DistrictDto[] = [];
+  wards: WardDto[] = [];
+  selectedWardId = -1;
+
   constructor(
     private cartService: CartService,
     private categoryService: CategoryService,
     private productService: ProductService,
-    private orderService: OrderService
+    private addressService: AddressService,
+    private orderService: OrderService,
   ) {}
 
   ngOnInit(): void {
     this.updateCartStatus();
     this.listCartDetails();
+    this.listProvinces();
   }
 
   listCartDetails() {
@@ -136,10 +157,17 @@ export class CartDetailsComponent implements OnInit {
     this.onSelectedChange(cartItem);
   }
 
+  handleWardSelected(event: Event) {
+    this.selectedWardId = parseInt((event.target as HTMLSelectElement).value);
+    if (this.selectedWardId > -1) {
+      this.cartItems.forEach(cartItem => this.onSelectedChange(cartItem));
+    }
+  }
+
   onSelectedChange(cartItem: CartItem) {
     this.orderService
       .getOrderPreview(
-        new CreateOrderRequest(1, null, [
+        new CreateOrderRequest(this.selectedWardId, null, [
           new CreateOrderItemDto(
             cartItem.productNo,
             cartItem.quantity,
@@ -152,5 +180,41 @@ export class CartDetailsComponent implements OnInit {
         this.shippingFee = data.shippingFeeAmount;
         this.cartService.computeCartTotals();
       });
+  }
+
+  listProvinces(): void {
+    this.addressService.getProvinces().subscribe((provinceDtoPage) => {
+      this.provinces = provinceDtoPage.items;
+      this.provinces.sort(this.ADDRESS_COMPARATOR);
+    });
+  }
+
+  handleProvinceSelected(event: Event): void {
+    const selectedProvinceId = parseInt(
+      (event.target as HTMLSelectElement).value
+    );
+    this.wards = [];
+    this.addrFormGroup.patchValue({ districtId: -1, ward: -1 });
+    if (selectedProvinceId > -1) {
+      this.addressService
+        .getDistricts(selectedProvinceId)
+        .subscribe((districtDtoPage) => {
+          this.districts = districtDtoPage.items;
+          this.districts.sort(this.ADDRESS_COMPARATOR);
+        });
+      return;
+    }
+    this.districts = [];
+  }
+
+  handleDistrictSelected(event: Event): void {
+    const selectedWardId = parseInt((event.target as HTMLSelectElement).value);
+    if (selectedWardId > -1) {
+      this.addressService.getWards(selectedWardId).subscribe((wardDtoPage) => {
+        this.wards = wardDtoPage.items;
+        this.wards.sort(this.ADDRESS_COMPARATOR);
+      });
+      return;
+    }
   }
 }
