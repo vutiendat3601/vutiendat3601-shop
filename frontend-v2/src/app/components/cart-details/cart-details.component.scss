@@ -11,6 +11,18 @@
   margin-bottom: 20px;
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
+  .address {
+    h3 {
+      margin: 20px;
+      padding: 2px;
+      font-size: 24px;
+      font-weight: 500;
+    }
+  }
+  .address-heading {
+    padding: 20px 10px;
+    margin: 0;
+  }
 }
 
 /* Cart item */
@@ -153,7 +165,7 @@
 
 .shipping-fee p,
 .total-quantity p {
-  color: black;
+  color: #d0011b;
   margin: 0 0 0 8px;
 }
 
