@@ -71,6 +71,10 @@ public class OnlyOneProductCouponApplier implements ProductCouponApplier {
         final String customerCode = authContext.getUser().customerCode();
         final String couponCustomerCode = coupon.getCustomer().getCode();
         return couponCustomerCode.equals(customerCode);
+      case PRODUCT:
+        final Long productId = product.getId();
+        final Long couponProductId = coupon.getProduct().getId();
+        return couponProductId.equals(productId);
       default:
         return false;
     }
