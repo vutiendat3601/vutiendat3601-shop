@@ -16,6 +16,7 @@ import vn.io.vutiendat3601.shop.v2.auth.AuthContext;
 import vn.io.vutiendat3601.shop.v2.common.PageDto;
 import vn.io.vutiendat3601.shop.v2.customer.Customer;
 import vn.io.vutiendat3601.shop.v2.customer.CustomerDao;
+import vn.io.vutiendat3601.shop.v2.exception.ConflictException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
 import vn.io.vutiendat3601.shop.v2.fee.ProductCouponApplier;
 import vn.io.vutiendat3601.shop.v2.fee.ShippingFeeCalculator;
@@ -157,5 +158,36 @@ public class OrderService {
       }
       order.addItem(item);
     }
+  }
+
+  public void updateOrderStatus(
+      @NonNull String trackingNumber, @NonNull UpdateOrderStatusRequest updateOrderStatusReq) {
+    final Order order =
+        orderDao
+            .selectByTrackingNumber(trackingNumber)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "Order not found: (trackingNumber=%s)".formatted(trackingNumber)));
+    final OrderStatus status = order.getStatus();
+    switch (updateOrderStatusReq.status()) {
+      case DELIVERING:
+        if (!OrderStatus.PAID.equals(status)) {
+          throw new ConflictException(
+              "Current order status must be 'PAID' status to change to 'DELIVERING'");
+        }
+        order.setStatus(OrderStatus.DELIVERING);
+        break;
+      case DELIVERED:
+        if (!OrderStatus.DELIVERING.equals(status)) {
+          throw new ConflictException(
+              "Current order status must be 'PAID' status to change to 'DELIVERING'");
+        }
+        order.setStatus(OrderStatus.DELIVERED);
+        break;
+      default:
+        break;
+    }
+    orderDao.update(order);
   }
 }

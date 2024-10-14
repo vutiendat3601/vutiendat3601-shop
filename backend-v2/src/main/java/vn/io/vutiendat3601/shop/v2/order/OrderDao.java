@@ -8,6 +8,8 @@ import org.springframework.lang.NonNull;
 public interface OrderDao {
   long insert(@NonNull Order order);
 
+  void update(@NonNull Order order);
+
   @NonNull
   Optional<Order> selectByTrackingNumber(@NonNull String trackingNumber);
 

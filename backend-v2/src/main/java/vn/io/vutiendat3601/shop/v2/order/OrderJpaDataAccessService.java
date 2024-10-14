@@ -47,4 +47,9 @@ public class OrderJpaDataAccessService implements OrderDao {
       @NonNull String trackingNumber, @NonNull String customerCode) {
     return orderRepo.findByTrackingNumberAndCustomerCode(trackingNumber, customerCode);
   }
+
+  @Override
+  public void update(@NonNull Order order) {
+    orderRepo.save(order);
+  }
 }
