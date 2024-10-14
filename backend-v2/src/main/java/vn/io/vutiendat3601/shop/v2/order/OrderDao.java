@@ -1,6 +1,8 @@
 package vn.io.vutiendat3601.shop.v2.order;
 
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
 import org.springframework.lang.NonNull;
 
 public interface OrderDao {
@@ -15,4 +17,10 @@ public interface OrderDao {
   @NonNull
   Optional<Order> selectByTrackingNumberAndCustomerCode(
       @NonNull String trackingNumber, @NonNull String customerCode);
+
+  @NonNull
+  Page<Order> selectAllByCustomerCode(String customerCode, int page, int size);
+
+  @NonNull
+  Page<Order> selectAllByOrderByCreatedAtDesc(int page, int size);
 }

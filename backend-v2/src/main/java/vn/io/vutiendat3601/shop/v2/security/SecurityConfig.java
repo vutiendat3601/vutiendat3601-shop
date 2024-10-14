@@ -49,7 +49,7 @@ public class SecurityConfig {
                     .requestMatchers(POST, PUBLIC_POST_ROUTES)
                     .permitAll()
                     .anyRequest()
-                    .authenticated())
+                    .permitAll())
         .csrf(csrf -> csrf.disable())
         .cors(cors -> cors.configurationSource(corsConfigSrouce))
         .anonymous(anonymous -> anonymous.disable())

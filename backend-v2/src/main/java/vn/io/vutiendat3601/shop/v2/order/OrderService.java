@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import vn.io.vutiendat3601.shop.v2.address.Address;
@@ -12,6 +13,7 @@ import vn.io.vutiendat3601.shop.v2.address.AddressDao;
 import vn.io.vutiendat3601.shop.v2.address.Ward;
 import vn.io.vutiendat3601.shop.v2.address.WardDao;
 import vn.io.vutiendat3601.shop.v2.auth.AuthContext;
+import vn.io.vutiendat3601.shop.v2.common.PageDto;
 import vn.io.vutiendat3601.shop.v2.customer.Customer;
 import vn.io.vutiendat3601.shop.v2.customer.CustomerDao;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
@@ -81,6 +83,19 @@ public class OrderService {
                     new ResourceNotFoundException(
                         "Order not found: (trackingNumber=%s)".formatted(trackingNumber)));
     return orderDtoMapper.apply(order);
+  }
+
+  public PageDto<OrderDto> getOrders(int page, int size) {
+    page--;
+    final Page<Order> orderPage = orderDao.selectAllByOrderByCreatedAtDesc(page, size);
+    return PageDto.of(orderPage).map(orderDtoMapper);
+  }
+
+  public PageDto<OrderDto> getOrdersByCurrentUser(int page, int size) {
+    page--;
+    final String customerCode = authContext.getUser().customerCode();
+    final Page<Order> orderPage = orderDao.selectAllByCustomerCode(customerCode, page, size);
+    return PageDto.of(orderPage).map(orderDtoMapper);
   }
 
   public OrderDto createOrder(@NonNull CreateOrderRequest createOrderReq) {
