@@ -7,7 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,4 +43,9 @@ public class Address {
   @ManyToOne
   @JoinColumn(name = "ward_id")
   private Ward ward;
+
+  @PrePersist
+  private void prePersist() {
+    code = UUID.randomUUID().toString();
+  }
 }

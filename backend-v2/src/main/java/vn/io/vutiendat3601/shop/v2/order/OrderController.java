@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,10 +29,17 @@ public class OrderController {
   }
 
   @PostMapping
-  public ResponseEntity<CreatedOrderDto> createOrder(
+  public ResponseEntity<OrderDto> createOrder(
       @Validated @RequestBody CreateOrderRequest createOrderReq) {
-    final CreatedOrderDto createdOrderDto = orderService.createOrder(createOrderReq);
-    return ResponseEntity.ok(createdOrderDto);
+    final OrderDto orderDto = orderService.createOrder(createOrderReq);
+    return ResponseEntity.ok(orderDto);
+  }
+
+  @GetMapping("{trackingNumber}")
+  public ResponseEntity<OrderDto> getOrderByCurrentUser(
+      @PathVariable(name = "trackingNumber") String trackingNumber) {
+    final OrderDto orderDto = orderService.getOrderByCurrentUser(trackingNumber);
+    return ResponseEntity.ok(orderDto);
   }
 
   @PostMapping("{trackingNumber}/payment")
@@ -39,9 +47,9 @@ public class OrderController {
       @PathVariable(name = "trackingNumber") String trackingNumber,
       @RequestBody CreateOrderPaymentRequest createOrderPaymentReq,
       HttpServletRequest req) {
-    final OrderPaymentDto orderPaymentRedirectUrlDto =
+    final OrderPaymentDto orderPaymentDto =
         orderPaymentService.createOrderPayment(trackingNumber, createOrderPaymentReq, req);
-    return ResponseEntity.ok(orderPaymentRedirectUrlDto);
+    return ResponseEntity.ok(orderPaymentDto);
   }
 
   @PostMapping("payment/vnpay")

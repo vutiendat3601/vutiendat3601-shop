@@ -44,8 +44,9 @@ public class AddressController {
   }
 
   @PostMapping
-  public ResponseEntity<?> createAddress(@RequestBody CreateAddressRequest createAddrReq) {
-    addrService.createAddress(createAddrReq);
-    return ResponseEntity.ok().build();
+  public ResponseEntity<AddressDetailDto> createAddress(
+      @RequestBody CreateAddressRequest createAddrReq) {
+    final AddressDetailDto addrDetailDto = addrService.createAddress(createAddrReq);
+    return ResponseEntity.ok(addrDetailDto);
   }
 }

@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import vn.io.vutiendat3601.shop.v2.exception.ConflictException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
 import vn.io.vutiendat3601.shop.v2.payment.PaymentMethod;
@@ -46,6 +48,7 @@ public class OrderPaymentService {
   @Qualifier("vnPayPaymentOrderRediectUrl")
   private final VnPayPaymentProvider vnPayPaymentProvider;
 
+  @Transactional
   public OrderPaymentDto createOrderPayment(
       @NonNull String trackingNumber,
       @NonNull CreateOrderPaymentRequest createOrderPaymentReq,

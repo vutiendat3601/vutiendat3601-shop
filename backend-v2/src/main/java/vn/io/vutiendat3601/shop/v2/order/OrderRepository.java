@@ -7,4 +7,8 @@ import org.springframework.lang.NonNull;
 public interface OrderRepository extends JpaRepository<Order, Long> {
   @NonNull
   Optional<Order> findByTrackingNumber(@NonNull String trackingNumber);
+
+  @NonNull
+  Optional<Order> findByTrackingNumberAndCustomerCode(
+      @NonNull String trackingNumber, @NonNull String customerCode);
 }

@@ -11,4 +11,8 @@ public interface OrderDao {
 
   @NonNull
   Optional<Order> selectById(long id);
+
+  @NonNull
+  Optional<Order> selectByTrackingNumberAndCustomerCode(
+      @NonNull String trackingNumber, @NonNull String customerCode);
 }
