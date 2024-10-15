@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../domain/auth/auth.service';
-import { TokenDto } from '../../../domain/auth/token-dto';
 
 @Component({
   selector: 'app-login',
@@ -28,15 +27,13 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router
-  ) {
-    // fb: FormBuilder
-    // this.loginForm = this.fb.group({
-    // username: ['', Validators.required],
-    // password: ['', [Validators.required, Validators.minLength(8)]],
-    // });
-  }
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/']);
+    }
+  }
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
@@ -47,15 +44,15 @@ export class LoginComponent implements OnInit {
       const username = this.loginFormGroup.get('username')?.value;
       const password = this.loginFormGroup.get('password')?.value;
       if (username && password) {
-        this.authService.login(username, password).subscribe((verifDto) => {
-          this.authService
-            .getToken({ code: verifDto.code })
-            .subscribe((tokenDto: TokenDto) => {
-              this.router.navigate(['/']);
-            });
+        this.authService.login(username, password).subscribe({
+          next: (verifDto) => {
+            this.authService
+              .getToken({ code: verifDto.code })
+              .subscribe(() => this.router.navigate(['/']));
+          },
+          error: () => alert('Đăng nhập thất bại'),
         });
       }
     }
-    console.log('Thông tin đăng nhập không hợp lệ');
   }
 }

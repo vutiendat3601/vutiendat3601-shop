@@ -48,6 +48,7 @@ export class ProductDetailsComponent {
         productDto.categoryCode,
         null,
         null,
+        null,
         null
       );
       this.cartService.addToCart(cartItem);
