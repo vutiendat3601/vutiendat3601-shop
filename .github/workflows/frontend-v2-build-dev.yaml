@@ -18,5 +18,6 @@ jobs:
           && ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no vutiendat3601@dev.shopsinhvien.io.vn "
           cd /home/vutiendat3601/vutiendat3601-shop/frontend-v2;
           git pull;
-          ng build
+          npm i;
+          ng build;
           "
