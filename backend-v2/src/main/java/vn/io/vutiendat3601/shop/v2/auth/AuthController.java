@@ -38,7 +38,9 @@ public class AuthController {
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("public-key")
+  @GetMapping(
+      path = "public-key",
+      produces = {MediaType.TEXT_PLAIN_VALUE})
   public ResponseEntity<String> getPublicKey() {
     final String publicKey = authService.getPublicKey();
     return ResponseEntity.ok(publicKey);
