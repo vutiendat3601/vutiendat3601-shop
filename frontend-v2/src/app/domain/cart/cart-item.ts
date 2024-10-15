@@ -7,7 +7,8 @@ export class CartItem {
     public quantity: number,
     public categoryCode: string,
     public shippingFee: number | null,
-    public coupon: string | null,
-    public finalPrice: number | null,
+    public couponCode: string | null,
+    public couponAmount: number | null,
+    public finalAmount: number | null
   ) {}
 }

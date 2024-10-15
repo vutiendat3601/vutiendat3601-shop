@@ -43,6 +43,16 @@ export class CartService {
     this.saveCartItemsToLocalStorage();
   }
 
+  updateCartItem(productNo: string, updateCartItem: CartItem) {
+    const cartItem = this.cartItems.find((ci) => ci.productNo === productNo);
+    if (cartItem) {
+      cartItem.couponCode = updateCartItem.couponCode;
+      this.computeCartTotals();
+      this.cartItemsChanged.next(this.cartItems);
+      this.saveCartItemsToLocalStorage();
+    }
+  }
+
   decrementQuantity(decrementCartItem: CartItem) {
     const cartItem = this.cartItems.find(
       (cI) => cI.productNo === decrementCartItem.productNo
@@ -76,8 +86,8 @@ export class CartService {
     let totalQuantityValue: number = 0;
 
     for (let cartItem of this.cartItems) {
-      if (cartItem.coupon && cartItem.finalPrice) {
-        totalPriceValue += cartItem.finalPrice;
+      if (cartItem.couponCode && cartItem.finalAmount) {
+        totalPriceValue += cartItem.finalAmount;
       } else {
         totalPriceValue += cartItem.quantity * cartItem.unitPrice;
       }

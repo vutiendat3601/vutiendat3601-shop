@@ -1,11 +1,14 @@
+import { CreateOrderPaymentRequest } from './create-order-payment-request';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { PageDto } from '../../common/page-dto';
 import { CreateOrderPreviewRequest } from './create-order-preview-request';
+import { CreateOrderRequest } from './create-order-request';
 import { OrderDto } from './order-dto';
 import { UpdateOrderStatus } from './update-order-status';
+import { OrderPaymentDto } from './order-payment-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +26,23 @@ export class OrderService {
     return this.http.post<OrderDto>(
       `${this.API_ORDER_BASE_URL}/preview`,
       createOrderPreviewReq
+    );
+  }
+
+  public createOrder(createOrderReq: CreateOrderRequest): Observable<OrderDto> {
+    return this.http.post<OrderDto>(
+      `${this.API_ORDER_BASE_URL}`,
+      createOrderReq
+    );
+  }
+
+  public createOrderPayment(
+    trackingNumber: string,
+    createOrderPaymentReq: CreateOrderPaymentRequest
+  ): Observable<OrderPaymentDto> {
+    return this.http.post<OrderPaymentDto>(
+      `${this.API_ORDER_BASE_URL}/${trackingNumber}/payment`,
+      createOrderPaymentReq
     );
   }
 

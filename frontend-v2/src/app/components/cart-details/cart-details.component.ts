@@ -13,17 +13,19 @@ import { AddressService } from '../../domain/address/address.service';
 import { DistrictDto } from '../../domain/address/district-dto';
 import { ProvinceDto } from '../../domain/address/province-dto';
 import { WardDto } from '../../domain/address/ward-dto';
-import { CartItem } from '../../domain/cart/cart-item';
 import { CartService } from '../../domain/cart/cart.service';
 import { CouponDto } from '../../domain/coupon/coupon-dto';
-import { CreateOrderItemDto } from '../../domain/order/create-order-item-dto';
 import { CreateOrderPreviewRequest } from '../../domain/order/create-order-preview-request';
 import { CreateOrderRequest } from '../../domain/order/create-order-request';
 import { OrderDto } from '../../domain/order/order-dto';
 import { OrderService } from '../../domain/order/order.service';
 import { CategoryService } from '../../domain/product/category.service';
 import { ProductService } from '../../domain/product/product.service';
+import { CreateAddressRequest } from './../../domain/address/create-address-request';
+import { CartItem } from './../../domain/cart/cart-item';
 import { CouponService } from './../../domain/coupon/coupon.service';
+import { CreateOrderItemDto } from './../../domain/order/create-order-item-dto';
+import { CreateOrderPaymentRequest } from '../../domain/order/create-order-payment-request';
 
 @Component({
   selector: 'app-cart-details',
@@ -74,7 +76,8 @@ export class CartDetailsComponent implements OnInit {
   addrFormGroup = new FormGroup({
     provinceId: new FormControl<number | null>(null),
     districtId: new FormControl<number | null>(null),
-    ward: new FormControl<number | null>(null),
+    wardId: new FormControl<number | null>(null),
+    street: new FormControl<string | null>(null),
   });
   provinces: ProvinceDto[] = [];
   districts: DistrictDto[] = [];
@@ -145,6 +148,7 @@ export class CartDetailsComponent implements OnInit {
             });
         }
       });
+      this.getOrderPreview();
     });
   }
 
@@ -163,34 +167,21 @@ export class CartDetailsComponent implements OnInit {
 
   incrementQuantity(cartItem: CartItem) {
     this.cartService.addToCart(cartItem);
-    this.onCouponSelected(cartItem);
+    // this.onCouponSelected(cartItem);
   }
 
   decrementQuantity(cartItem: CartItem) {
     this.cartService.decrementQuantity(cartItem);
-    this.onCouponSelected(cartItem);
+    // this.onCouponSelected(cartItem);
   }
 
   remove(cartItem: CartItem) {
     this.cartService.remove(cartItem);
-    this.onCouponSelected(cartItem);
+    // this.onCouponSelected(cartItem);
   }
 
-  onCouponSelected(cartItem: CartItem) {
-    this.orderService
-      .getOrderPreview(
-        new CreateOrderPreviewRequest(this.selectedWardId, null, [
-          new CreateOrderItemDto(
-            cartItem.productNo,
-            cartItem.quantity,
-            cartItem.coupon
-          ),
-        ])
-      )
-      .subscribe((orderDto) => {
-        cartItem.finalPrice = orderDto.items[0].finalAmount;
-        this.cartService.computeCartTotals();
-      });
+  handleCartItemCouponSelected(cartItem: CartItem) {
+    this.cartService.updateCartItem(cartItem.productNo, cartItem);
   }
 
   listProvinces(): void {
@@ -200,12 +191,12 @@ export class CartDetailsComponent implements OnInit {
     });
   }
 
-  handleProvinceSelected(event: Event): void {
+  handleProvinceIdSelected(event: Event): void {
     const selectedProvinceId = parseInt(
       (event.target as HTMLSelectElement).value
     );
     this.wards = [];
-    this.addrFormGroup.patchValue({ districtId: null, ward: null });
+    this.addrFormGroup.patchValue({ districtId: null, wardId: null });
     if (selectedProvinceId > -1) {
       this.addressService
         .getDistricts(selectedProvinceId)
@@ -218,7 +209,7 @@ export class CartDetailsComponent implements OnInit {
     this.districts = [];
   }
 
-  handleDistrictSelected(event: Event): void {
+  handleDistrictIdSelected(event: Event): void {
     const selectedWardId = parseInt((event.target as HTMLSelectElement).value);
     if (selectedWardId > -1) {
       this.addressService.getWards(selectedWardId).subscribe((wardDtoPage) => {
@@ -229,10 +220,67 @@ export class CartDetailsComponent implements OnInit {
     }
   }
 
-  handleWardSelected(event: Event) {
+  handleWardIdSelected(event: Event) {
     this.selectedWardId = parseInt((event.target as HTMLSelectElement).value);
-    if (this.selectedWardId != null) {
-      this.cartItems.forEach((cartItem) => this.onCouponSelected(cartItem));
+  }
+
+  getOrderPreview() {
+    const orderItemDtos: CreateOrderItemDto[] = this.cartItems.map(
+      (ci) => new CreateOrderItemDto(ci.productNo, ci.quantity, ci.couponCode)
+    );
+    this.orderService
+      .getOrderPreview(
+        new CreateOrderPreviewRequest(this.selectedWardId, null, orderItemDtos)
+      )
+      .subscribe((orderPreview) => {
+        this.orderPreview = orderPreview;
+        this.orderPreview.items.forEach((item) => {
+          const ci = this.cartItems.find(
+            (ci) => ci.productNo === item.productNo
+          );
+          if (ci) {
+            ci.finalAmount = item.finalAmount;
+            // ci.couponCode = item.couponCode;
+            ci.productNo = item.productNo;
+            ci.quantity = item.quantity;
+            ci.couponAmount = item.couponAmount;
+          }
+        });
+      });
+  }
+
+  checkout() {
+    const street = this.addrFormGroup.get('street')?.value;
+    const wardId = this.selectedWardId;
+    console.log(wardId);
+    console.log(street);
+    if (street && wardId) {
+      this.addressService
+        .createAddress(new CreateAddressRequest(street, wardId))
+        .subscribe((addrDetail) => {
+          const orderItemDtos: CreateOrderItemDto[] = this.cartItems.map(
+            (ci) =>
+              new CreateOrderItemDto(ci.productNo, ci.quantity, ci.couponCode)
+          );
+          const createOrderReq: CreateOrderRequest = new CreateOrderRequest(
+            addrDetail.code,
+            null,
+            orderItemDtos
+          );
+          this.orderService
+            .createOrder(createOrderReq)
+            .subscribe((orderDto) => {
+              console.log('orderDto', orderDto);
+              this.orderService
+                .createOrderPayment(
+                  orderDto.trackingNumber,
+                  new CreateOrderPaymentRequest('VN_PAY')
+                )
+                .subscribe((orderPaymentDto) => {
+                  window.location.href = orderPaymentDto.paymentUrl;
+                });
+            });
+        });
     }
   }
 }

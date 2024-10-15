@@ -20,7 +20,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-3">
           <div class="input-space">
-            <select style="padding: 8px" formControlName="provinceId" (change)="handleProvinceSelected($event)">
+            <select style="padding: 8px" formControlName="provinceId" (change)="handleProvinceIdSelected($event)">
               <option [value]="-1" disabled>
                 --- Chọn tỉnh/thành phố ---
               </option>
@@ -34,7 +34,7 @@
         </div>
         <div class="col-md-4">
           <div class="input-space">
-            <select style="padding: 8px" formControlName="districtId" (change)="handleDistrictSelected($event)">
+            <select style="padding: 8px" formControlName="districtId" (change)="handleDistrictIdSelected($event)">
               <option [value]="-1">--- Chọn huyện/thị xã ---</option>
               @for (district of districts; track $index) {
               <option [value]="district.id">
@@ -46,7 +46,7 @@
         </div>
         <div class="col-md-3">
           <div class="input-space">
-            <select formControlName="districtId" style="padding: 8px" (change)="handleWardSelected($event)">
+            <select formControlName="districtId" style="padding: 8px" (change)="handleWardIdSelected($event)">
               <option [value]="-1">--- Chọn phường/xã ---</option>
               @for (ward of wards; track ward.id) {
               <option [value]="ward.id">
@@ -66,7 +66,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
           <div class="input-space">
-            <input type="text" style="width: 100%; padding: 5px" />
+            <input formControlName="street" type="text" style="width: 100%; padding: 5px" />
           </div>
         </div>
       </div>
@@ -92,7 +92,8 @@
         </div>
 
         <div class="coupon">
-          <select (change)="onCouponSelected(cartItem)" class="form-control" [(ngModel)]="cartItem.coupon">
+          <select class="form-control" (change)="handleCartItemCouponSelected(cartItem)"
+            [(ngModel)]="cartItem.couponCode">
             <option value="" disabled selected>Chọn mã giảm giá</option>
             @for (productCoupon of getCartItemCoupons(
             cartItem.productNo,
@@ -115,23 +116,21 @@
         </div>
 
         <div class="cart-item-total-price">
-          @if (cartItem.coupon && cartItem.finalPrice) {
+          <!-- @if (cartItem.couponCode && cartItem.finalAmount) { -->
           <div class="discount">
             Giảm:
             <p>
-              {{
-              cartItem.unitPrice * cartItem.quantity - cartItem.finalPrice
-              | currency : "VND" : "symbol" : "1.0-0"
-              }}
+              {{ cartItem.couponAmount | currency : "VND" : "symbol" : "1.0-0"}}
             </p>
           </div>
           <div class="final-price">
             Thành tiền:
             <p>
-              {{ cartItem.finalPrice | currency : "VND" : "symbol" : "1.0-0" }}
+              {{ cartItem.finalAmount | currency : "VND" : "symbol" : "1.0-0" }}
             </p>
           </div>
-          } @else {
+          <!-- } -->
+          <!-- @else {
           <p>
             Thành tiền:
             {{
@@ -139,7 +138,7 @@
             | currency : "VND" : "symbol" : "1.0-0"
             }}
           </p>
-          }
+          } -->
         </div>
 
         <button (click)="remove(cartItem)" class="delete-btn">
@@ -178,7 +177,7 @@
           {{ totalPrice | currency : "VND" : "symbol" : "1.0-0" }}
         </p>
       </div>
-      <a routerLink="/checkout" class="btn checkout-btn">Thanh toán</a>
+      <button class="btn checkout-btn" (click)="checkout()">Thanh toán</button>
     </div>
   </div>
 </div>
