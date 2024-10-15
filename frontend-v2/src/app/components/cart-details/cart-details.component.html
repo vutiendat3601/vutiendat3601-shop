@@ -6,7 +6,7 @@
     <div [formGroup]="addrFormGroup">
       <div class="row">
         <h3>
-          <i class="fa fa-truck" aria-hidden="true" ></i> ĐỊA CHỈ GIAO HÀNG
+          <i class="fa fa-truck" aria-hidden="true"></i> ĐỊA CHỈ GIAO HÀNG
         </h3>
       </div>
 
@@ -20,11 +20,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-3">
           <div class="input-space">
-            <select
-              style="padding: 8px"
-              formControlName="provinceId"
-              (change)="handleProvinceSelected($event)"
-            >
+            <select style="padding: 8px" formControlName="provinceId" (change)="handleProvinceSelected($event)">
               <option [value]="-1" disabled>
                 --- Chọn tỉnh/thành phố ---
               </option>
@@ -38,11 +34,7 @@
         </div>
         <div class="col-md-4">
           <div class="input-space">
-            <select
-              style="padding: 8px"
-              formControlName="districtId"
-              (change)="handleDistrictSelected($event)"
-            >
+            <select style="padding: 8px" formControlName="districtId" (change)="handleDistrictSelected($event)">
               <option [value]="-1">--- Chọn huyện/thị xã ---</option>
               @for (district of districts; track $index) {
               <option [value]="district.id">
@@ -54,11 +46,7 @@
         </div>
         <div class="col-md-3">
           <div class="input-space">
-            <select
-              formControlName="districtId"
-              style="padding: 8px"
-              (change)="handleWardSelected($event)"
-            >
+            <select formControlName="districtId" style="padding: 8px" (change)="handleWardSelected($event)">
               <option [value]="-1">--- Chọn phường/xã ---</option>
               @for (ward of wards; track ward.id) {
               <option [value]="ward.id">
@@ -104,38 +92,24 @@
         </div>
 
         <div class="coupon">
-          <select
-            (change)="onSelectedChange(cartItem)"
-            class="form-control"
-            [(ngModel)]="cartItem.coupon"
-          >
+          <select (change)="onCouponSelected(cartItem)" class="form-control" [(ngModel)]="cartItem.coupon">
             <option value="" disabled selected>Chọn mã giảm giá</option>
-            <option
-              *ngFor="
-                let coupon of getCartItemCoupons(
-                  cartItem.productNo,
-                  cartItem.categoryCode
-                )
-              "
-              [value]="coupon"
-            >
-              {{ coupon }}
-            </option>
+            @for (productCoupon of getCartItemCoupons(
+            cartItem.productNo,
+            cartItem.categoryCode
+            ); track $index) {
+            <option [value]="productCoupon">
+              {{ productCoupon }}
+            </option>}
           </select>
         </div>
 
         <div class="cart-item-quantity-wrapper">
-          <button
-            (click)="decrementQuantity(cartItem)"
-            class="btn btn-primary btn-sm btn-decre"
-          >
+          <button (click)="decrementQuantity(cartItem)" class="btn btn-primary btn-sm btn-decre">
             <fa-icon [icon]="faMinus" class="icon-derce"></fa-icon>
           </button>
           <p class="cart-item-quantity">{{ cartItem.quantity }}</p>
-          <button
-            (click)="incrementQuantity(cartItem)"
-            class="btn btn-primary btn-sm btn-incre"
-          >
+          <button (click)="incrementQuantity(cartItem)" class="btn btn-primary btn-sm btn-incre">
             <fa-icon [icon]="faPlus"></fa-icon>
           </button>
         </div>
@@ -146,8 +120,8 @@
             Giảm:
             <p>
               {{
-                cartItem.unitPrice * cartItem.quantity - cartItem.finalPrice
-                  | currency : "VND" : "symbol" : "1.0-0"
+              cartItem.unitPrice * cartItem.quantity - cartItem.finalPrice
+              | currency : "VND" : "symbol" : "1.0-0"
               }}
             </p>
           </div>
@@ -161,8 +135,8 @@
           <p>
             Thành tiền:
             {{
-              cartItem.quantity * cartItem.unitPrice
-                | currency : "VND" : "symbol" : "1.0-0"
+            cartItem.quantity * cartItem.unitPrice
+            | currency : "VND" : "symbol" : "1.0-0"
             }}
           </p>
           }
@@ -182,28 +156,26 @@
       </div>
       <div class="shipping-fee">
         Phí giao hàng:
-        <p>{{ shippingFee == 0 ? "Vui lòng chọn địa chỉ giao hàng" : shippingFee }}</p>
+        <p>{{ orderPreview?.shippingFeeAmount === null ? "Vui lòng chọn địa chỉ giao hàng" :
+          orderPreview?.shippingFeeAmount }}</p>
       </div>
       <div class="coupon">
         Mã vận chuyển:
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Nhập hoặc chọn mã giảm giá"
-          [(ngModel)]="selectedShippingFeeCoupon"
-          list="availableCoupons"
-        />
+        <input type="text" class="form-control" placeholder="Nhập hoặc chọn mã giảm giá"
+          [(ngModel)]="selectedShippingFeeCoupon" list="availableCoupons" />
         <!-- Danh sách mã giảm giá gợi ý -->
         <datalist id="availableCoupons">
-          <option *ngFor="let coupon of filteredCoupons" [value]="coupon.code">
-            {{ coupon.description }}
+          @for (shippingFeeCouponCode of shippingFeeCouponCodes; track $index) {
+          <option [value]="shippingFeeCouponCode">
+            {{ shippingFeeCouponCode }}
           </option>
+          }
         </datalist>
       </div>
       <div class="total-price">
         Tổng tiền:
         <p>
-          {{ totalPrice + shippingFee | currency : "VND" : "symbol" : "1.0-0" }}
+          {{ totalPrice | currency : "VND" : "symbol" : "1.0-0" }}
         </p>
       </div>
       <a routerLink="/checkout" class="btn checkout-btn">Thanh toán</a>
@@ -213,11 +185,7 @@
 } @else {
 <p class="cart-detail-heading">GIỎ HÀNG CỦA BẠN</p>
 <!-- Trường hợp giỏ hàng không có sản phẩm nào -->
-<div
-  class="alert alert-warning col-md-12"
-  role="alert"
-  style="margin-bottom: 16px"
->
+<div class="alert alert-warning col-md-12" role="alert" style="margin-bottom: 16px">
   Giỏ hàng của bạn trống.
 </div>
 }

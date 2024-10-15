@@ -11,7 +11,23 @@ export class CartService {
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
-  constructor() {}
+  constructor() {
+    this.loadCartItemsFromLocalStorage();
+  }
+
+  loadCartItemsFromLocalStorage() {
+    const cartItemsJson = localStorage.getItem('cartItems');
+    if (cartItemsJson) {
+      console.log(cartItemsJson);
+      this.cartItems = JSON.parse(cartItemsJson);
+      this.cartItemsChanged.next(this.cartItems);
+      this.computeCartTotals();
+    }
+  }
+
+  saveCartItemsToLocalStorage() {
+    localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+  }
 
   addToCart(newCartItem: CartItem) {
     const cartItem = this.cartItems.find(
@@ -24,6 +40,7 @@ export class CartService {
     }
     this.computeCartTotals();
     this.cartItemsChanged.next(this.cartItems);
+    this.saveCartItemsToLocalStorage();
   }
 
   decrementQuantity(decrementCartItem: CartItem) {
@@ -39,6 +56,7 @@ export class CartService {
       }
     }
     this.cartItemsChanged.next(this.cartItems);
+    this.saveCartItemsToLocalStorage();
   }
 
   remove(removeCartItem: CartItem) {
@@ -50,6 +68,7 @@ export class CartService {
       this.computeCartTotals();
     }
     this.cartItemsChanged.next(this.cartItems);
+    this.saveCartItemsToLocalStorage();
   }
 
   computeCartTotals() {
