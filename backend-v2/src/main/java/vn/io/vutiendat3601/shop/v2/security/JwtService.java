@@ -8,7 +8,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import java.security.KeyPair;
-import java.security.PublicKey;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +21,7 @@ import vn.io.vutiendat3601.shop.v2.auth.UserAuthentication;
 
 @Service
 public class JwtService {
+  private static final Base64.Encoder BASE64_ENCODER = Base64.getEncoder();
   private final String USER_CLAIM = "user";
   private final String AUTHORITIES_CLAIM = "authorities";
   private final ObjectMapper objMapper;
@@ -37,8 +38,14 @@ public class JwtService {
   @Value("${app.jwt.validDurationSecond}")
   private Integer jwtValidDurationSecond;
 
-  public PublicKey getPublicKey() {
-    return KEY_RSA256.getPublic();
+  public String getPublicKey() {
+    final StringBuilder publicKeyBuilder = new StringBuilder();
+    publicKeyBuilder.append("-----BEGIN PUBLIC KEY-----\n");
+    final String encodedPublicKey =
+        BASE64_ENCODER.encodeToString(KEY_RSA256.getPublic().getEncoded());
+    publicKeyBuilder.append(encodedPublicKey);
+    publicKeyBuilder.append("\n-----END PUBLIC KEY-----");
+    return publicKeyBuilder.toString();
   }
 
   public String generateJwt(

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,5 +36,11 @@ public class AuthController {
   public ResponseEntity<?> signUp(@Valid @RequestBody CreateUserRequest createUserReq) {
     authService.signUp(createUserReq);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("public-key")
+  public ResponseEntity<String> getPublicKey() {
+    final String publicKey = authService.getPublicKey();
+    return ResponseEntity.ok(publicKey);
   }
 }

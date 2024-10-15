@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { CreateOrderRequest } from './create-order-request';
-import { OrderDto } from './order-dto';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { PageDto } from '../../common/page-dto';
+import { CreateOrderPreviewRequest } from './create-order-preview-request';
+import { OrderDto } from './order-dto';
 import { UpdateOrderStatus } from './update-order-status';
 
 @Injectable({
@@ -17,12 +17,12 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   public getOrderPreview(
-    createOrderReq: CreateOrderRequest
+    createOrderPreviewReq: CreateOrderPreviewRequest
   ): Observable<OrderDto> {
-    console.log(createOrderReq);
+    console.log(createOrderPreviewReq);
     return this.http.post<OrderDto>(
       `${this.API_ORDER_BASE_URL}/preview`,
-      createOrderReq
+      createOrderPreviewReq
     );
   }
 
