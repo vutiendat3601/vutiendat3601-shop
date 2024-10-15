@@ -110,6 +110,10 @@ public class AuthService {
     return new JwtDto(jwt);
   }
 
+  public String getPublicKey() {
+    return jwtService.getPublicKey();
+  }
+
   private String decodeBasicAuth(String basicAuth) {
     if (basicAuth.startsWith(BASIC_AUTH_PREFIX)) {
       basicAuth = basicAuth.replace(BASIC_AUTH_PREFIX, "");
