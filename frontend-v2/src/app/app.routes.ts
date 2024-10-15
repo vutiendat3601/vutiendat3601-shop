@@ -5,6 +5,7 @@ import { ManageOrderComponent } from './admin/components/manage-order/manage-ord
 import { ManageProductComponent } from './admin/components/manage-product/manage-product.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
+import { ResetpasswordComponent } from './components/auth/resetpassword/resetpassword.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
@@ -27,10 +28,10 @@ export const routes: Routes = [
         path: 'products/:productNo',
         component: ProductDetailsComponent,
       },
-      {
-        path: 'checkout',
-        component: CheckoutComponent,
-      },
+      // {
+      //   path: 'checkout',
+      //   component: CheckoutComponent,
+      // },
       {
         path: 'order-list',
         component: OrderListComponent,
@@ -51,6 +52,7 @@ export const routes: Routes = [
         component: LoginComponent,
       },
       { path: 'sign-up', component: SignUpComponent },
+      { path: 'resetpassword', component: ResetpasswordComponent },
     ],
   },
   {

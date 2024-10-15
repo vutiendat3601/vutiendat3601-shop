@@ -3,14 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-change-password',
+  selector: 'app-resetpassword',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss']
+  templateUrl: './resetpassword.component.html',
+  styleUrl: './resetpassword.component.scss'
 })
-export class ChangePasswordComponent {
-  oldPassword: string = '';
+export class ResetpasswordComponent {
   newPassword: string = '';
   confirmPassword: string = '';
   passwordsMatch: boolean = true;
@@ -29,17 +28,10 @@ export class ChangePasswordComponent {
       return;
     }
 
-    if (this.oldPassword.length < 8) {
-      this.showAlert('Mật khẩu cũ không hợp lệ.');
-      return;
-    }
-
     if (this.newPassword.length < 8 || this.newPassword.length > 32) {
       this.showAlert('Mật khẩu mới phải có độ dài từ 8 đến 32 ký tự.');
       return;
     }
-
-
   }
 
   showAlert(message: string): void {
@@ -66,3 +58,5 @@ export class ChangePasswordComponent {
     }
   }
 }
+
+
