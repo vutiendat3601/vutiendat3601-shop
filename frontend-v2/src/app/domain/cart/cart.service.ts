@@ -15,6 +15,13 @@ export class CartService {
     this.loadCartItemsFromLocalStorage();
   }
 
+  public clearCart() {
+    this.cartItems = [];
+    this.cartItemsChanged.next(this.cartItems);
+    this.computeCartTotals();
+    this.saveCartItemsToLocalStorage();
+  }
+
   loadCartItemsFromLocalStorage() {
     const cartItemsJson = localStorage.getItem('cartItems');
     if (cartItemsJson) {
