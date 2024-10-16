@@ -222,6 +222,7 @@ export class CartDetailsComponent implements OnInit {
 
   handleWardIdSelected(event: Event) {
     this.selectedWardId = parseInt((event.target as HTMLSelectElement).value);
+    this.getOrderPreview();
   }
 
   getOrderPreview() {
@@ -250,6 +251,9 @@ export class CartDetailsComponent implements OnInit {
   }
 
   checkout() {
+    if (!this.selectedWardId) {
+      alert('Vui lòng nhập địa chỉ giao hàng');
+    }
     const street = this.addrFormGroup.get('street')?.value;
     const wardId = this.selectedWardId;
     if (street && wardId) {

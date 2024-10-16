@@ -1,16 +1,16 @@
-import { VnPayPaymentResult } from './vn-pay-payment-result';
-import { CreateOrderPaymentRequest } from './create-order-payment-request';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { PageDto } from '../../common/page-dto';
+import { AuthService } from '../auth/auth.service';
+import { CreateOrderPaymentRequest } from './create-order-payment-request';
 import { CreateOrderPreviewRequest } from './create-order-preview-request';
 import { CreateOrderRequest } from './create-order-request';
 import { OrderDto } from './order-dto';
-import { UpdateOrderStatus } from './update-order-status';
 import { OrderPaymentDto } from './order-payment-dto';
-import { AuthService } from '../auth/auth.service';
+import { UpdateOrderStatus } from './update-order-status';
+import { VnPayPaymentResult } from './vn-pay-payment-result';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,12 @@ export class OrderService {
   public createOrder(createOrderReq: CreateOrderRequest): Observable<OrderDto> {
     return this.http.post<OrderDto>(
       `${this.API_ORDER_BASE_URL}`,
-      createOrderReq
+      createOrderReq,
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getJwtToken()}`,
+        },
+      }
     );
   }
 
@@ -47,7 +52,12 @@ export class OrderService {
   ): Observable<OrderPaymentDto> {
     return this.http.post<OrderPaymentDto>(
       `${this.API_ORDER_BASE_URL}/${trackingNumber}/payment`,
-      createOrderPaymentReq
+      createOrderPaymentReq,
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getJwtToken()}`,
+        },
+      }
     );
   }
 
@@ -65,7 +75,12 @@ export class OrderService {
   public processOrderPaymentResult(vnPayPaymentResult: VnPayPaymentResult) {
     return this.http.post<void>(
       `${this.API_ORDER_BASE_URL}/payment/vnpay`,
-      vnPayPaymentResult
+      vnPayPaymentResult,
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getJwtToken()}`,
+        },
+      }
     );
   }
 
