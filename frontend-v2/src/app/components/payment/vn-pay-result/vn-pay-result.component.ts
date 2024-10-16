@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderService } from '../../../domain/order/order.service';
+import { VnPayPaymentResult } from '../../../domain/order/vn-pay-payment-result';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vn-pay-result',
@@ -8,5 +11,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './vn-pay-result.component.scss',
 })
 export class VnPayResultComponent implements OnInit {
-  ngOnInit(): void {}
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.orderService
+      .processOrderPaymentResult(new VnPayPaymentResult(location.href))
+      .subscribe(() => this.router.navigate(['/order-list']));
+  }
 }

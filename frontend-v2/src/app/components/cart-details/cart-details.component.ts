@@ -252,8 +252,6 @@ export class CartDetailsComponent implements OnInit {
   checkout() {
     const street = this.addrFormGroup.get('street')?.value;
     const wardId = this.selectedWardId;
-    console.log(wardId);
-    console.log(street);
     if (street && wardId) {
       this.addressService
         .createAddress(new CreateAddressRequest(street, wardId))

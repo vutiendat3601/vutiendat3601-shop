@@ -32,6 +32,10 @@ export class AuthService {
     // this.initialize();
   }
 
+  public getJwtToken(): string | undefined {
+    return this.token?.token;
+  }
+
   async initialize() {
     this.publicKey = await this.initalizePublicKey();
     const tokenDtoStr = localStorage.getItem('token');
