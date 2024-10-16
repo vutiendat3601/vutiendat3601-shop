@@ -1,3 +1,4 @@
+import { VnPayPaymentResult } from './vn-pay-payment-result';
 import { CreateOrderPaymentRequest } from './create-order-payment-request';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -9,6 +10,7 @@ import { CreateOrderRequest } from './create-order-request';
 import { OrderDto } from './order-dto';
 import { UpdateOrderStatus } from './update-order-status';
 import { OrderPaymentDto } from './order-payment-dto';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,10 @@ export class OrderService {
   private readonly API_ORDER_BASE_URL = `${environment.apiBaseUrl}/v2/orders`;
   private readonly API_ORDER_ADMIN_BASE_URL = `${environment.apiBaseUrl}/v2/admin/orders`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly authService: AuthService
+  ) {}
 
   public getOrderPreview(
     createOrderPreviewReq: CreateOrderPreviewRequest
@@ -43,6 +48,24 @@ export class OrderService {
     return this.http.post<OrderPaymentDto>(
       `${this.API_ORDER_BASE_URL}/${trackingNumber}/payment`,
       createOrderPaymentReq
+    );
+  }
+
+  public getOrders(page: number, size: number): Observable<PageDto<OrderDto>> {
+    return this.http.get<PageDto<OrderDto>>(
+      `${this.API_ORDER_BASE_URL}?page=${page}&size=${size}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getJwtToken()}`,
+        },
+      }
+    );
+  }
+
+  public processOrderPaymentResult(vnPayPaymentResult: VnPayPaymentResult) {
+    return this.http.post<void>(
+      `${this.API_ORDER_BASE_URL}/payment/callback/vnpay`,
+      vnPayPaymentResult
     );
   }
 
