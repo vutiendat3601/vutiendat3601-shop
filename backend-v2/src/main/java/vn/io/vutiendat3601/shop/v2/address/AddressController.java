@@ -1,5 +1,6 @@
 package vn.io.vutiendat3601.shop.v2.address;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vn.io.vutiendat3601.shop.v2.common.PageDto;
 
+@Tag(name = "Address")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v2/addresses")

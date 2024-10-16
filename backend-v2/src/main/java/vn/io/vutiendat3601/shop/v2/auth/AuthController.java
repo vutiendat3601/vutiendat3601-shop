@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import vn.io.vutiendat3601.shop.v2.user.CreateUserRequest;
 import vn.io.vutiendat3601.shop.v2.verification.VerificationDto;
 
+@Tag(name = "Auth")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v2/auth")

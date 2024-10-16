@@ -178,4 +178,9 @@ public class ProductService {
 
     priceHistoryDao.insert(priceHistory);
   }
+
+  public PageDto<ProductDto> search(String keyword, int page, int size) {
+    final Page<Product> productPage= productDao.selectByNameContaining(keyword, page,size);
+    return PageDto.of(productPage).map(productDtoMapper);
+  }
 }

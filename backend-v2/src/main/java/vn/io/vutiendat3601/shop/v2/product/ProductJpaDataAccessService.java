@@ -73,6 +73,7 @@ public class ProductJpaDataAccessService implements ProductDao {
   }
 
   @Override
+  @NonNull
   public Optional<Product> selectUnitInStocksByProductId(Long id) {
     return productRepo.findUnitInStocksById(id);
   }
@@ -80,5 +81,11 @@ public class ProductJpaDataAccessService implements ProductDao {
   @NonNull
   public Page<Product> selectByOrderByBuyedCountDesc(int page, int size) {
     return productRepo.findByOrderByBuyedCountDesc(PageRequest.of(page, size));
+  }
+
+  @Override
+  @NonNull
+  public Page<Product> selectByNameContaining(@NonNull String keyword, int page, int size) {
+    return productRepo.findByNameContaining(keyword, PageRequest.of(page, size));
   }
 }

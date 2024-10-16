@@ -2,7 +2,6 @@ package vn.io.vutiendat3601.shop.v2.product;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,11 +27,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
   @NonNull
   Optional<Product> findByProductNoAndIsActiveTrue(@NonNull String productNo);
 
-  @Query("SELECT p FROM Product p JOIN Category c ON p.category.id = c.id WHERE c.code = :categoryCode")
-    Page<Product> findAllByCategoryCode(@Param("categoryCode") String categoryCode, Pageable pageable);
+  @Query(
+      "SELECT p FROM Product p JOIN Category c ON p.category.id = c.id WHERE c.code ="
+          + " :categoryCode")
+  Page<Product> findAllByCategoryCode(
+      @Param("categoryCode") String categoryCode, Pageable pageable);
 
   Optional<Product> findUnitInStocksById(Long id);
 
   @NonNull
   Page<Product> findByOrderByBuyedCountDesc(@NonNull Pageable pageable);
+
+  @NonNull
+  Page<Product> findByNameContaining(@NonNull String keyword, @NonNull Pageable pageable);
 }

@@ -27,13 +27,19 @@ public interface ProductDao {
 
   boolean existsProductBySlug(String slug);
 
+  @NonNull
   Page<Product> selectByCategoryCode(
       @NonNull String categoryCode, int page, int size);
 
   @NonNull
   Optional<Product> selectByProductNoAndIsActiveTrue(@NonNull String productNo);
 
+  @NonNull
   Optional<Product> selectUnitInStocksByProductId(Long id);
+
   @NonNull
   Page<Product> selectByOrderByBuyedCountDesc(int page, int size);
+
+  @NonNull
+  Page<Product> selectByNameContaining(@NonNull String keyword, int page, int size);
 }
