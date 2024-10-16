@@ -15,6 +15,7 @@ import { ProvinceDto } from '../../domain/address/province-dto';
 import { WardDto } from '../../domain/address/ward-dto';
 import { CartService } from '../../domain/cart/cart.service';
 import { CouponDto } from '../../domain/coupon/coupon-dto';
+import { CreateOrderPaymentRequest } from '../../domain/order/create-order-payment-request';
 import { CreateOrderPreviewRequest } from '../../domain/order/create-order-preview-request';
 import { CreateOrderRequest } from '../../domain/order/create-order-request';
 import { OrderDto } from '../../domain/order/order-dto';
@@ -25,7 +26,6 @@ import { CreateAddressRequest } from './../../domain/address/create-address-requ
 import { CartItem } from './../../domain/cart/cart-item';
 import { CouponService } from './../../domain/coupon/coupon.service';
 import { CreateOrderItemDto } from './../../domain/order/create-order-item-dto';
-import { CreateOrderPaymentRequest } from '../../domain/order/create-order-payment-request';
 
 @Component({
   selector: 'app-cart-details',
@@ -268,7 +268,7 @@ export class CartDetailsComponent implements OnInit {
           this.orderService
             .createOrder(createOrderReq)
             .subscribe((orderDto) => {
-              console.log('orderDto', orderDto);
+              this.cartService.clearCart();
               this.orderService
                 .createOrderPayment(
                   orderDto.trackingNumber,

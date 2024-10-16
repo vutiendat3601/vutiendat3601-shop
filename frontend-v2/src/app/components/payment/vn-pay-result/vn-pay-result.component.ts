@@ -19,6 +19,6 @@ export class VnPayResultComponent implements OnInit {
   ngOnInit(): void {
     this.orderService
       .processOrderPaymentResult(new VnPayPaymentResult(location.href))
-      .subscribe(() => this.router.navigate(['/order-list']));
+      .subscribe(() => this.router.navigate(['order-list']));
   }
 }
