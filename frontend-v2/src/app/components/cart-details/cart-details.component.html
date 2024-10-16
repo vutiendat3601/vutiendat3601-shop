@@ -155,26 +155,29 @@
       </div>
       <div class="shipping-fee">
         Phí giao hàng:
-        <p>{{ orderPreview?.shippingFeeAmount === null ? "Vui lòng chọn địa chỉ giao hàng" :
-          orderPreview?.shippingFeeAmount }}</p>
+        <p>{{ orderPreview?.shippingFeeAmount | currency : "VND" : "symbol" : "1.0-0" }}</p>
       </div>
-      <div class="coupon">
+      <div class="shipping-fee">
+        Phí VAT:
+        <p>{{ orderPreview?.vatFeeAmount | currency : "VND" : "symbol" : "1.0-0" }}</p>
+      </div>
+      <!-- <div class="coupon">
         Mã vận chuyển:
         <input type="text" class="form-control" placeholder="Nhập hoặc chọn mã giảm giá"
           [(ngModel)]="selectedShippingFeeCoupon" list="availableCoupons" />
-        <!-- Danh sách mã giảm giá gợi ý -->
-        <datalist id="availableCoupons">
-          @for (shippingFeeCouponCode of shippingFeeCouponCodes; track $index) {
-          <option [value]="shippingFeeCouponCode">
-            {{ shippingFeeCouponCode }}
-          </option>
-          }
-        </datalist>
-      </div>
+         Danh sách mã giảm giá gợi ý
+      <datalist id="availableCoupons">
+        @for (shippingFeeCouponCode of shippingFeeCouponCodes; track $index) {
+        <option [value]="shippingFeeCouponCode">
+          {{ shippingFeeCouponCode }}
+        </option>
+        }
+      </datalist>
+    </div> -->
       <div class="total-price">
         Tổng tiền:
         <p>
-          {{ totalPrice | currency : "VND" : "symbol" : "1.0-0" }}
+          {{ orderPreview?.finalAmount| currency : "VND" : "symbol" : "1.0-0" }}
         </p>
       </div>
       <button class="btn checkout-btn" (click)="checkout()">Thanh toán</button>

@@ -43,6 +43,9 @@
           <!-- Nút đã giao hàng -->
           <div class="row status-button">
             <button>{{ order.status }}</button>
+            @if (order.status === 'PENDING') {
+            <button class="btn-pay" (click)="pay(order)">Thanh toán</button>
+            }
           </div>
         </div>
       </div>
