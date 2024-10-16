@@ -27,6 +27,15 @@ public class ProductController {
   private final ProductService productService;
   private final CouponService couponService;
 
+  @GetMapping("search")
+  public ResponseEntity<PageDto<ProductDto>> search(
+      @RequestParam("keyword") String keyword,
+      @RequestParam("page") Integer page,
+      @RequestParam("size") Integer size) {
+    final PageDto<ProductDto> productDtoPage = productService.search(keyword, page, size);
+    return ResponseEntity.ok(productDtoPage);
+  }
+
   @GetMapping("{productNo}/coupons")
   public ResponseEntity<PageDto<CouponDto>> getAvailableCouponByCategoryCode(
       @PathVariable(name = "productNo") String productNo,
