@@ -64,7 +64,7 @@ export class OrderService {
 
   public processOrderPaymentResult(vnPayPaymentResult: VnPayPaymentResult) {
     return this.http.post<void>(
-      `${this.API_ORDER_BASE_URL}/payment/callback/vnpay`,
+      `${this.API_ORDER_BASE_URL}/payment/vnpay`,
       vnPayPaymentResult
     );
   }
