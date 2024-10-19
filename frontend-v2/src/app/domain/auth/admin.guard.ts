@@ -1,5 +1,4 @@
-import { routes } from './../../app.routes';
-import { AuthGuard } from './auth.guard';
+import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -10,6 +9,9 @@ import {
 } from '@angular/router';
 import { AuthService } from './auth.service';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminGuard implements CanActivate {
   constructor(
     private readonly authService: AuthService,
@@ -21,8 +23,8 @@ export class AdminGuard implements CanActivate {
     state: RouterStateSnapshot
   ): MaybeAsync<GuardResult> {
     if (this.authService.isAuthenticated()) {
-      const authorites = this.authService.getAuthorities();
-      if (authorites.includes('admin')) {
+      const authorities = this.authService.getAuthorities();
+      if (authorities.includes('ADMIN')) {
         return true;
       }
     }
