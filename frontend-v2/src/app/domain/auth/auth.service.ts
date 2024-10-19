@@ -23,6 +23,7 @@ import { VerificationDto } from './verification-dto';
 export class AuthService {
   private readonly API_AUTH_BASE_URL = `${environment.apiBaseUrl}/v2/auth`;
   private currentUser: UserAuthentication | null = null;
+  private authorites: string[] = [];
   private token: TokenDto | null = null;
   private publicKey: string | null = null;
 
@@ -59,6 +60,10 @@ export class AuthService {
     return this.currentUserSubject;
   }
 
+  getAuthorities() {
+    return this.authorites;
+  }
+
   public login(
     username: string,
     password: string
@@ -82,6 +87,10 @@ export class AuthService {
     return this.currentUser !== null;
   }
 
+  public getCurrentUser() {
+    return this.currentUser;
+  }
+
   public getToken(tokenReq: TokenRequest): Observable<boolean> {
     const formUrlEncoded = new URLSearchParams();
     formUrlEncoded.set('code', tokenReq.code);
@@ -98,7 +107,7 @@ export class AuthService {
       .pipe(
         map((tokenDto) => {
           localStorage.setItem('token', JSON.stringify(tokenDto));
-          localStorage.setItem('jwt', tokenDto.token)
+          localStorage.setItem('jwt', tokenDto.token);
           this.verifyToken(tokenDto.token);
           return true;
         }),
@@ -121,6 +130,11 @@ export class AuthService {
         if (this.currentUser) {
           this.currentUserSubject.next(this.currentUser);
           return true;
+        }
+
+        this.authorites = payload['authorities'] as string[];
+        if (this.authorites) {
+          this.authorites = this.authorites;
         }
       }
     } catch (error) {
