@@ -1,3 +1,4 @@
+import { AuthService } from './../../domain/auth/auth.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -85,12 +86,13 @@ export class CartDetailsComponent implements OnInit {
   selectedWardId: number | null = null;
 
   constructor(
-    private cartService: CartService,
-    private categoryService: CategoryService,
-    private productService: ProductService,
-    private addressService: AddressService,
-    private orderService: OrderService,
-    private couponService: CouponService
+    private readonly cartService: CartService,
+    private readonly categoryService: CategoryService,
+    private readonly productService: ProductService,
+    private readonly addressService: AddressService,
+    private readonly orderService: OrderService,
+    private readonly couponService: CouponService,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -251,9 +253,13 @@ export class CartDetailsComponent implements OnInit {
   }
 
   checkout() {
+    if (!this.authService.isAuthenticated()) {
+      alert('Vui lòng đăng nhập');
+    }
     if (!this.selectedWardId) {
       alert('Vui lòng nhập địa chỉ giao hàng');
     }
+
     const street = this.addrFormGroup.get('street')?.value;
     const wardId = this.selectedWardId;
     if (street && wardId) {
