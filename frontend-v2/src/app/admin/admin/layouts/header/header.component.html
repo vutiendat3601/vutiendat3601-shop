@@ -1,25 +1,25 @@
 <div class="header">
   <div class="header-logo">
     <a href="#">
-      <img
-        height="40"
-        src="assets/img/logo.png"
-        alt="Shop Sinh Vien - co hen voi thanh xuan"
-        class="img-responsive"
-      />
+      <img height="40" src="assets/img/logo.png" alt="Shop Sinh Vien - co hen voi thanh xuan" class="img-responsive" />
     </a>
   </div>
   <div class="user">
-    <div class="user-name">Xin chào, htphatz</div>
     <div class="user-image">
-      <img
-        src="https://lh3.googleusercontent.com/ogw/AF2bZygOB1sabodtIgpQq-TRTUSD8fHOTVc-h9W2XCydl8eiiUI=s32-c-mo"
-        alt="Mitsuha"
-      />
-      <div class="user-action">
-        <div routerLink="/auth/login"><span>Đăng xuất</span></div>
-        <div routerLink="change-password"><span>Đổi mật khẩu</span></div>
+      @if(userAuth) {
+      <div class="user">
+        <div class="user-image">
+          <img src="assets/img/user.png" alt="" />
+          <div class="user-action">
+            <div (click)="logout()"><span>Đăng xuất</span></div>
+            <div routerLink="change-password"><span>Đổi mật khẩu</span></div>
+          </div>
+        </div>
       </div>
+      }
+      @else {
+      <a class="btn btn-primary" routerLink="auth/login" style="text-decoration: none;">Đăng nhập</a>
+      }
     </div>
   </div>
 </div>

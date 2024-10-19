@@ -23,7 +23,7 @@ import { VerificationDto } from './verification-dto';
 export class AuthService {
   private readonly API_AUTH_BASE_URL = `${environment.apiBaseUrl}/v2/auth`;
   private currentUser: UserAuthentication | null = null;
-  private authorites: string[] = [];
+  private authorities: string[] = [];
   private token: TokenDto | null = null;
   private publicKey: string | null = null;
 
@@ -61,7 +61,7 @@ export class AuthService {
   }
 
   getAuthorities() {
-    return this.authorites;
+    return this.authorities;
   }
 
   public login(
@@ -129,13 +129,12 @@ export class AuthService {
         this.currentUser = payload['user'] as UserAuthentication;
         if (this.currentUser) {
           this.currentUserSubject.next(this.currentUser);
-          return true;
         }
-
-        this.authorites = payload['authorities'] as string[];
-        if (this.authorites) {
-          this.authorites = this.authorites;
+        this.authorities = payload['authorities'] as string[];
+        if (this.authorities) {
+          this.authorities = this.authorities;
         }
+        return true;
       }
     } catch (error) {
       console.error('JWT verification failed:', error);
