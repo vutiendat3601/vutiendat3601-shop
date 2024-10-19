@@ -16,6 +16,7 @@ import { VnPayResultComponent } from './components/payment/vn-pay-result/vn-pay-
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { ChangePasswordComponent } from './admin/components/change-password/change-password.component';
 import { AuthGuard } from './domain/auth/auth.guard';
+import { AdminGuard } from './domain/auth/admin.guard';
 
 export const routes: Routes = [
   {
@@ -58,6 +59,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
+    canActivate: [AdminGuard],
     children: [
       { path: '', component: ProductListComponent },
       { path: 'manage-product', component: ManageProductComponent },

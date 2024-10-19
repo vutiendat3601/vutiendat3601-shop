@@ -98,4 +98,35 @@ public class ShopV2Application {
                         .quantity(200)
                         .build()));
   }
+
+  @EventListener(ApplicationReadyEvent.class)
+  public void mockAdminData() {
+    final User USER =
+        userRepo
+            .findByUsername("admin")
+            .orElseGet(
+                () ->
+                    userRepo.save(
+                        User.builder()
+                            .username("admin")
+                            .email("admin@gmail.com")
+                            .hashedPassword(
+                                "$2b$10$Gf1a5iLyJ40tdevJKMlxw.SjCFODArUG/2dmbt5PwY6kH3l0ppWfK") // $2024Vutiendat3601
+                            .authorities(List.of("ADMIN"))
+                            .isVerified(true)
+                            .phone("08923118712")
+                            .build()));
+    final String customerCode = "4a3702a0-a5a9-43cd-a2cd-31d2e7c6a5b0";
+    customerRepo
+        .findByCode(customerCode)
+        .orElseGet(
+            () ->
+                customerRepo.save(
+                    Customer.builder()
+                        .name("ADMIN")
+                        .code(customerCode)
+                        .user(USER)
+                        .phones(List.of())
+                        .build()));
+  }
 }
