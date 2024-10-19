@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+  private static final String JWT_REGEX = "^[A-Za-z0-9-_]+\\\\.[A-Za-z0-9-_]+\\\\.[A-Za-z0-9-_]+$";
+
   private AuthenticationManager authenticationManager;
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -27,10 +29,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       @NonNull FilterChain filterChain)
       throws ServletException, IOException {
     final String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+    String jwt = null;
     if (Objects.nonNull(authorization)
         && authorization.length() > 7
-        && authorization.startsWith("Bearer ")) {
-      final String jwt = authorization.substring(7);
+        && authorization.startsWith("Bearer ")
+        && (jwt = authorization.substring(7)).matches(JWT_REGEX)) {
       final Authentication authResult =
           authenticationManager.authenticate(JwtAuthentication.unauthenticated(jwt));
       if (authResult.isAuthenticated()) {
