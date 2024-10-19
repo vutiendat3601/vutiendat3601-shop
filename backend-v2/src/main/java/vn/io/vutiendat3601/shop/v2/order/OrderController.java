@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.io.vutiendat3601.shop.v2.common.PageDto;
 import vn.io.vutiendat3601.shop.v2.payment.VnPayPaymentResult;
 
-@CrossOrigin
+// @CrossOrigin
 @Tag(name = "Order")
 @RequiredArgsConstructor
 @RestController

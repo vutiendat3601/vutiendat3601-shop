@@ -57,7 +57,9 @@ app:
       vnpLocale: vn
       vnpReturnUrl: https://dev.shopsinhvien.io.vn/order/payment/callback/vnpay
       vnpOrderType: other
+      vnpTmnCode: SW9LXZFQ
       url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
       durationDay: 7
+      secretKey: 62DBDT7NUBC9ORU42S8DQIXD1R0DCX1A
 bussiness:
   vatPercent: 10
