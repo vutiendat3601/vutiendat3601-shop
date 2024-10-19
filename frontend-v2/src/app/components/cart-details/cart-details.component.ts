@@ -255,9 +255,11 @@ export class CartDetailsComponent implements OnInit {
   checkout() {
     if (!this.authService.isAuthenticated()) {
       alert('Vui lòng đăng nhập');
+      return;
     }
     if (!this.selectedWardId) {
       alert('Vui lòng nhập địa chỉ giao hàng');
+      return;
     }
 
     const street = this.addrFormGroup.get('street')?.value;
