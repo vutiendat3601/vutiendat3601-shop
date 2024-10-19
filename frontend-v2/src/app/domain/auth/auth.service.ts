@@ -29,7 +29,7 @@ export class AuthService {
   private currentUserSubject: Subject<UserAuthentication | null> =
     new BehaviorSubject<UserAuthentication | null>(null);
   constructor(private readonly http: HttpClient) {
-    // this.initialize();
+    this.initialize();
   }
 
   public getJwtToken(): string | undefined {
@@ -98,6 +98,7 @@ export class AuthService {
       .pipe(
         map((tokenDto) => {
           localStorage.setItem('token', JSON.stringify(tokenDto));
+          localStorage.setItem('jwt', tokenDto.token)
           this.verifyToken(tokenDto.token);
           return true;
         }),

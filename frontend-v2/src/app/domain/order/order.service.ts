@@ -37,12 +37,7 @@ export class OrderService {
   public createOrder(createOrderReq: CreateOrderRequest): Observable<OrderDto> {
     return this.http.post<OrderDto>(
       `${this.API_ORDER_BASE_URL}`,
-      createOrderReq,
-      {
-        headers: {
-          Authorization: `Bearer ${this.authService.getJwtToken()}`,
-        },
-      }
+      createOrderReq
     );
   }
 
