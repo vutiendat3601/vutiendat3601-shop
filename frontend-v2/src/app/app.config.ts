@@ -21,8 +21,12 @@ export function authServiceFactory(
 ): () => Promise<void> {
   return () => authService.initialize();
 }
-
+const PUBLIC_ENPOINTS = ['/v2/auth'];
 const jwtInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  const path = new URL(req.url).pathname;
+  if (PUBLIC_ENPOINTS.find((e) => path.startsWith(e))) {
+    return next(req);
+  }
   const authReq = req.clone({
     setHeaders: {
       Authorization: `Bearer ${localStorage.getItem('jwt')}`,
