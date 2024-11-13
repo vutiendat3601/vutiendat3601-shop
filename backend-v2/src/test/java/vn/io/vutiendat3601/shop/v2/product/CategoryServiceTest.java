@@ -12,6 +12,7 @@ import vn.io.vutiendat3601.shop.v2.common.PageDto;
 import vn.io.vutiendat3601.shop.v2.exception.RequestValidationException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceDuplicationException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
+import vn.io.vutiendat3601.shop.v2.product.*;
 
 import java.util.List;
 import java.util.Optional;
