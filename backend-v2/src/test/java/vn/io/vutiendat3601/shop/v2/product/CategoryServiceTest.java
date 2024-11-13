@@ -1,4 +1,14 @@
-package test.java.vn.io.vutiendat3601.shop.v2.product;
+package vn.io.vutiendat3601.shop.v2.product;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,16 +18,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+
 import vn.io.vutiendat3601.shop.v2.common.PageDto;
-import vn.io.vutiendat3601.shop.v2.exception.RequestValidationException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceDuplicationException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class CategoryServiceTest {
 
