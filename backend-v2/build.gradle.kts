@@ -3,7 +3,7 @@ extra["app.docker.tag"] = project.findProperty("app.docker.tag") ?: "latest"
 
 plugins {
   java
-  id("org.springframework.boot") version "3.3.4"
+  id("org.springframework.boot") version "3.3.5"
   id("io.spring.dependency-management") version "1.1.6"
   id("com.google.cloud.tools.jib") version "3.4.3"
 }
@@ -50,6 +50,7 @@ dependencies {
   annotationProcessor("org.projectlombok:lombok")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-webflux")
   testImplementation("org.springframework.boot:spring-boot-testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql:1.20.2")
