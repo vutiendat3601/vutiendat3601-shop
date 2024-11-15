@@ -1,7 +1,7 @@
 package vn.io.vutiendat3601.shop.v2.auth;
 
-import static vn.io.vutiendat3601.shop.v2.common.TestConstant.JWT_DTO_TYPEREF;
-import static vn.io.vutiendat3601.shop.v2.common.TestConstant.VERIFICATION_DTO_TYPEREF;
+import static vn.io.vutiendat3601.shop.v2.common.IntegrationTestConstant.JWT_DTO_TYPEREF;
+import static vn.io.vutiendat3601.shop.v2.common.IntegrationTestConstant.VERIFICATION_DTO_TYPEREF;
 import static vn.io.vutiendat3601.shop.v2.util.TestUtils.BASE64_ENCODER;
 import static vn.io.vutiendat3601.shop.v2.util.TestUtils.FAKER;
 
