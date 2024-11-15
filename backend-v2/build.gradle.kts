@@ -56,6 +56,10 @@ dependencies {
   testImplementation("org.testcontainers:postgresql:1.20.2")
   testImplementation("net.datafaker:datafaker:2.4.1")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+  testImplementation ("org.junit.jupiter:junit-jupiter:5.10.0")
+  testImplementation ("org.mockito:mockito-core:5.6.0")
+  testImplementation ("org.mockito:mockito-junit-jupiter:5.6.0")
 }
 
 tasks.withType<JavaCompile> {
