@@ -66,11 +66,52 @@ tasks.withType<JavaCompile> {
   options.compilerArgs.add("-parameters")
 }
 
-
 tasks.withType<Test> {
   useJUnitPlatform()
 }
 
+tasks.named<Test>("test") {
+  testLogging {
+    events("passed", "skipped", "failed")
+    showStandardStreams = true 
+  }
+}
+
+// Integration Test
+sourceSets {
+  create("integrationTest") {
+    java {
+      compileClasspath += sourceSets["main"].output
+      runtimeClasspath += sourceSets["main"].output
+      compileClasspath += sourceSets["test"].output
+      runtimeClasspath += sourceSets["test"].output
+    }
+  }
+}
+val integrationTestImplementation by configurations.getting {
+  extendsFrom(configurations["developmentOnly"])
+  extendsFrom(configurations["runtimeOnly"])
+  extendsFrom(configurations["testImplementation"])
+  extendsFrom(configurations["testRuntimeOnly"])
+}
+
+val integrationTest = tasks.register<Test>("integrationTest") {
+  description = "Runs integration tests."
+  group = "verification"
+
+  testClassesDirs = sourceSets["integrationTest"].output.classesDirs
+  classpath = sourceSets["integrationTest"].runtimeClasspath
+  shouldRunAfter("test")
+
+  testLogging {
+    events("passed", "skipped", "failed")
+    showStandardStreams = true 
+  }
+}
+
+tasks.check { dependsOn(integrationTest) }
+
+// Build Docker Image
 jib {
   from {
     image = "bellsoft/liberica-openjdk-debian:21"

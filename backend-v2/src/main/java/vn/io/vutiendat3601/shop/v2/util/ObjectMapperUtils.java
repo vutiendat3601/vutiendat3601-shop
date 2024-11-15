@@ -1,11 +1,9 @@
 package vn.io.vutiendat3601.shop.v2.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Objects;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 
 @Slf4j
@@ -24,7 +22,7 @@ public class ObjectMapperUtils {
     try {
       return Optional.of(objMapper.readValue(serializedText, clazz));
     } catch (Exception e) {
-      log.error("Can't read json value", e);
+      log.error("Can't read value");
     }
     return Optional.empty();
   }

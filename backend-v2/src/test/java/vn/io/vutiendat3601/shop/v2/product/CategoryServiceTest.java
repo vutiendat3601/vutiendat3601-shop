@@ -24,7 +24,6 @@ import vn.io.vutiendat3601.shop.v2.exception.ResourceDuplicationException;
 import vn.io.vutiendat3601.shop.v2.exception.ResourceNotFoundException;
 
 class CategoryServiceTest {
-
     @Mock
     private CategoryDao categoryDao;
 
