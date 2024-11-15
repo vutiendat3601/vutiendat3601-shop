@@ -83,7 +83,7 @@ public class UserRepositoryTest extends AbstractTestcontainersTest {
     // Then
     assertTrue(actual.isPresent());
     final User actualUser = actual.get();
-    assertEquals("0000", actualUser.getPhone());
+    assertEquals(newUser.getPhone(), actualUser.getPhone());
   }
 
   @Test
