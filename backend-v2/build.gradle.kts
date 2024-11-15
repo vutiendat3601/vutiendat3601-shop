@@ -89,6 +89,7 @@ sourceSets {
   }
 }
 val integrationTestImplementation by configurations.getting {
+  extendsFrom(configurations["annotationProcessor"])
   extendsFrom(configurations["developmentOnly"])
   extendsFrom(configurations["runtimeOnly"])
   extendsFrom(configurations["testImplementation"])
