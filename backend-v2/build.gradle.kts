@@ -6,6 +6,7 @@ plugins {
   id("org.springframework.boot") version "3.3.5"
   id("io.spring.dependency-management") version "1.1.6"
   id("com.google.cloud.tools.jib") version "3.4.3"
+  jacoco
 }
 
 group = "vn.io.vutiendat3601"
@@ -70,11 +71,16 @@ tasks.withType<Test> {
   useJUnitPlatform()
 }
 
-tasks.named<Test>("test") {
+tasks.test {
+  finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
   testLogging {
     events("passed", "skipped", "failed")
     showStandardStreams = true 
   }
+}
+
+tasks.jacocoTestReport {
+  dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 // Integration Test
