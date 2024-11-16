@@ -39,6 +39,7 @@ public class AuthItegrationTest extends AbstractIntegrationTest {
         .expectStatus()
         .isOk();
 
+
     // Login, expected LOGIN token in body
     final String encEmailPassword =
         BASE64_ENCODER.encodeToString(
